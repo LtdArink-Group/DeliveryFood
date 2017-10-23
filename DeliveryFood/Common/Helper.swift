@@ -58,7 +58,4 @@ class Helper {
 
 
     //MARK: on_clicked
-
-    
-    
 }

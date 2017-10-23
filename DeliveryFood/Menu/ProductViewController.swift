@@ -147,6 +147,7 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
         modalViewController.modalPresentationStyle = .overFullScreen
         modalViewController.info = get_results[sender.tag]["description"].stringValue
         modalViewController.url_img_product = get_results[sender.tag]["photo"].stringValue
+        modalViewController.title_product = get_results[sender.tag]["title"].stringValue
         self.present(modalViewController, animated: true, completion: nil)
     }
     
