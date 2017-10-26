@@ -37,7 +37,7 @@ class Header {
         lbl_delivery.textAlignment = NSTextAlignment.center
         lbl_delivery.font = UIFont(name: "Helvetica", size: 17)
         lbl_delivery.text = CURRENCY + String(Total_delivery_cost)
-        lbl_delivery.tag = 1
+        lbl_delivery.tag = 1000000000
         return lbl_delivery
     }
     
@@ -46,7 +46,7 @@ class Header {
         let lbl_order = UILabel(frame: CGRect(x: get_width_screen()/3, y: 64 + get_width_screen()/6.5, width: get_width_screen()/3, height: 30))
         lbl_order.textAlignment = NSTextAlignment.center
         lbl_order.font = UIFont(name: "Helvetica", size: 17)
-        lbl_order.tag = 2
+        lbl_order.tag = 2000000000
         lbl_order.text = CURRENCY + String(Total_order_cost)
         return lbl_order
     }

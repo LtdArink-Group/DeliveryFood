@@ -18,6 +18,7 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
 
     
     @IBOutlet weak var tableView: UITableView!
+    
     var category_id: Int = 0
     var get_results = [JSON]() {
         didSet {
@@ -31,7 +32,7 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
         super.viewDidLoad()
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.rowHeight = UIScreen.main.bounds.height == 568 ? 401 : 441
+        self.tableView.rowHeight = UIScreen.main.bounds.height == 568 ? 381 : 421
         
         tableView.delegate = self
         
@@ -46,11 +47,17 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
         requestManager.get(id: category_id)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "come_to_products"), object: nil)
+    }
+    
     func init_header()
     {
         view.addSubview(Header().init_header_img_view())
         view.addSubview(Header().init_header_lbl_delivery())
         view.addSubview(Header().init_header_lbl_order())
+        
         let btn_call = UIButton(type: UIButtonType.custom) as UIButton
         btn_call.frame = CGRect(x: (Header().get_width_screen()/3) * 2, y: 64, width: Header().get_width_screen()/3, height: Header().get_width_screen()/4)
         btn_call.addTarget(self, action: #selector(ProductViewController.on_clicked_call(sender:)), for: UIControlEvents.touchUpInside)
@@ -73,12 +80,10 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
     
     func set_cost_order()
     {
-        let lbl_delivery = self.view.viewWithTag(1) as? UILabel
-        lbl_delivery?.text = CURRENCY + String(Total_delivery_cost)
-        let lbl_order = self.view.viewWithTag(2) as? UILabel
-        lbl_order?.text = CURRENCY + String(Total_order_cost)
+        (self.view.viewWithTag(1000000000) as? UILabel)?.text = CURRENCY + String(Total_delivery_cost)
+        (self.view.viewWithTag(2000000000) as? UILabel)?.text = CURRENCY + String(Total_order_cost)
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -100,29 +105,64 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
     }
     
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print(indexPath.row)
+        print(get_results[indexPath.row]["title"].stringValue)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProductTableViewCell
         cell.img_product.sd_setImage(with: URL(string: get_results[indexPath.row]["photo"].stringValue), placeholderImage: UIImage(named: "img_translucent"))
         cell.lbl_title.text = get_results[indexPath.row]["title"].stringValue
         cell.lbl_info.text = get_results[indexPath.row]["description"].stringValue
-        cell.lbl_delivery = self.view.viewWithTag(1) as? UILabel
-        cell.lbl_order_cost = self.view.viewWithTag(2) as? UILabel
-        cell.tag = indexPath.row
+
         let arr_kinds = get_results[indexPath.row]["main_options"].arrayValue
+        let arr_costs = arr_kinds.map { ($0["cost"].stringValue) }
+        let arr_str_kinds = arr_kinds.map { ($0["name"].stringValue) }
+        let product_id = get_results[indexPath.row]["id"].intValue
+        let get_ordered_prod = get_ordered_product(arr_kinds: arr_str_kinds, product_id: product_id)
+        cell.arr_main_option = arr_str_kinds
+
+        cell.lbl_count.text = String(get_ordered_prod["count"].intValue)
+//        cell.tag = indexPath.row
+
         //init sgm_kinds
-        cell.sgm_kinds.items = arr_kinds.map { ($0["name"].stringValue) }
+        cell.sgm_kinds.items = arr_str_kinds
         cell.sgm_kinds.font = UIFont(name: "Helvetica", size: 13)
         cell.sgm_kinds.borderColor = Helper().UIColorFromRGB(rgbValue: UInt(SECOND_COLOR))
-        cell.sgm_kinds.selectedIndex = 0
-        cell.product_id = get_results[indexPath.row]["id"].intValue
+        cell.sgm_kinds.selectedIndex = get_ordered_prod["main_option"].intValue //0
+        cell.product_id = product_id
+        cell.btn_plus.tag = product_id
+        cell.btn_minus.tag = product_id
         cell.btn_additional.tag = indexPath.row
         cell.btn_title.tag = indexPath.row
-        let arr_costs = arr_kinds.map { ($0["cost"].stringValue) }
         cell.arr_cost_kinds = arr_costs
         cell.lbl_cost.text = CURRENCY + arr_costs[0]
-        
+        cell.lbl_delivery = self.view.viewWithTag(1000000000) as? UILabel
+        cell.lbl_order_cost = self.view.viewWithTag(2000000000) as? UILabel
         return cell
     }
-
+    
+    func get_choosen_products(product_id: Int, main_option: String) -> Int
+    {
+        for prod in DBHelper().count_product_in_order(be_product_id: product_id)
+        {
+            if prod["main_option"].stringValue == main_option
+            {
+                return prod["count"].intValue
+            }
+        }
+        return 0
+    }
+    
+    func get_ordered_product(arr_kinds: [String], product_id: Int) -> JSON
+    {
+        for (index, kind) in arr_kinds.enumerated()
+        {
+            let count = get_choosen_products(product_id: product_id, main_option: kind)
+            if count > 0
+            {
+                return ["main_option" : index, "count": count ]
+            }
+        }
+        return ["main_option" : 0, "count": 0 ]
+    }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -138,7 +178,6 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
     @IBAction func on_clicked_btn_additional(_ sender: UIButton) {
         let controller : AdditionalViewController = self.storyboard?.instantiateViewController(withIdentifier: "AdditionalViewController") as! AdditionalViewController
         controller.arr_additionals = get_results[sender.tag]["additional_info"].arrayValue
-            //["🥗 Клоу слоу (200гр)","🧀 Сыр чеддер"]
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -150,7 +189,7 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
         modalViewController.title_product = get_results[sender.tag]["title"].stringValue
         self.present(modalViewController, animated: true, completion: nil)
     }
-    
+
 }
 
 
@@ -159,8 +198,6 @@ class RequestManagerProducts {
     var getResults = [JSON]()
     func get(id: Int)
     {
-//        self.getResults = ["Бульдог XL","Чили XL","Багама-Мама M","Aloha! M", "Баффало XL", "Бургер с яйцом XL"]
-        
         let url = SERVER_NAME + "/api/products?company_id=" + String(COMPANY_ID) + "&category_id=" + String(id)
         print(url)
         Alamofire.request(url, encoding: JSONEncoding.default).responseJSON { (response) -> Void in

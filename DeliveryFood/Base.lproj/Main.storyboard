@@ -524,16 +524,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="441" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Esq-oR-nOn">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="421" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Esq-oR-nOn">
                                 <rect key="frame" x="0.0" y="168" width="414" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="441" id="hfp-2a-ZHF" customClass="ProductTableViewCell" customModule="DeliveryFood" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="441"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="421" id="hfp-2a-ZHF" customClass="ProductTableViewCell" customModule="DeliveryFood" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="421"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hfp-2a-ZHF" id="EeH-U1-uvs">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="440.66666666666669"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="420.66666666666669"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="81H-mx-IhG" userLabel="bar">
@@ -577,13 +577,13 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Пожалуй, самый большой бургер в городе, практически полкило чистой массы! Вряд ли вы осилите Бульдога в одиночку :)" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="14T-qK-qf9">
-                                                    <rect key="frame" x="14" y="293" width="387" height="46.666666666666686"/>
+                                                    <rect key="frame" x="14" y="293" width="387" height="26.666666666666686"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWA-ay-Y2r" userLabel="btn_additional">
-                                                    <rect key="frame" x="13" y="396" width="93" height="36"/>
+                                                    <rect key="frame" x="13" y="376" width="93" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="93" id="uJE-Zd-V5Z"/>
                                                     </constraints>
@@ -597,24 +597,24 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mhI-le-y0A" userLabel="btn_minus">
-                                                    <rect key="frame" x="277" y="406" width="33" height="22"/>
+                                                    <rect key="frame" x="277" y="386" width="33" height="22"/>
                                                     <state key="normal" image="img_minus"/>
                                                     <connections>
                                                         <action selector="ob_clicked_btn_minus:" destination="hfp-2a-ZHF" eventType="touchUpInside" id="kAt-6P-bRa"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Uh-KL-Uq1" userLabel="btn_plus">
-                                                    <rect key="frame" x="369" y="396" width="32" height="32"/>
+                                                    <rect key="frame" x="369" y="376" width="32" height="32"/>
                                                     <state key="normal" image="img_plus"/>
                                                     <connections>
                                                         <action selector="on_clicked_btn_plus:" destination="hfp-2a-ZHF" eventType="touchUpInside" id="fHZ-4i-zED"/>
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_circle" translatesAutoresizingMaskIntoConstraints="NO" id="GWP-xM-nqo">
-                                                    <rect key="frame" x="319" y="390" width="40" height="40"/>
+                                                    <rect key="frame" x="319" y="370" width="40" height="40"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0J-Px-TqW">
-                                                    <rect key="frame" x="319" y="399" width="40" height="21"/>
+                                                    <rect key="frame" x="319" y="379" width="40" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="40" id="rvO-1b-oCf"/>
                                                     </constraints>
@@ -623,7 +623,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRI-yh-UwA" customClass="ADVSegmentedControl" customModule="DeliveryFood" customModuleProvider="target">
-                                                    <rect key="frame" x="13" y="345" width="388" height="31"/>
+                                                    <rect key="frame" x="13" y="325" width="388" height="31"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="31" id="dSM-R2-lr6"/>
@@ -966,6 +966,9 @@
                     <navigationItem key="navigationItem" title="Мои заказы" id="oeI-pa-D7N">
                         <barButtonItem key="rightBarButtonItem" image="btn_delete_busket" id="bih-3U-nvB" userLabel="btn_remove_order">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="on_clicked_btn_remove_order:" destination="AiO-4c-Sdd" id="M38-mJ-N6H"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>

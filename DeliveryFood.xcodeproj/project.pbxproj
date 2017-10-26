@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		07EB75ADD6DB75DFDF45CE19 /* Pods_DeliveryFoodUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED5C94E990198D30F35A080 /* Pods_DeliveryFoodUITests.framework */; };
 		5F50014757E3DCAEE56CB7F7 /* Pods_DeliveryFoodTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2D9E32F589000F3622988DF /* Pods_DeliveryFoodTests.framework */; };
+		84080BA01F9F23530056A0E2 /* DeliveryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84080B9F1F9F23520056A0E2 /* DeliveryInfoView.swift */; };
 		841AE4441F7B4B0500DB12D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841AE4431F7B4B0500DB12D8 /* AppDelegate.swift */; };
 		841AE4461F7B4B0500DB12D8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841AE4451F7B4B0500DB12D8 /* MainViewController.swift */; };
 		841AE4491F7B4B0500DB12D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 841AE4471F7B4B0500DB12D8 /* Main.storyboard */; };
@@ -62,6 +63,7 @@
 /* Begin PBXFileReference section */
 		3618EECBE121E8D5D97203D6 /* Pods-DeliveryFood.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeliveryFood.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DeliveryFood/Pods-DeliveryFood.debug.xcconfig"; sourceTree = "<group>"; };
 		5ED5C94E990198D30F35A080 /* Pods_DeliveryFoodUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeliveryFoodUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84080B9F1F9F23520056A0E2 /* DeliveryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryInfoView.swift; sourceTree = "<group>"; };
 		841AE4401F7B4B0500DB12D8 /* DeliveryFood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeliveryFood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		841AE4431F7B4B0500DB12D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		841AE4451F7B4B0500DB12D8 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				848C0A311F8473F70060D6E5 /* AdditionalViewController.swift */,
 				846D603B1F8611FC00C77DD5 /* AdditionalTableViewCell.swift */,
 				84C7F1E41F9979DE0017165D /* ProductInfoViewController.swift */,
+				84080B9F1F9F23520056A0E2 /* DeliveryInfoView.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -639,6 +642,7 @@
 				84E056061F95C168006637CE /* DBHelper.swift in Sources */,
 				845A09861F8C8F510068BB7D /* ProductTableViewCell.swift in Sources */,
 				841AE4761F7B4C6800DB12D8 /* Global.swift in Sources */,
+				84080BA01F9F23530056A0E2 /* DeliveryInfoView.swift in Sources */,
 				841AE4461F7B4B0500DB12D8 /* MainViewController.swift in Sources */,
 				84594F401F8EE31A00769605 /* ADVSegmentedControl.swift in Sources */,
 				841FBCB21F83026800DB3E0F /* Helper.swift in Sources */,

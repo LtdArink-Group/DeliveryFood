@@ -49,6 +49,9 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidAppear(_ animated: Bool) {
         preload_form()
     }
+    @IBAction func on_clicked_btn_remove_order(_ sender: UIBarButtonItem) {
+        DBHelper().delete_order()
+    }
     
     func preload_form()
     {

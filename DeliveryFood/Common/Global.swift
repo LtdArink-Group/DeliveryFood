@@ -13,3 +13,6 @@ var Arr_order: JSON = []
 var Total_delivery_cost = COST_DELIVERY
 var Total_order_cost = COST_ORDER_DEFAULT
 var ID_phone = ""
+
+var New_order = false
+

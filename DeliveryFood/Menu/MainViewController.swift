@@ -23,9 +23,7 @@ class MainViewController: FormViewController {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         PageLoading().showLoading()
-        
         DBHelper().create_tables()
-        
         get_company_info()
         
         ID_phone = UIDevice.current.identifierForVendor!.uuidString
@@ -78,8 +76,43 @@ class MainViewController: FormViewController {
                     }
             }
         }
+        set_tabbar_value()
         PageLoading().hideLoading()
     }
+    
+    func set_tabbar_value()
+    {
+        Total_order_cost = DBHelper().sum_products_order() + DBHelper().sum_ingredients_order()
+        tabBarController?.tabBar.items?[2].badgeValue = DBHelper().count_prod_in_order() > 0 ? String(DBHelper().count_prod_in_order()) : ""
+        set_order_cost()
+        check_free_delivery()
+    }
+    
+    func set_order_cost()
+    {
+        let lbl_order = self.view.viewWithTag(2) as? UILabel
+        lbl_order?.text = CURRENCY + String(Total_order_cost)
+    }
+    
+    func check_delivery_cost() -> String
+    {
+        if Total_order_cost >= COST_FREE_DELIVERY
+        {
+            return CURRENCY + "0"
+        }
+        else
+        {
+            return CURRENCY + String(COST_DELIVERY)
+        }
+    }
+    
+    func check_free_delivery()
+    {
+        let lbl_delivery = self.view.viewWithTag(1) as? UILabel
+        lbl_delivery?.text = check_delivery_cost()
+        Total_delivery_cost = Int((lbl_delivery?.text?.replacingOccurrences(of: CURRENCY, with: ""))!)!
+    }
+    
     
     func go_to_category(title: String, id: Int)
     {
@@ -93,46 +126,20 @@ class MainViewController: FormViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-}
-
-class DeliveryInfoView: UIView {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width/4)
-        let width = UIScreen.main.bounds.width
-        let imageView = UIImageView(image: UIImage(named: "img_header2"))
-        imageView.frame = CGRect(x: 0, y: 0, width: width, height: width/4)
-        addSubview(imageView)
-        
-        let lbl_delivery = UILabel(frame: CGRect(x: 0, y: width/6.5, width: width/3, height: 30))
-        lbl_delivery.textAlignment = NSTextAlignment.center
-        lbl_delivery.font = UIFont(name: "Helvetica", size: 17)
-        lbl_delivery.text = CURRENCY +  " " + String(COST_DELIVERY)
-        lbl_delivery.tag = 1
-        addSubview(lbl_delivery)
-
-        let lbl_order = UILabel(frame: CGRect(x: width/3, y: width/6.5, width: width/3, height: 30))
-        lbl_order.textAlignment = NSTextAlignment.center
-        lbl_order.font = UIFont(name: "Helvetica", size: 17)
-        lbl_order.text = CURRENCY +  " " + String(COST_ORDER_DEFAULT)
-        lbl_order.tag = 2
-        addSubview(lbl_order)
-        
-        let btn_call = UIButton(type: UIButtonType.custom) as UIButton
-        btn_call.frame = CGRect(x: (width/3) * 2, y: 0, width: width/3, height: width/4)
-        btn_call.addTarget(self, action: #selector(DeliveryInfoView.on_clicked_call(sender:)), for: UIControlEvents.touchUpInside)
-        addSubview(btn_call)
-    }
-    
-    @objc func on_clicked_call(sender: UIButton!)
+    @objc func update_header_costs()
     {
-        let phone:NSURL = NSURL(string: "tel://\(PHONE)")!
-        UIApplication.shared.openURL(phone as URL)
+        set_order_cost()
+        check_free_delivery()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func viewDidAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.update_header_costs), name: NSNotification.Name(rawValue: "come_to_products"), object: nil)
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
 }
+
