@@ -50,6 +50,7 @@ class ProductTableViewCell: UITableViewCell {
     {
         Helper().increment_label(from_value: product_cost(), end_value: Int(arr_cost_kinds[(sgm_kinds.selectedIndex)])!, label: lbl_cost)
         change_product_count(main_option: (arr_main_option[(sgm_kinds.selectedIndex)]))
+        Main_option = arr_main_option[(sgm_kinds.selectedIndex)]
     }
 
     func change_product_count(main_option: String)
@@ -83,6 +84,7 @@ class ProductTableViewCell: UITableViewCell {
         }
         check_free_delivery()
         add_to_order(prod_id: sender.tag)
+        Main_option = sgm_kinds.items[sgm_kinds.selectedIndex]
     }
 
     func add_to_order(prod_id: Int)
@@ -107,8 +109,18 @@ class ProductTableViewCell: UITableViewCell {
         }
         else if count == 1
         {
+            let cost_ings = increase_cost_ingredients()
+            Helper().increment_label(from_value: Total_order_cost, end_value: Total_order_cost - cost_ings, label: lbl_order_cost)
+            Total_order_cost = Total_order_cost - cost_ings
+            check_free_delivery()
             DBHelper().delete_product(be_product_id: prod_id, be_main_option: sgm_kinds.items[sgm_kinds.selectedIndex])
+            DBHelper().delete_ingredient_of_product(be_product_id: prod_id, be_main_option: sgm_kinds.items[sgm_kinds.selectedIndex])
         }
+    }
+    
+    func increase_cost_ingredients() -> Int
+    {
+        return DBHelper().costs_ingredients(be_product_id: product_id, be_main_option: Main_option)
     }
 
     @IBAction func ob_clicked_btn_minus(_ sender: UIButton)
@@ -116,8 +128,9 @@ class ProductTableViewCell: UITableViewCell {
         if Int(lbl_count.text!)! - 1 >= 0
         {
             lbl_count.text = String(Int(lbl_count.text!)! - 1)
-            Helper().increment_label(from_value: Total_order_cost, end_value: Total_order_cost - product_cost(), label: lbl_order_cost)
-            Total_order_cost = Total_order_cost - product_cost()
+            let new_total_cost = Total_order_cost - product_cost()
+            Helper().increment_label(from_value: Total_order_cost, end_value: new_total_cost, label: lbl_order_cost)
+            Total_order_cost = new_total_cost
             if let badgeValue = get_tab_bar2().badgeValue {
                 get_tab_bar2().badgeValue = String((Int(badgeValue) ?? 0) - 1)
             } else {
@@ -125,6 +138,7 @@ class ProductTableViewCell: UITableViewCell {
             }
             delete_from_order(prod_id: sender.tag)
             check_free_delivery()
+            Main_option = sgm_kinds.items[sgm_kinds.selectedIndex]
         }
     }
 

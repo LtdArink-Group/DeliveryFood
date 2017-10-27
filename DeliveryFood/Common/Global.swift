@@ -15,4 +15,4 @@ var Total_order_cost = COST_ORDER_DEFAULT
 var ID_phone = ""
 
 var New_order = false
-
+var Main_option = ""

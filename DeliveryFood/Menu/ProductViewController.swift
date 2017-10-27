@@ -52,6 +52,11 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "come_to_products"), object: nil)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(ProductViewController.update_header_costs), name: NSNotification.Name(rawValue: "come_from_ingredients"), object: nil)
+        Main_option = ""
+    }
+    
     func init_header()
     {
         view.addSubview(Header().init_header_img_view())
@@ -118,22 +123,22 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
         let product_id = get_results[indexPath.row]["id"].intValue
         let get_ordered_prod = get_ordered_product(arr_kinds: arr_str_kinds, product_id: product_id)
         cell.arr_main_option = arr_str_kinds
-
+        
         cell.lbl_count.text = String(get_ordered_prod["count"].intValue)
-//        cell.tag = indexPath.row
 
         //init sgm_kinds
         cell.sgm_kinds.items = arr_str_kinds
         cell.sgm_kinds.font = UIFont(name: "Helvetica", size: 13)
         cell.sgm_kinds.borderColor = Helper().UIColorFromRGB(rgbValue: UInt(SECOND_COLOR))
-        cell.sgm_kinds.selectedIndex = get_ordered_prod["main_option"].intValue //0
+        let index_main_option = get_ordered_prod["main_option"].intValue
+        cell.sgm_kinds.selectedIndex = index_main_option //0
         cell.product_id = product_id
         cell.btn_plus.tag = product_id
         cell.btn_minus.tag = product_id
         cell.btn_additional.tag = indexPath.row
         cell.btn_title.tag = indexPath.row
         cell.arr_cost_kinds = arr_costs
-        cell.lbl_cost.text = CURRENCY + arr_costs[0]
+        cell.lbl_cost.text = CURRENCY + arr_costs[index_main_option]
         cell.lbl_delivery = self.view.viewWithTag(1000000000) as? UILabel
         cell.lbl_order_cost = self.view.viewWithTag(2000000000) as? UILabel
         return cell
@@ -178,6 +183,15 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
     @IBAction func on_clicked_btn_additional(_ sender: UIButton) {
         let controller : AdditionalViewController = self.storyboard?.instantiateViewController(withIdentifier: "AdditionalViewController") as! AdditionalViewController
         controller.arr_additionals = get_results[sender.tag]["additional_info"].arrayValue
+        controller.product_id = get_results[sender.tag]["id"].intValue
+        
+        let arr_kinds = get_results[sender.tag]["main_options"].arrayValue
+        let arr_str_kinds = arr_kinds.map { ($0["name"].stringValue) }
+        if Main_option == ""
+        {
+            Main_option = arr_str_kinds[get_ordered_product(arr_kinds: arr_str_kinds, product_id:  get_results[sender.tag]["id"].intValue)["main_option"].intValue]
+        }
+        
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -190,6 +204,37 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
         self.present(modalViewController, animated: true, completion: nil)
     }
 
+    @objc func update_header_costs()
+    {
+        set_order_cost()
+        check_free_delivery()
+    }
+    
+    func set_order_cost()
+    {
+        let lbl_order = self.view.viewWithTag(2000000000) as? UILabel
+        lbl_order?.text = CURRENCY + String(Total_order_cost)
+    }
+    
+    func check_delivery_cost() -> String
+    {
+        if Total_order_cost >= COST_FREE_DELIVERY
+        {
+            return CURRENCY + "0"
+        }
+        else
+        {
+            return CURRENCY + String(COST_DELIVERY)
+        }
+    }
+    
+    func check_free_delivery()
+    {
+        let lbl_delivery = self.view.viewWithTag(1000000000) as? UILabel
+        lbl_delivery?.text = check_delivery_cost()
+        Total_delivery_cost = Int((lbl_delivery?.text?.replacingOccurrences(of: CURRENCY, with: ""))!)!
+    }
+    
 }
 
 

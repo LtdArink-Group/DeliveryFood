@@ -17,6 +17,7 @@ class AdditionalViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var scrl_main: UIScrollView!
     @IBOutlet weak var tableView: UITableView!
     
+    var product_id = 0
     var arr_additionals = [JSON]()
     
     override func viewDidLoad() {
@@ -38,6 +39,11 @@ class AdditionalViewController: UIViewController, UITableViewDelegate, UITableVi
         scrl_main.translatesAutoresizingMaskIntoConstraints = false
         
         init_header()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "come_from_ingredients"), object: nil)
     }
     
     func init_header()
@@ -86,14 +92,24 @@ class AdditionalViewController: UIViewController, UITableViewDelegate, UITableVi
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AdditionalTableViewCell
-        cell.lbl_title.text = arr_additionals[indexPath.row]["name"].stringValue
+        let name = arr_additionals[indexPath.row]["name"].stringValue
+        cell.lbl_title.text = name
         cell.lbl_cost.text = "Цена: " + CURRENCY + arr_additionals[indexPath.row]["cost"].stringValue
-        cell.lbl_delivery = self.view.viewWithTag(1) as? UILabel
-        cell.lbl_order_cost = self.view.viewWithTag(2) as? UILabel
-        
+        cell.product_id = product_id
+        cell.lbl_delivery = self.view.viewWithTag(1000000000) as? UILabel
+        cell.lbl_order_cost = self.view.viewWithTag(2000000000) as? UILabel
+        cell.lbl_count.text = String(get_choosen_ingredients(product_id: product_id, name: name))
         return cell
     }
     
+    func get_choosen_ingredients(product_id: Int, name: String) -> Int
+    {
+        for ing in DBHelper().count_product_ingredients_in_order(be_product_id: product_id, be_name: name, be_main_option:  Main_option)
+        {
+            return ing["count"].intValue
+        }
+        return 0
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

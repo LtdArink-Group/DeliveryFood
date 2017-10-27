@@ -74,6 +74,7 @@ class DBHelper {
             table.column(id, primaryKey: .autoincrement)
             table.column(product_id)
             table.column(name)
+            table.column(main_option)
             table.column(count)
             table.column(cost)
         }
@@ -98,6 +99,9 @@ class DBHelper {
         
         do {
             for prod in try database.prepare(productTable) {
+                print("id: \(prod[id]), main_option: \(prod[main_option]), name: \(prod[name]), count: \(prod[count]), product_id: \(prod[product_id])")
+            }
+            for prod in try database.prepare(ingredientsTable) {
                 print("id: \(prod[id]), main_option: \(prod[main_option]), name: \(prod[name]), count: \(prod[count]), product_id: \(prod[product_id])")
             }
         } catch {
@@ -165,6 +169,29 @@ class DBHelper {
         }
     }
     
+    func costs_ingredients(be_product_id: Int, be_main_option: String) -> Int
+    {
+        self.connection()
+        let product_id = Expression<Int>("product_id")
+        let count = Expression<Int>("count")
+        let main_option = Expression<String>("main_option")
+        let ingredientsTable = Table("ingredients")
+        let cost = Expression<Double>("cost")
+        do {
+            let sum_ings = try database.prepare(ingredientsTable.select(cost, count).filter(product_id == be_product_id && main_option == be_main_option))
+            var cost_sum = 0
+            for ing in sum_ings
+            {
+                print(ing)
+                cost_sum = cost_sum + Int(ing[cost]) * ing[count]
+            }
+            return cost_sum
+        }
+        catch {
+            return 0
+        }
+    }
+    
     func count_product_in_order_with_main_option(be_product_id: Int, be_main_option: String) -> [JSON] {
         self.connection()
         let product_id = Expression<Int>("product_id")
@@ -208,6 +235,41 @@ class DBHelper {
         }
     }
     
+    func count_product_ingredients_in_order(be_product_id: Int, be_name: String, be_main_option: String) -> [JSON] {
+        self.connection()
+        let product_id = Expression<Int>("product_id")
+        let count = Expression<Int>("count")
+        let main_option = Expression<String>("main_option")
+        let name = Expression<String>("name")
+        let ingredientsTable = Table("ingredients")
+        do {
+            let ingredients = try database.prepare(ingredientsTable.select(count).filter(product_id == be_product_id && name == be_name && main_option == be_main_option))
+            var arr_ordered_ings = [JSON]()
+            for ings in ingredients
+            {
+                arr_ordered_ings.append(["count" : ings[count]])
+            }
+            return arr_ordered_ings
+        }
+        catch {
+            print("error")
+            return []
+        }
+    }
+    
+    func delete_order()
+    {
+        self.connection()
+        let productTable = Table("products")
+        let ingredientsTable = Table("ingredients")
+
+        do {
+            try database.run(productTable.delete())
+            try database.run(ingredientsTable.delete())
+        }
+        catch { }
+    }
+    
     func add_to_order(be_product_id: Int, be_name: String, be_main_option: String, be_cost: Double)
     {
         self.connection()
@@ -225,17 +287,22 @@ class DBHelper {
         }
     }
     
-    func delete_order()
+    func add_to_order_ingredients(be_product_id: Int, be_name: String, be_main_option: String, be_cost: Double)
     {
         self.connection()
-        let productTable = Table("products")
-        let ingredientsTable = Table("ingredients")
-
+        let product_id = Expression<Int>("product_id")
+        let name = Expression<String>("name")
+        let main_option = Expression<String>("main_option")
+        let cost = Expression<Double>("cost")
+        let count = Expression<Int64>("count")
+        let ingredientTable = Table("ingredients")
         do {
-            try database.run(productTable.delete())
-            try database.run(ingredientsTable.delete())
+            let rowid = try database.run(ingredientTable.insert(product_id <- be_product_id, count <- 1, name <- be_name, main_option <- be_main_option, cost <- Double(be_cost)))
+            print("inserted id: \(rowid)")
         }
-        catch { }
+        catch {
+            print("insertion failed: \(error)")
+        }
     }
     
     func update_from_order_plus(be_product_id: Int, be_main_option: String)
@@ -256,6 +323,25 @@ class DBHelper {
         }
     }
     
+    func update_from_order_ingredients_plus(be_product_id: Int, be_main_option: String, be_name: String)
+    {
+        self.connection()
+        let product_id = Expression<Int>("product_id")
+        let count = Expression<Int>("count")
+        let main_option = Expression<String>("main_option")
+        let name = Expression<String>("name")
+        let ingredientTable = Table("ingredients")
+        
+        do {
+            let product = ingredientTable.filter(product_id == be_product_id && main_option == be_main_option && name == be_name)
+            try database.run(product.update(count++))
+            print("OK plus")
+        }
+        catch {
+            print(error)
+        }
+    }
+    
     func update_from_order_minus(be_product_id: Int, be_main_option: String)
     {
         self.connection()
@@ -266,6 +352,25 @@ class DBHelper {
         
         do {
             let product = productTable.filter(product_id == be_product_id && main_option == be_main_option)
+            try database.run(product.update(count-=1))
+            print("OK minus")
+        }
+        catch {
+            print(error)
+        }
+    }
+    
+    func update_from_order_ingredients_minus(be_product_id: Int, be_main_option: String, be_name: String)
+    {
+        self.connection()
+        let product_id = Expression<Int>("product_id")
+        let count = Expression<Int>("count")
+        let main_option = Expression<String>("main_option")
+        let name = Expression<String>("name")
+        let ingredientTable = Table("ingredients")
+        
+        do {
+            let product = ingredientTable.filter(product_id == be_product_id && main_option == be_main_option && name == be_name)
             try database.run(product.update(count-=1))
             print("OK minus")
         }
@@ -293,6 +398,62 @@ class DBHelper {
         catch {
             print(error)
             return 0
+        }
+    }
+    
+    func check_exists_ingredients(be_product_id: Int, be_main_option: String, be_name: String) -> Int
+    {
+        self.connection()
+        let product_id = Expression<Int>("product_id")
+        let main_option = Expression<String>("main_option")
+        let count = Expression<Int>("count")
+        let name = Expression<String>("name")
+        let ingredientTable = Table("ingredients")
+        do {
+            let ingredient = ingredientTable.filter(product_id == be_product_id && main_option == be_main_option && name == be_name)
+            var count = try database.scalar(ingredient.select(count.max))
+            if count == nil
+            {
+                count = 0
+            }
+            return count!
+        }
+        catch {
+            print(error)
+            return 0
+        }
+    }
+    
+    func delete_ingredients_product(be_product_id: Int, be_main_option: String, be_name: String)
+    {
+        self.connection()
+        let product_id = Expression<Int>("product_id")
+        let main_option = Expression<String>("main_option")
+        let name = Expression<String>("name")
+        let ingredientTable = Table("ingredients")
+        do {
+            let product = ingredientTable.filter(product_id == be_product_id && main_option == be_main_option && name == be_name)
+            try database.run(product.delete())
+            print("deleted")
+        }
+        catch {
+            print(error)
+        }
+    }
+    
+    func delete_ingredient_of_product(be_product_id: Int, be_main_option: String)
+    {
+        self.connection()
+        let product_id = Expression<Int>("product_id")
+        let main_option = Expression<String>("main_option")
+        let ingredientTable = Table("ingredients")
+        do {
+            let product = ingredientTable.filter(product_id == be_product_id && main_option == be_main_option)
+            try database.run(product.delete())
+            print("deleted")
+        }
+        catch {
+            print(error)
         }
     }
     
