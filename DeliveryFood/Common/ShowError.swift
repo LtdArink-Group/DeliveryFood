@@ -13,7 +13,7 @@ class ShowError {
     var container = UIView()
     
     func show_error(text: String) {
-        
+        PageLoading().hideLoading()
         let win:UIWindow = UIApplication.shared.delegate!.window!!
         self.errorView = UIView(frame: win.frame)
         self.errorView.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0)

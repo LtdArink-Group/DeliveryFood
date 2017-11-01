@@ -719,9 +719,15 @@
         <scene sceneID="H1c-wX-CiI">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oxg-vb-l9o" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Меню" image="img_menu" selectedImage="img_menu_filled" id="M1M-An-ASp" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                    <tabBarItem key="tabBarItem" title="Меню" image="img_menu_filled" id="M1M-An-ASp" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="img_menu_filled"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="animation" destination="UCR-YS-8qP" id="xU0-T4-NJw"/>
@@ -746,7 +752,15 @@
         <scene sceneID="MRa-hS-ZX5">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Viu-Wd-i7G" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Акции" image="img_sales" selectedImage="img_sales_filled" id="yMA-PD-0Zf" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                    <tabBarItem key="tabBarItem" title="Акции" image="img_sales_filled" id="yMA-PD-0Zf" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="animation" destination="cL4-iR-a7d" id="UXf-vb-fHT"/>
                         </connections>
@@ -1004,7 +1018,15 @@
         <scene sceneID="61h-07-3Cx">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YyP-oI-RUz" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Заказ" image="img_basket" selectedImage="img_basket_filled" id="KsY-Cg-nlk" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                    <tabBarItem key="tabBarItem" title="Заказ" image="img_basket_filled" selectedImage="img_basket_filled" id="KsY-Cg-nlk" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="animation" destination="HiQ-2c-nHd" id="7wn-mq-X3x"/>
                         </connections>
@@ -1057,7 +1079,15 @@
         <scene sceneID="CqP-kd-IhR">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XCs-Op-mMz" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Аккаунт" image="img_profile" selectedImage="img_profile_filled" id="wEy-An-xrS" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                    <tabBarItem key="tabBarItem" title="Аккаунт" image="img_profile_filled" selectedImage="img_profile_filled" id="wEy-An-xrS" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="animation" destination="0MX-Ig-IXm" id="AOp-jx-YUU"/>
                         </connections>
@@ -1091,14 +1121,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Адрес" id="a0a-cb-lEX">
-                        <barButtonItem key="rightBarButtonItem" title="Сохранить" id="L9W-7T-gAX">
+                        <barButtonItem key="rightBarButtonItem" image="btn_delete_busket" id="L9W-7T-gAX">
                             <connections>
-                                <action selector="on_clicked_btn_save:" destination="L5R-WH-FF2" id="XYW-N5-EXj"/>
+                                <action selector="on_clicked_btn_delete:" destination="L5R-WH-FF2" id="mFe-iF-Gaf"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="btn_bar" destination="L9W-7T-gAX" id="ucJ-EL-2jF"/>
+                        <outlet property="btn_bar_delete" destination="L9W-7T-gAX" id="Eed-bH-d3Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ux-ti-hjb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1129,16 +1159,12 @@
         <image name="btn_order" width="163" height="44"/>
         <image name="burgers1" width="190" height="109"/>
         <image name="img_additional_filled" width="29" height="9"/>
-        <image name="img_basket" width="33" height="33"/>
         <image name="img_basket_filled" width="33" height="33"/>
         <image name="img_circle" width="40" height="40"/>
-        <image name="img_menu" width="33" height="33"/>
         <image name="img_menu_filled" width="33" height="33"/>
         <image name="img_minus" width="33" height="2"/>
         <image name="img_plus" width="32" height="32"/>
-        <image name="img_profile" width="33" height="33"/>
         <image name="img_profile_filled" width="33" height="33"/>
-        <image name="img_sales" width="33" height="33"/>
         <image name="img_sales_filled" width="33" height="33"/>
     </resources>
 </document>

@@ -24,7 +24,7 @@ class PageLoading {
         win.addSubview(self.loadingView)
         
         container = UIView(frame: CGRect(x: 0, y: 0, width: win.frame.width/3, height: win.frame.width/3))
-        container.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.6)
+        container.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.3)
         container.layer.cornerRadius = 10.0
         container.layer.borderColor = UIColor.gray.cgColor
         container.layer.borderWidth = 0.5

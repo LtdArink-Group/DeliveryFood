@@ -14,7 +14,8 @@ var COST_DELIVERY = 300
 var COST_ORDER_DEFAULT = 0
 var CURRENCY = "₽ "
 var COST_FREE_DELIVERY = 1000
-var COMPANY_ID = 6
+var COMPANY_ID = 7
+var CITY = "Хабаровск"
 
 //MARK: Colors
 var FIRST_COLOR = 0xFA8109

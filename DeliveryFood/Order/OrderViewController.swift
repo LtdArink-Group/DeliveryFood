@@ -30,7 +30,7 @@ class OrderViewController: FormViewController {
     {
         self.navigationItem.setHidesBackButton(true, animated:true)
 
-        let arr_orders = [["address": "Ленинградская 46 - оф. 605", "title_address": "работа", "date": "08.10.2017", "time": "15-00", "cost": "1700", "id": "1"],
+        let arr_orders: [[String: String]] = [["address": "Ленинградская 46 - оф. 605", "title_address": "работа", "date": "08.10.2017", "time": "15-00", "cost": "1700", "id": "1"],
                           ["address": "Уборевича 42а - кв. 47", "title_address": "дом", "date": "10.10.2017", "time": "20-00", "cost": "1200", "id": "2"],
                           ["address": "Ленина 46 - кв. 51", "title_address": "любовница", "date": "12.10.2017", "time": "21-00", "cost": "2500", "id": "3"]]
         if self.tabBarController?.tabBar.items?[2].badgeValue == nil || self.tabBarController?.tabBar.items?[2].badgeValue == "0"

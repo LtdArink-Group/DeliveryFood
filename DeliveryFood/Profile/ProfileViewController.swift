@@ -19,37 +19,81 @@ class ProfileViewController: FormViewController {
     var email: String = ""
     var phone: String = ""
     var addresses: [[String: Any]] = []
+    var new_profile = false
+    var index_address = 0
+    var update_row = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.reload_address), name: NSNotification.Name(rawValue: "reload_address"), object: nil)
+
+        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         get_user_info()
     }
     
     func get_user_info()
     {
-        ID_phone = "eb5378e4-48e6-4d03-b954-d00739b8c8ff"
+        self.addresses = []
+//        ID_phone = "eb5378e4-48e6-4d03-b954-d00739b8c8ff"
         let url = SERVER_NAME + "/api/accounts/" + ID_phone
         print(url)
         Alamofire.request(url, encoding: JSONEncoding.default)
             .responseJSON { (response) -> Void in
                 if let json = response.result.value  as? [String: Any] {
                     if json["status"] as? Int == nil
-//                    if  200 ... 300 ~= json["status"] as! Int
                     {
                         self.name = json["name"] as! String
                         self.email = json["email"] as! String
                         self.phone = json["phone"] as! String
                         self.addresses = json["addresses"] as! [[String: Any]]
+                        self.new_profile = false
                         self.create_form()
                     }
                     else
                     {
+                        self.new_profile = true
                         self.create_form()
                     }
                 }
         }
+    }
+    
+    func get_address_user_info()
+    {
+//        ID_phone = "eb5378e4-48e6-4d03-b954-d00739b8c8ff"
+        self.addresses = []
+        let url = SERVER_NAME + "/api/accounts/" + ID_phone
+        print(url)
+        Alamofire.request(url, encoding: JSONEncoding.default)
+            .responseJSON { (response) -> Void in
+                if let json = response.result.value  as? [String: Any] {
+                    if json["status"] as? Int == nil
+                    {
+                        self.addresses = json["addresses"] as! [[String: Any]]
+                        self.edit_address_form()
+                        self.new_profile = false
+                        PageLoading().hideLoading()
+                    }
+                }
+        }
+    }
+    
+    @objc func reload_address()
+    {
+        let section = form[2]
+        section.removeAll()
+        section.reload()
+        form.remove(at: 2)
+        get_address_user_info()
+    }
+    
+    func sort_address(array: [[String: Any]]) -> [[String: Any]]
+    {
+        return array.sorted {
+                return $0["id"] as! Int > $1["id"] as! Int
+            }
     }
     
     func create_form()
@@ -124,7 +168,8 @@ class ProfileViewController: FormViewController {
                             row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                         }
                     }
-            }
+                }
+                 
                 
             <<< EmailRow("EmailRow"){
                 $0.title = "Email"
@@ -159,122 +204,191 @@ class ProfileViewController: FormViewController {
                             row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                         }
                     }
-            }
+                }
+        
         edit_address_form()
     }
     
     @IBAction func on_clicked_btn_bar(_ sender: UIBarButtonItem)
     {
+        PageLoading().showLoading()
         save()
-        
-//        if sender.title == "Изменить"
-//        {
-//            sender.title = "Сохранить"
-//            enabled_fields()
-////            hide_address()
-////            edit_address_form()
-//        }
-//        else
-//        {
-//            sender.title = "Изменить"
-////            disabled_fields()
-////            hide_address()
-//        }
     }
+
     
-    func disabled_fields()
+    func go_to_address(each: [String: Any], new: Bool)
     {
-        let name_row: TextRow = self.form.rowBy(tag: "NameRow")!
-        let phone_row: PhoneRow = self.form.rowBy(tag: "PhoneRow")!
-        let email_row: EmailRow = self.form.rowBy(tag: "EmailRow")!
-        name_row.disabled = true
-        phone_row.disabled = true
-        email_row.disabled = true
-//        print(name_row.title)
-    }
-    
-    func enabled_fields()
-    {
-        let name_row: TextRow = self.form.rowBy(tag: "NameRow")!
-        let phone_row: PhoneRow = self.form.rowBy(tag: "PhoneRow")!
-        let email_row: EmailRow = self.form.rowBy(tag: "EmailRow")!
-        name_row.disabled = false
-        name_row.updateCell()
-        phone_row.disabled = false
-        email_row.disabled = false
-        
-    }
-    
-    func hide_address()
-    {
-        let address_section: Section = self.form.sectionBy(tag: "SectionAddress")!
-        address_section.hidden = true
-        self.form.rowBy(tag: "AddressHome")!.hidden = true
-        self.form.rowBy(tag: "AddressWork")!.hidden = true
-//        print("djhjkhdjhdgfjhgdfhjk")
-//        print(address_section.isHidden)
-//        if address_section.isHidden
-//        {
-////            address_section.hidden = false
-//        }
-//        else
-//        {
-////            address_section.hidden = true
-//        }
-    }
-    
-    func go_to_address(each: [String: Any])
-    {
-//        performSegue(withIdentifier: "go_to_address", sender: nil)
         let controller : AddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddressViewController") as! AddressViewController
         controller.arr_address = each
+        controller.new = new
+        if new_profile == true
+        {
+            controller.name = get_name()
+            controller.phone = get_phone()
+            controller.email = get_email()
+        }
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
     func edit_address_form()
     {
         form
-            +++ MultivaluedSection(multivaluedOptions: [.Insert, .Delete],
+            +++ MultivaluedSection(multivaluedOptions: [.Insert, .Reorder],
                                    header: "Адреса",
                                    footer: "Вы можете добавить несколько адресов доставки"
             ) {
                 $0.addButtonProvider = { section in
                     return ButtonRow(){
                         $0.title = "Добавить адрес"
+//                        $0.cell.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
                         }.cellUpdate { cell, row in
                             cell.textLabel?.textAlignment = .left
                     }
                 }
                 $0.multivaluedRowToInsertAt = { index in
-                    return LabelRow {
+                    return LabelRow("NewAddressRow\(index)") {
                         $0.title = "Новый адрес"
                         $0.cell.accessoryType = .disclosureIndicator
-                        $0.baseCell.accessoryType = .disclosureIndicator
                         }.onCellSelection {_,_ in
-                            self.go_to_address(each: [:])
-                        }.cellUpdate { cell, row in
-                            Helper().delay(1)
+                            Helper().delay(0.5)
                             {
-                                self.go_to_address(each: [:])
+                                self.index_address = index
+                                self.go_to_address(each: [:], new: true)
+                            }
+                        }.cellUpdate { cell, row in
+                            if !self.update_row
+                            {
+                                Helper().delay(0.5)
+                                {
+                                    self.index_address = index
+                                    self.go_to_address(each: [:], new: true)
+                                }
                             }
                     }
                 }
-                for each in addresses
+                for (index, each) in sort_address(array: addresses).enumerated()
                 {
-                    $0 <<< LabelRow() {
+                    $0 <<< LabelRow("AddressRow\(index)") {
+                        $0.cell.imageView?.image = UIImage(named: get_icon(title: (each["title"] as? String)!))
                         $0.title = each["title"] as? String
                         $0.cell.accessoryType = .disclosureIndicator
                         }.onCellSelection {_,_ in
-                            self.go_to_address(each: each)
-                        }.cellUpdate { cell, row in
-                            row.cell.accessoryType = .disclosureIndicator
-                    }
+                            self.go_to_address(each: each, new: false)
+                            self.index_address = index
+                        }
                 }
         }
+        PageLoading().hideLoading()
+        
+    }
+    
+    func get_icon(title: String) -> String
+    {
+        if title.lowercased().range(of: "home") != nil
+        {
+            return "icon_home"
+        }
+        else if title.lowercased().range(of: "дом") != nil
+        {
+            return "icon_home"
+        }
+        else if title.lowercased().range(of: "раб") != nil
+        {
+            return "icon_office"
+        }
+        else if title.lowercased().range(of: "work") != nil
+        {
+            return "icon_office"
+        }
+        else if title.lowercased().range(of: "offi") != nil
+        {
+            return "icon_office"
+        }
+        else if title.lowercased().range(of: "офис") != nil
+        {
+            return "icon_office"
+        }
+        else if title.lowercased().range(of: "мой") != nil
+        {
+            return "icon_home"
+        }
+        else {
+            return "icon_truck"
+        }
+    }
+    
+    func get_name() -> String
+    {
+        let name_row: TextRow = self.form.rowBy(tag: "NameRow")!
+        return name_row.value as! String
+    }
+    
+    func get_phone() -> String
+    {
+        let phone_row: PhoneRow = self.form.rowBy(tag: "PhoneRow")!
+        return phone_row.value as! String
+    }
+    
+    func get_email() -> String
+    {
+        let email_row: EmailRow = self.form.rowBy(tag: "EmailRow")!
+        return email_row.value as! String
     }
     
     func save()
     {
+        if new_profile == false
+        {
+            update()
+        } else {
+            post_without_address()
+        }
+    }
+    
+    func post_without_address()
+    {
+        let url = SERVER_NAME + "/api/accounts/"
+        let params = [
+            "id": "\(ID_phone)",
+            "name": get_name(),
+            "phone": get_phone(),
+            "email": get_email()
+        ]
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default)
+            .responseJSON() { (response) -> Void in
+                if response.result.value != nil {
+                    self.goto_main()
+                }
+                else
+                {
+                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста введенные данные.")
+                }
+        }
+    }
+    
+    func update()
+    {
+        let url = SERVER_NAME + "/api/accounts/" + ID_phone + "/update"
+        let params = [
+            "name": get_name(),
+            "phone": get_phone(),
+            "email": get_email()
+        ]
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default)
+            .responseJSON() { (response) -> Void in
+                if response.result.value != nil {
+                    self.goto_main()
+                }
+                else
+                {
+                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста введенные данные.")
+                }
+        }
+    }
+    
+    func goto_main()
+    {
+        PageLoading().hideLoading()
         let tbc = storyboard?.instantiateViewController(withIdentifier: "mainTabBarController") as? UITabBarController
         tbc?.selectedIndex = 0
         tabBarController?.present(tbc!, animated: false)
@@ -287,4 +401,5 @@ class ProfileViewController: FormViewController {
     
     
 }
+
 
