@@ -169,6 +169,18 @@ class DBHelper {
         }
     }
     
+    func total_order() -> [JSON]
+    {
+        self.connection()
+        do {
+            return try self.database.scalar("SELECT * from products p inner join ingredients i on p.product_id = i.product_id and p.main_option = i.main_option") as! [JSON]
+        }
+        catch {
+            print("error")
+            return []
+        }
+    }
+    
     func costs_ingredients(be_product_id: Int, be_main_option: String) -> Int
     {
         self.connection()
@@ -269,6 +281,8 @@ class DBHelper {
         }
         catch { }
     }
+    
+    
     
     func add_to_order(be_product_id: Int, be_name: String, be_main_option: String, be_cost: Double)
     {
