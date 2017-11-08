@@ -31,6 +31,9 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.rowHeight = UIScreen.main.bounds.height == 568 ? 381 : 421
         
@@ -40,11 +43,24 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
         
         tableView.tableFooterView = UIView()
         NotificationCenter.default.addObserver(self, selector: #selector(ProductViewController.updateGetResults), name: NSNotification.Name(rawValue: "get_result_product_updated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProductViewController.go_to_back_remove), name: NSNotification.Name(rawValue: "remove_order"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProductViewController.go_to_back_remove), name: NSNotification.Name(rawValue: "remove_order_ingredients"), object: nil)
         
         get_results = []
         updateGetResults()
         requestManager.resetGet()
         requestManager.get(id: category_id)
+    }
+    
+    @objc func go_to_back()
+    {
+        navigationController?.popViewController(animated: false)
+    }
+    
+    @objc func go_to_back_remove()
+    {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "remove_total_order"), object: nil)
+        go_to_back()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -16,9 +16,13 @@ import SwiftyJSON
 class OrderViewController: FormViewController {
 
     
+    @IBOutlet weak var img_no_order: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        
         preload_form()
     }
     
@@ -30,20 +34,33 @@ class OrderViewController: FormViewController {
     {
         self.navigationItem.setHidesBackButton(true, animated:true)
 
-        let arr_orders: [[String: String]] = [["address": "Ленинградская 46 - оф. 605", "title_address": "работа", "date": "08.10.2017", "time": "15-00", "cost": "1700", "id": "1"],
-                          ["address": "Уборевича 42а - кв. 47", "title_address": "дом", "date": "10.10.2017", "time": "20-00", "cost": "1200", "id": "2"],
-                          ["address": "Ленина 46 - кв. 51", "title_address": "любовница", "date": "12.10.2017", "time": "21-00", "cost": "2500", "id": "3"]]
+//        let arr_orders: [[String: String]] = [["address": "Ленинградская 46 - оф. 605", "title_address": "работа", "date": "08.10.2017", "time": "15-00", "cost": "1700", "id": "1"],
+//                          ["address": "Уборевича 42а - кв. 47", "title_address": "дом", "date": "10.10.2017", "time": "20-00", "cost": "1200", "id": "2"],
+//                          ["address": "Ленина 46 - кв. 51", "title_address": "любовница", "date": "12.10.2017", "time": "21-00", "cost": "2500", "id": "3"]]
+        let arr_orders: [[String: String]] = []
         if self.tabBarController?.tabBar.items?[2].badgeValue == "" || self.tabBarController?.tabBar.items?[2].badgeValue == "0"
         {
-            if form.isEmpty == true
+            if arr_orders.count > 0
             {
-                create_form(arr_orders: arr_orders)
+                if form.isEmpty == true
+                {
+                    create_form(arr_orders: arr_orders)
+                }
+            }
+            else {
+                create_no_order()
             }
         }
         else
         {
             navigationController?.popViewController(animated: false)
         }
+    }
+    
+    func create_no_order()
+    {
+        tableView!.contentInset.top = -60
+        tableView!.addSubview(img_no_order)
     }
 
     func create_form(arr_orders: [[String: String]])

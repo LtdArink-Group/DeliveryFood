@@ -25,6 +25,8 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         btn_bar_delete.isEnabled = !new
         create_form()
     }
@@ -169,20 +171,20 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
         let grand_row: TextRow = self.form.rowBy(tag: "GrandRow")!
         let level_row: TextRow = self.form.rowBy(tag: "LevelRow")!
         let code_row: TextRow = self.form.rowBy(tag: "CodeRow")!
-        var title_ = title_row.value == nil ? "" : title_row.value as! String
+        let title_ = title_row.value == nil ? "" : title_row.value as! String
         Last_title_address = title_
         
-        var address = address_row.value == nil ? "" : address_row.value as! String
+        let address = address_row.value == nil ? "" : address_row.value as! String
         
-        var house = house_row.value == nil ? "" : house_row.value as! String
+        let house = house_row.value == nil ? "" : house_row.value as! String
         
-        var flat = flat_row.value == nil ? "" : flat_row.value as! String
+        let flat = flat_row.value == nil ? "" : flat_row.value as! String
         
-        var level = level_row.value == nil ? "" : level_row.value as! String
+        let level = level_row.value == nil ? "" : level_row.value as! String
         
-        var grand = grand_row.value == nil ? "" : grand_row.value as! String
+        let grand = grand_row.value == nil ? "" : grand_row.value as! String
 
-        var code = code_row.value == nil ? "" : code_row.value as! String
+        let code = code_row.value == nil ? "" : code_row.value as! String
         
         return [
                 "title": title_,

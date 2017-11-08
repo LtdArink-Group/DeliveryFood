@@ -173,10 +173,19 @@ class DBHelper {
     {
         self.connection()
         do {
-            return try self.database.scalar("SELECT * from products p inner join ingredients i on p.product_id = i.product_id and p.main_option = i.main_option") as! [JSON]
+//            return try self.database.scalar("select * from (SELECT id, product_id, name, main_option, cost, count from products union all SELECT id, product_id, name, main_option, cost, count from ingredients) tbl1 order by product_id, main_option") as! [JSON]
+            
+            let orders = try self.database.prepare("select * from (SELECT product_id, name, main_option, cost, count, 'p' as type from products union all SELECT product_id, name, main_option, cost, count, 'i' as type from ingredients) tbl1 order by product_id, main_option")
+            var arr_ordered_prods = [JSON]()
+            for order in orders
+            {
+                let prod_id = order[0] as! Int64
+                let count_prod = order[4] as! Int64
+                arr_ordered_prods.append(["product_id" : "\(Int(prod_id))", "name" : "\(order[1] as! String)", "main_option" : "\(order[2] as! String)", "cost" : "\(order[3] as! Double)", "count" : "\(Int(count_prod))", "type" : "\(order[5] as! String)"])
+            }
+            return arr_ordered_prods
         }
         catch {
-            print("error")
             return []
         }
     }

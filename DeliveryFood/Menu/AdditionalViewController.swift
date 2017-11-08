@@ -25,6 +25,11 @@ class AdditionalViewController: UIViewController, UITableViewDelegate, UITableVi
         
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
+        self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(AdditionalViewController.go_to_back_remove), name: NSNotification.Name(rawValue: "remove_order"), object: nil)
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.rowHeight = 57
         tableView.delegate = self
@@ -39,6 +44,18 @@ class AdditionalViewController: UIViewController, UITableViewDelegate, UITableVi
         scrl_main.translatesAutoresizingMaskIntoConstraints = false
         
         init_header()
+    }
+    
+    @objc func go_to_back_remove()
+    {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "remove_order_ingredients"), object: nil)
+        go_to_back()
+    }
+
+    
+    @objc func go_to_back()
+    {
+        navigationController?.popViewController(animated: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

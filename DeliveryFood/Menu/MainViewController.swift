@@ -47,6 +47,7 @@ class MainViewController: FormViewController {
     func get_categories_info()
     {
         let url = SERVER_NAME + "/api/categories?company_id=" + String(COMPANY_ID)
+        print(url)
         Alamofire.request(url, encoding: JSONEncoding.default).responseJSON { (response) -> Void in
             if let json = response.result.value  as? [String: Any] {
                 let categories = json["categories"] as! [[String: Any]]
@@ -83,14 +84,14 @@ class MainViewController: FormViewController {
     func set_tabbar_value()
     {
         Total_order_cost = DBHelper().sum_products_order() + DBHelper().sum_ingredients_order()
-        tabBarController?.tabBar.items?[2].badgeValue = DBHelper().count_prod_in_order() > 0 ? String(DBHelper().count_prod_in_order()) : ""
+        tabBarController?.tabBar.items?[2].badgeValue = DBHelper().count_prod_in_order() > 0 ? String(DBHelper().count_prod_in_order()) : "0"
         set_order_cost()
         check_free_delivery()
     }
     
     func set_order_cost()
     {
-        let lbl_order = self.view.viewWithTag(2) as? UILabel
+        let lbl_order = self.view.viewWithTag(20000001) as? UILabel
         lbl_order?.text = CURRENCY + String(Total_order_cost)
     }
     
@@ -108,7 +109,7 @@ class MainViewController: FormViewController {
     
     func check_free_delivery()
     {
-        let lbl_delivery = self.view.viewWithTag(1) as? UILabel
+        let lbl_delivery = self.view.viewWithTag(10000001) as? UILabel
         lbl_delivery?.text = check_delivery_cost()
         Total_delivery_cost = Int((lbl_delivery?.text?.replacingOccurrences(of: CURRENCY, with: ""))!)!
     }
@@ -135,6 +136,7 @@ class MainViewController: FormViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.update_header_costs), name: NSNotification.Name(rawValue: "come_to_products"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.update_header_costs), name: NSNotification.Name(rawValue: "remove_total_order"), object: nil)
     }
     
     deinit {

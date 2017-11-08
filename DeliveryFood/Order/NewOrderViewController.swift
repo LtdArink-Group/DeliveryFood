@@ -11,6 +11,7 @@ import SwiftyJSON
 
 class NewOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
 
+    @IBOutlet weak var img_no_order: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var scrl_main: UIScrollView!
     @IBOutlet weak var btn_create_order: UIButton!
@@ -28,14 +29,25 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var sum_total: UILabel!
     
     var arr_order_post_server: JSON = []
+    var get_results = [JSON]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    let requestManager = RequestOrder()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        
         preload_form()
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         preload_form()
     }
     
@@ -47,11 +59,17 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         }
         else
         {
+            img_no_order.isHidden = true
+            scrl_main.isHidden = false
             tableView.rowHeight = UITableViewAutomaticDimension
             self.tableView.rowHeight = 44
             tableView.delegate = self
             tableView.tableFooterView = UIView()
             
+            get_results = []
+            requestManager.resetGet()
+            requestManager.get()
+            updateGetResults()
             correct_height_elements()
         }
     }
@@ -66,6 +84,11 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         lbl_total.translatesAutoresizingMaskIntoConstraints = true
         btn_create_order.translatesAutoresizingMaskIntoConstraints = true
         scrl_main.translatesAutoresizingMaskIntoConstraints = true
+        sw_take_away.translatesAutoresizingMaskIntoConstraints = true
+        sum_order.translatesAutoresizingMaskIntoConstraints = true
+        sum_sale.translatesAutoresizingMaskIntoConstraints = true
+        sum_delivery.translatesAutoresizingMaskIntoConstraints = true
+        sum_total.translatesAutoresizingMaskIntoConstraints = true
         
         let width = UIScreen.main.bounds.size.width
         var height: CGFloat = CGFloat(get_count_products() * 44)
@@ -74,30 +97,48 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         height = tableView.frame.origin.y + height + 10
         lbl_take_away.frame = CGRect(x: lbl_take_away.frame.origin.x, y: height, width: lbl_take_away.frame.width, height: lbl_take_away.frame.height)
         sw_take_away.frame = CGRect(x: width - 72, y: height, width: sw_take_away.frame.width, height: sw_take_away.frame.height)
+
         height = height + 40
         lbl_sum_order.frame = CGRect(x: lbl_sum_order.frame.origin.x, y: height, width: lbl_sum_order.frame.width, height: lbl_sum_order.frame.height)
-        sum_order.frame = CGRect(x: width - 72, y: height, width: sum_order.frame.width, height: sum_order.frame.height)
+        sum_order.frame = CGRect(x: width - 72, y: height, width: 72, height: sum_order.frame.height)
         height = height + 30
         lbl_sale.frame = CGRect(x: lbl_sale.frame.origin.x, y: height, width: lbl_sale.frame.width, height: lbl_sale.frame.height)
-        sum_sale.frame = CGRect(x: width - 72, y: height, width: sum_sale.frame.width, height: sum_sale.frame.height)
+        sum_sale.frame = CGRect(x: width - 72, y: height, width: 72, height: sum_sale.frame.height)
         height = height + 30
         lbl_delivery.frame = CGRect(x: lbl_delivery.frame.origin.x, y: height, width: lbl_delivery.frame.width, height: lbl_delivery.frame.height)
-        sum_delivery.frame = CGRect(x: width - 72, y: height, width: sum_delivery.frame.width, height: sum_delivery.frame.height)
+        sum_delivery.frame = CGRect(x: width - 72, y: height, width: 72, height: sum_delivery.frame.height)
         height = height + 30
         lbl_total.frame = CGRect(x: lbl_total.frame.origin.x, y: height, width: lbl_total.frame.width, height: lbl_total.frame.height)
-        sum_total.frame = CGRect(x: width - 72, y: height, width: sum_total.frame.width, height: sum_total.frame.height)
+        sum_total.frame = CGRect(x: width - 72, y: height, width: 72, height: sum_total.frame.height)
         
         let btn_width = (UIScreen.main.bounds.size.width - btn_create_order.frame.width)/2
         height = height + 50
         btn_create_order.frame = CGRect(x: btn_width, y: height, width: btn_create_order.frame.width, height: btn_create_order.frame.height)
         
         let scrl_height = height < UIScreen.main.bounds.size.height - 64 ? UIScreen.main.bounds.size.height : height + 60
-        scrl_main.contentSize = CGSize(width: width, height: scrl_height)
+        scrl_main.contentSize = CGSize(width: width, height: scrl_height + 1 )
         scrl_main.frame = CGRect(x: 0,y: 64, width: width, height: UIScreen.main.bounds.size.height)
+        
+        set_costs_fields()
+        btn_create_order.playImplicitBounceAnimation()
     }
     
     @IBAction func on_clicked_btn_remove(_ sender: UIBarButtonItem) {
         show_message_remove()
+    }
+    
+    func set_costs_fields()
+    {
+        sum_order.text = CURRENCY + String(Total_order_cost)
+        sum_sale.text = sw_take_away.isOn ? CURRENCY + String(Total_order_cost/10) : CURRENCY + "0"
+        sum_delivery.text = sw_take_away.isOn ? CURRENCY + "0" : CURRENCY + String(Total_delivery_cost)
+        sum_total.text = sw_take_away.isOn ? CURRENCY + String(Total_order_cost - Total_order_cost/10) : CURRENCY + String(Total_order_cost + Total_delivery_cost)
+    }
+    
+    @IBAction func on_changed_sw_take_away(_ sender: UISwitch) {
+        sum_sale.text = sender.isOn ? CURRENCY + String(Total_order_cost/10) : CURRENCY + "0"
+        sum_delivery.text = sender.isOn ? CURRENCY + "0" : CURRENCY + String(Total_delivery_cost)
+        sum_total.text = sender.isOn ? CURRENCY + String(Total_order_cost - Total_order_cost/10) : CURRENCY + String(Total_order_cost + Total_delivery_cost)
     }
     
     
@@ -119,9 +160,13 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     
     func remove_order()
     {
+        scrl_main.isHidden = true
+        img_no_order.isHidden = false
         tabBarController?.tabBar.items?[2].badgeValue = "0"
         DBHelper().delete_order()
-        self.tabBarController?.selectedIndex = 0
+        Total_order_cost = 0
+        Total_delivery_cost = COST_DELIVERY
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "remove_order"), object: nil)
     }
     
     func go_to_old_order()
@@ -133,6 +178,11 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @objc func updateGetResults() {
+        get_results = requestManager.getResults
+        tableView.reloadData()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -147,31 +197,58 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! OrderTableViewCell
-        cell.lbl_title?.text = "Бургер Баффало"
-        cell.lbl_cost?.text = "Цена 150Р * 10 = 1500Р"
-        cell.lbl_count.text = "3"
+        var margin = ""
+        var main_option = ""
+        if get_results[indexPath.row]["type"].stringValue == "i"
+        {
+            margin = "   "
+        }
+        else {
+            main_option = " (" + get_results[indexPath.row]["main_option"].stringValue + ")"
+        }
+        cell.lbl_title?.text = margin + get_results[indexPath.row]["name"].stringValue + main_option
+        cell.lbl_cost?.text =  margin + get_detail_info(index: indexPath.row)
+        cell.lbl_count.text = get_results[indexPath.row]["count"].stringValue
+        cell.product_id = get_results[indexPath.row]["product_id"].intValue
+        cell.main_option = get_results[indexPath.row]["main_option"].stringValue
+        cell.cost = get_results[indexPath.row]["cost"].intValue
+        cell.name = get_results[indexPath.row]["name"].stringValue
+        cell.type = get_results[indexPath.row]["type"].stringValue
+        cell.sw_take_away = self.view.viewWithTag(1000000000) as? UISwitch
+        cell.lbl_sum_order = self.view.viewWithTag(1000000001) as? UILabel
+        cell.lbl_sale = self.view.viewWithTag(1000000002) as? UILabel
+        cell.lbl_delivery = self.view.viewWithTag(1000000003) as? UILabel
+        cell.lbl_total = self.view.viewWithTag(1000000004) as? UILabel
         return cell
+    }
+    
+    func get_detail_info(index: Int) -> String
+    {
+        let total = String(get_results[index]["count"].intValue * get_results[index]["cost"].intValue)
+        return "Итого: " + get_results[index]["count"].stringValue + " * " + CURRENCY + get_results[index]["cost"].stringValue.dropLast(2) + " = " + CURRENCY + total
     }
     
     func get_count_products() -> Int
     {
-        return 1
+        return get_results.count
     }
     
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if Changed_order == true
+        {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "remove_order"), object: nil)
+        }
+    }
     
 }
-
-
 
 class RequestOrder {
     
     var getResults = [JSON]()
     func get()
     {
-        self.getResults = []
-        
-
+        self.getResults = DBHelper().total_order()
     }
     
     func resetGet() {

@@ -17,3 +17,4 @@ var ID_phone = ""
 var New_order = false
 var Main_option = ""
 var Last_title_address = ""
+var Changed_order = false

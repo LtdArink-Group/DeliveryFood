@@ -27,14 +27,14 @@ class DeliveryInfoView: UIView {
         self.lbl_delivery.frame = CGRect(x: 0, y: width/6.5, width: width/3, height: 30)
         self.lbl_delivery.textAlignment = NSTextAlignment.center
         self.lbl_delivery.font = UIFont(name: "Helvetica", size: 17)
-        self.lbl_delivery.tag = 1
+        self.lbl_delivery.tag = 10000001
         addSubview(self.lbl_delivery)
         
         self.lbl_order.frame = CGRect(x: width/3, y: width/6.5, width: width/3, height: 30)
         self.lbl_order.textAlignment = NSTextAlignment.center
         self.lbl_order.font = UIFont(name: "Helvetica", size: 17)
         self.lbl_order.text = CURRENCY +  " " + String(COST_ORDER_DEFAULT)
-        self.lbl_order.tag = 2
+        self.lbl_order.tag = 20000001
         addSubview(self.lbl_order)
         
         let btn_call = UIButton(type: UIButtonType.custom) as UIButton

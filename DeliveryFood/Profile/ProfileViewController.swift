@@ -28,7 +28,8 @@ class ProfileViewController: FormViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.reload_address), name: NSNotification.Name(rawValue: "reload_address"), object: nil)
 
-        
+        self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         get_user_info()
     }
