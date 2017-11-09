@@ -922,6 +922,9 @@
                                         <rect key="frame" x="126" y="287" width="163" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                         <state key="normal" image="btn_order"/>
+                                        <connections>
+                                            <segue destination="GxX-q5-gZM" kind="show" id="Y3v-YK-OTY"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Самовывоз: скидка - 10%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztZ-xL-p5e" userLabel="lbl_take_away">
                                         <rect key="frame" x="16" y="128" width="240" height="21"/>
@@ -1005,7 +1008,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.89265775680000004" green="0.89328879120000004" blue="0.91193383930000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Мои заказы" id="oeI-pa-D7N">
+                    <navigationItem key="navigationItem" title="Мой заказ" id="oeI-pa-D7N">
                         <barButtonItem key="rightBarButtonItem" image="btn_delete_busket" id="bih-3U-nvB" userLabel="btn_remove_order">
                             <connections>
                                 <action selector="on_clicked_btn_remove:" destination="AiO-4c-Sdd" id="0JZ-7t-DIO"/>
@@ -1206,6 +1209,27 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J7O-co-LrP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2972" y="1286"/>
+        </scene>
+        <!--Адрес доставки-->
+        <scene sceneID="wc3-iG-GNh">
+            <objects>
+                <viewController id="GxX-q5-gZM" customClass="DeliveryAddressViewController" customModule="DeliveryFood" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="g5y-Ka-kil"/>
+                        <viewControllerLayoutGuide type="bottom" id="1OB-o7-1Qg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="iNM-tB-7iR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Адрес доставки" id="vZF-vZ-JUh">
+                        <barButtonItem key="backBarButtonItem" title=" " id="tUH-Wp-Lml"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vDc-u2-rp6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="100" y="1534"/>
         </scene>
     </scenes>
     <resources>

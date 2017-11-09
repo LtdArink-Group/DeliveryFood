@@ -90,13 +90,6 @@ class ProfileViewController: FormViewController {
         get_address_user_info()
     }
     
-    func sort_address(array: [[String: Any]]) -> [[String: Any]]
-    {
-        return array.sorted {
-                return $0["id"] as! Int > $1["id"] as! Int
-            }
-    }
-    
     func create_form()
     {
         
@@ -221,13 +214,11 @@ class ProfileViewController: FormViewController {
     {
         let controller : AddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddressViewController") as! AddressViewController
         controller.arr_address = each
-        controller.new = new
-        if new_profile == true
-        {
-            controller.name = get_name()
-            controller.phone = get_phone()
-            controller.email = get_email()
-        }
+        controller.new_address = new
+        controller.name = get_name()
+        controller.phone = get_phone()
+        controller.email = get_email()
+        controller.new_profile = new_profile
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -267,10 +258,10 @@ class ProfileViewController: FormViewController {
                             }
                     }
                 }
-                for (index, each) in sort_address(array: addresses).enumerated()
+                for (index, each) in Helper().sort_address(array: addresses).enumerated()
                 {
                     $0 <<< LabelRow("AddressRow\(index)") {
-                        $0.cell.imageView?.image = UIImage(named: get_icon(title: (each["title"] as? String)!))
+                        $0.cell.imageView?.image = UIImage(named: Helper().get_icon(title: (each["title"] as? String)!))
                         $0.title = each["title"] as? String
                         $0.cell.accessoryType = .disclosureIndicator
                         }.onCellSelection {_,_ in
@@ -281,41 +272,6 @@ class ProfileViewController: FormViewController {
         }
         PageLoading().hideLoading()
         
-    }
-    
-    func get_icon(title: String) -> String
-    {
-        if title.lowercased().range(of: "home") != nil
-        {
-            return "icon_home"
-        }
-        else if title.lowercased().range(of: "дом") != nil
-        {
-            return "icon_home"
-        }
-        else if title.lowercased().range(of: "раб") != nil
-        {
-            return "icon_office"
-        }
-        else if title.lowercased().range(of: "work") != nil
-        {
-            return "icon_office"
-        }
-        else if title.lowercased().range(of: "offi") != nil
-        {
-            return "icon_office"
-        }
-        else if title.lowercased().range(of: "офис") != nil
-        {
-            return "icon_office"
-        }
-        else if title.lowercased().range(of: "мой") != nil
-        {
-            return "icon_home"
-        }
-        else {
-            return "icon_truck"
-        }
     }
     
     func get_name() -> String

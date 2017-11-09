@@ -19,7 +19,8 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
     var name = ""
     var email = ""
     var phone = ""
-    var new = false
+    var new_address = false
+    var new_profile = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
-        btn_bar_delete.isEnabled = !new
+        btn_bar_delete.isEnabled = !new_address
         create_form()
     }
 
@@ -216,19 +217,20 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
     
     func on_clicked_btn_save() {
         PageLoading().showLoading()
-        if name == ""
+        if new_profile && name != ""
         {
-            if new == false
-            {
-                update()
-            }
-            else
-            {
-                post_address()
-            }
+            post_profile()
+        }
+        else if new_profile && name == ""
+        {
+            ShowError().show_error(text: "Необходимо заполнить контактые данные в разделе профиль")
+        }
+        else if !new_profile && new_address
+        {
+            post_address()
         }
         else {
-            post_profile()
+            update()
         }
     }
     

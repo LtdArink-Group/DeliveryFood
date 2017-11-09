@@ -56,6 +56,47 @@ class Helper {
         }
     }
 
+    func get_icon(title: String) -> String
+    {
+        if title.lowercased().range(of: "home") != nil
+        {
+            return "icon_home"
+        }
+        else if title.lowercased().range(of: "дом") != nil
+        {
+            return "icon_home"
+        }
+        else if title.lowercased().range(of: "раб") != nil
+        {
+            return "icon_office"
+        }
+        else if title.lowercased().range(of: "work") != nil
+        {
+            return "icon_office"
+        }
+        else if title.lowercased().range(of: "offi") != nil
+        {
+            return "icon_office"
+        }
+        else if title.lowercased().range(of: "офис") != nil
+        {
+            return "icon_office"
+        }
+        else if title.lowercased().range(of: "мой") != nil
+        {
+            return "icon_home"
+        }
+        else {
+            return "icon_truck"
+        }
+    }
 
+    func sort_address(array: [[String: Any]]) -> [[String: Any]]
+    {
+        return array.sorted {
+            return $0["id"] as! Int > $1["id"] as! Int
+        }
+    }
+    
     //MARK: on_clicked
 }

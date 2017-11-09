@@ -37,6 +37,7 @@ class AdditionalTableViewCell: UITableViewCell {
     @IBAction func on_clicked_btn_plus(_ sender: UIButton) {
         if get_count_product() == 0
         {
+            PageLoading().showLoading()
             ShowError().show_error(text: "Для добавления ингредиентов необходимо добавить продукт в корзину")
         }
         else

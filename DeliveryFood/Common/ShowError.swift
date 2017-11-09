@@ -20,7 +20,6 @@ class ShowError {
         self.errorView.tag = 100000000
 
         win.addSubview(self.errorView)
-        
         container = UIView(frame: CGRect(x: 0, y: 0, width: win.frame.width/2, height: win.frame.width/4))
         container.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.6)
         container.layer.cornerRadius = 10.0

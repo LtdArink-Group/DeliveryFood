@@ -116,7 +116,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         btn_create_order.frame = CGRect(x: btn_width, y: height, width: btn_create_order.frame.width, height: btn_create_order.frame.height)
         
         let scrl_height = height < UIScreen.main.bounds.size.height - 64 ? UIScreen.main.bounds.size.height : height + 60
-        scrl_main.contentSize = CGSize(width: width, height: scrl_height + 1 )
+        scrl_main.contentSize = CGSize(width: width, height: scrl_height + 1)
         scrl_main.frame = CGRect(x: 0,y: 64, width: width, height: UIScreen.main.bounds.size.height)
         
         set_costs_fields()

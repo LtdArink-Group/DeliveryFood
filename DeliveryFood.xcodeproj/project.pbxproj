@@ -34,6 +34,7 @@
 		845F77B61F7DFC4900043471 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F77B51F7DFC4900043471 /* ProfileViewController.swift */; };
 		846D603C1F8611FC00C77DD5 /* AdditionalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D603B1F8611FC00C77DD5 /* AdditionalTableViewCell.swift */; };
 		848523AF1F9028AA00F952D1 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848523AE1F9028AA00F952D1 /* Header.swift */; };
+		848B22491FB3E29C00F3C0BA /* DeliveryAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848B22481FB3E29C00F3C0BA /* DeliveryAddressViewController.swift */; };
 		848C0A321F8473F70060D6E5 /* AdditionalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848C0A311F8473F70060D6E5 /* AdditionalViewController.swift */; };
 		84A88CB81FA2AEC0009F5FED /* ShowError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A88CB71FA2AEC0009F5FED /* ShowError.swift */; };
 		84C4F5FF1F9431BD00B35F42 /* OrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C4F5FE1F9431BD00B35F42 /* OrderTableViewCell.swift */; };
@@ -96,6 +97,7 @@
 		845F77B51F7DFC4900043471 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		846D603B1F8611FC00C77DD5 /* AdditionalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalTableViewCell.swift; sourceTree = "<group>"; };
 		848523AE1F9028AA00F952D1 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		848B22481FB3E29C00F3C0BA /* DeliveryAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryAddressViewController.swift; sourceTree = "<group>"; };
 		848C0A311F8473F70060D6E5 /* AdditionalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalViewController.swift; sourceTree = "<group>"; };
 		84A88CB71FA2AEC0009F5FED /* ShowError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowError.swift; sourceTree = "<group>"; };
 		84C4F5FE1F9431BD00B35F42 /* OrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTableViewCell.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				84594F421F8EE8C500769605 /* OrderViewController.swift */,
 				84C4F5FE1F9431BD00B35F42 /* OrderTableViewCell.swift */,
 				84C4F6001F947CC300B35F42 /* NewOrderViewController.swift */,
+				848B22481FB3E29C00F3C0BA /* DeliveryAddressViewController.swift */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -643,6 +646,7 @@
 				84A88CB81FA2AEC0009F5FED /* ShowError.swift in Sources */,
 				845F77B11F7C8C9A00043471 /* SalesViewController.swift in Sources */,
 				845B5ED01F95EB5A0068D1CD /* PageLoading.swift in Sources */,
+				848B22491FB3E29C00F3C0BA /* DeliveryAddressViewController.swift in Sources */,
 				84E056061F95C168006637CE /* DBHelper.swift in Sources */,
 				845A09861F8C8F510068BB7D /* ProductTableViewCell.swift in Sources */,
 				841AE4761F7B4C6800DB12D8 /* Global.swift in Sources */,

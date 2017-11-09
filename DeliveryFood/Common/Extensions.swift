@@ -49,9 +49,9 @@ extension UIButton {
     func playImplicitBounceAnimation() {
         
         let bounceAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
-        bounceAnimation.values = [1.0, 1.2, 1.0, 1.2, 1.0, 1.2, 1.0, 1.2, 1.0]
+        bounceAnimation.values = [1.0, 1.2, 1.0]
         //1.0 ,1.4, 0.9, 1.15, 0.95, 1.02, 1.0, 1.2, 0.8, 1.15, 0.85, 1.0, 1.4, 0.9, 1.15, 0.95, 1.02, 1.0, 1.2, 0.8, 1.15, 0.85, 1.0,1.0 ,1.4, 0.9, 1.15, 0.95, 1.02, 1.0, 1.2, 0.8, 1.15, 0.85, 1.0, 1.4, 0.9, 1.15, 0.95, 1.02, 1.0]
-        bounceAnimation.duration = TimeInterval(3)
+        bounceAnimation.duration = TimeInterval(1)
         bounceAnimation.calculationMode = kCAAnimationCubic
         
         layer.add(bounceAnimation, forKey: "bounceAnimation")
