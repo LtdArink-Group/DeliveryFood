@@ -1226,15 +1226,97 @@
                     <navigationItem key="navigationItem" title="Адрес доставки" id="vZF-vZ-JUh">
                         <barButtonItem key="backBarButtonItem" title=" " id="tUH-Wp-Lml"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="ice-pt-pRX" kind="show" identifier="" id="oAx-GR-qeR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vDc-u2-rp6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="100" y="1534"/>
         </scene>
+        <!--Адрес доставки-->
+        <scene sceneID="CAj-vC-KDe">
+            <objects>
+                <viewController storyboardIdentifier="DeliveryAddAddressViewController" id="ice-pt-pRX" customClass="DeliveryAddAddressViewController" customModule="DeliveryFood" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MMs-5K-X1z"/>
+                        <viewControllerLayoutGuide type="bottom" id="rb8-G7-DLL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IG2-rp-sQk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Адрес доставки" id="taO-y6-g9c">
+                        <barButtonItem key="backBarButtonItem" title=" " id="YbE-l0-0By"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9aj-iC-8Xg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-626" y="1566"/>
+        </scene>
+        <!--Адрес доставки-->
+        <scene sceneID="Nmg-ek-cvb">
+            <objects>
+                <viewController storyboardIdentifier="WellDoneViewController" id="aTq-xa-3Y4" customClass="WellDoneViewController" customModule="DeliveryFood" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jXq-8a-7mB"/>
+                        <viewControllerLayoutGuide type="bottom" id="coY-A4-dpk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BRs-hf-4Rx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Rd-98-WA1">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_well_done" translatesAutoresizingMaskIntoConstraints="NO" id="3TF-aZ-tA8">
+                                        <rect key="frame" x="157" y="120" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rvQ-ux-toY">
+                                        <rect key="frame" x="20" y="270" width="374" height="127"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <string key="text">Поздравляем!
+Ваш заказ успешно создан. 
+В ближайшее время наш оператор вам перезвонит для подтверждения заказа.</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wcD-T5-2UT">
+                                        <rect key="frame" x="157" y="567" width="100" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <state key="normal" image="btn_well_done_ok"/>
+                                        <connections>
+                                            <action selector="on_clicked_btn_ok:" destination="aTq-xa-3Y4" eventType="touchUpInside" id="Rgw-J0-f6I"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Адрес доставки" id="rbu-qM-64y">
+                        <barButtonItem key="backBarButtonItem" title=" " id="WNT-ec-Bir"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="btn_ok" destination="wcD-T5-2UT" id="gtD-MV-rUp"/>
+                        <outlet property="img_well_done" destination="3TF-aZ-tA8" id="fhA-5d-WkK"/>
+                        <outlet property="scrl_main" destination="5Rd-98-WA1" id="HwB-Y1-GDC"/>
+                        <outlet property="txt_well_done" destination="rvQ-ux-toY" id="Gxy-53-4RA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ygB-Cw-nLY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1494.2028985507247" y="1780.4347826086957"/>
+        </scene>
     </scenes>
     <resources>
         <image name="btn_delete_busket" width="24" height="26"/>
         <image name="btn_order" width="163" height="44"/>
+        <image name="btn_well_done_ok" width="100" height="44"/>
         <image name="burgers1" width="190" height="109"/>
         <image name="img_additional_filled" width="29" height="9"/>
         <image name="img_basket_filled" width="33" height="33"/>
@@ -1245,5 +1327,6 @@
         <image name="img_plus" width="32" height="32"/>
         <image name="img_profile_filled" width="33" height="33"/>
         <image name="img_sales_filled" width="33" height="33"/>
+        <image name="img_well_done" width="55" height="55"/>
     </resources>
 </document>

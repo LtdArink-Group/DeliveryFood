@@ -28,6 +28,16 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         get_user_info()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(DeliveryAddressViewController.go_to_back), name: NSNotification.Name(rawValue: "well_done1"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DeliveryAddressViewController.go_to_back), name: NSNotification.Name(rawValue: "well_done2"), object: nil)
+    }
+
+    @objc func go_to_back()
+    {
+        navigationController?.popViewController(animated: false)
+    }
+    
     func get_user_info()
     {
         self.addresses = []
@@ -185,8 +195,8 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                         self.on_clicked_add_address()
                 }
                         
-        }
-        
+            }
+            
             +++ Section("")
             <<< ButtonRow("CreateOrderRow"){ row in
                 row.title = "Отправить заказ"
@@ -294,6 +304,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         }
         else {
             print("click")
+            goto_well_done()
         }
     }
     
@@ -304,8 +315,18 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             ShowError().show_error(text: "Не верно заполнены контактные данные. Пожалуйста проверьте их.")
         }
         else {
-            print("click")
+            let controller : DeliveryAddAddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeliveryAddAddressViewController") as! DeliveryAddAddressViewController
+            self.navigationController?.pushViewController(controller, animated: true)
         }
+    }
+    
+    func goto_well_done()
+    {
+//        let modalViewController = WellDoneViewController()
+//        modalViewController.modalPresentationStyle = .overCurrentContext
+//        self.present(modalViewController, animated: true, completion: nil)
+        let controller : WellDoneViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellDoneViewController") as! WellDoneViewController
+        self.navigationController?.pushViewController(controller, animated: false)
     }
     
 
