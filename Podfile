@@ -22,6 +22,7 @@ target 'DeliveryFood' do
   pod 'FoldingCell'
   pod 'RAMAnimatedTabBarController'
   pod 'SQLite.swift', '~> 0.11.4'
+  pod 'CountdownLabel'
 
   target 'DeliveryFoodTests' do
     inherit! :search_paths

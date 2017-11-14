@@ -19,12 +19,17 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     var phone: String = ""
     var addresses: [[String: Any]] = []
     var form_ready = false
+    var address_id = 0
+    var new_profile = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(DeliveryAddressViewController.goto_well_done), name: NSNotification.Name(rawValue: "show_well_done"), object: nil)
+        
         get_user_info()
     }
     
@@ -56,16 +61,38 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                     }
                     else
                     {
+                        self.new_profile = true
                         self.create_form()
                     }
                 }
         }
     }
     
+//    func set_time_to_date(hour: Int, minute: Int) -> Date
+//    {
+//        let greg = Calendar(identifier: .gregorian)
+//        let now = Date()
+//        var components = greg.dateComponents([.year, .month, .day, .hour, .minute, .second], from: now)
+//        components.hour = hour
+//        components.minute = minute
+//        return greg.date(from: components)!
+//    }
+    
     func create_form()
     {
         
         form
+            
+            +++ Section("Время доставки")
+            <<< TimeInlineRow("DeliveryTimeRow"){
+                $0.title = "Выберите время"
+                let currentDate = Date()
+                $0.value = currentDate.addingTimeInterval(120 * 60)
+                $0.maximumDate = currentDate.set_time_to_date(hour: TIME_HOUR_TO, minute: 00)
+                $0.minimumDate = currentDate.set_time_to_date(hour: TIME_HOUR_FROM, minute: 00)
+                }.cellSetup { cell, row in
+                    row.dateFormatter?.timeStyle = .short
+            }
             
             +++ Section("Клиент")
             <<< TextRow("NameRow"){ row in
@@ -177,6 +204,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             +++ Section("Выберите адрес или добавьте новый") { on in
                 for (index, each) in Helper().sort_address(array: addresses).enumerated()
                 {
+                    address_id = index == 0 ? (each["id"] as? Int)! : address_id
                    on <<< CheckRow("AddressRow\(index)") {
                         $0.cell.imageView?.image = UIImage(named: Helper().get_icon(title: (each["title"] as? String)!))
                         $0.title = each["title"] as? String
@@ -231,7 +259,9 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     
     func set_selected_address(tag: Int)
     {
-        for (index, _) in Helper().sort_address(array: addresses).enumerated()
+        var sort_address = Helper().sort_address(array: addresses)
+        address_id = sort_address[tag]["id"] as! Int
+        for (index, _) in sort_address.enumerated()
         {
             if tag != index
             {
@@ -255,6 +285,12 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             index += 1
         }
         return false
+    }
+    
+    func get_delivery_time() -> Date
+    {
+        let time_row: TimeInlineRow = self.form.rowBy(tag: "DeliveryTimeRow")!
+        return time_row.value!
     }
     
     func get_name() -> String
@@ -304,7 +340,8 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         }
         else {
             print("click")
-            goto_well_done()
+            PageLoading().showLoading()
+            CreateOrderViewController().post_order(address_id: address_id, delivery_time: get_delivery_time())
         }
     }
     
@@ -316,15 +353,19 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         }
         else {
             let controller : DeliveryAddAddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeliveryAddAddressViewController") as! DeliveryAddAddressViewController
+            controller.name = get_name()
+            controller.phone = get_phone()
+            controller.email = get_email()
+            controller.delivery_time = get_delivery_time()
+            controller.new_profile = new_profile
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }
     
-    func goto_well_done()
+    @objc func goto_well_done()
     {
-//        let modalViewController = WellDoneViewController()
-//        modalViewController.modalPresentationStyle = .overCurrentContext
-//        self.present(modalViewController, animated: true, completion: nil)
+        PageLoading().hideLoading()
+        tabBarController?.tabBar.items?[2].badgeValue = "0"
         let controller : WellDoneViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellDoneViewController") as! WellDoneViewController
         self.navigationController?.pushViewController(controller, animated: false)
     }

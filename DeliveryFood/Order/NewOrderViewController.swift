@@ -136,6 +136,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func on_changed_sw_take_away(_ sender: UISwitch) {
+        Take_away = sender.isOn
         sum_sale.text = sender.isOn ? CURRENCY + String(Total_order_cost/10) : CURRENCY + "0"
         sum_delivery.text = sender.isOn ? CURRENCY + "0" : CURRENCY + String(Total_delivery_cost)
         sum_total.text = sender.isOn ? CURRENCY + String(Total_order_cost - Total_order_cost/10) : CURRENCY + String(Total_order_cost + Total_delivery_cost)

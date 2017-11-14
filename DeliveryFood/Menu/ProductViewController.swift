@@ -14,7 +14,7 @@ import Alamofire
 import SwiftyJSON
 import SDWebImage
 
-class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
+class ProductViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     
     @IBOutlet weak var tableView: UITableView!
@@ -33,7 +33,6 @@ class ProductViewController: UIViewController, UISearchBarDelegate, UITableViewD
         
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
-        
         tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.rowHeight = UIScreen.main.bounds.height == 568 ? 381 : 421
         

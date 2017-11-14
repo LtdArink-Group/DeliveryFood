@@ -44,6 +44,18 @@ extension UILabel{
     }
 }
 
+extension Date {
+    func set_time_to_date(hour: Int, minute: Int) -> Date
+    {
+        let greg = Calendar(identifier: .gregorian)
+        let now = Date()
+        var components = greg.dateComponents([.year, .month, .day, .hour, .minute, .second], from: now)
+        components.hour = hour
+        components.minute = minute
+        return greg.date(from: components)!
+    }
+}
+
 
 extension UIButton {
     func playImplicitBounceAnimation() {

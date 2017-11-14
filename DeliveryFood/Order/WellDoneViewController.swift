@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CountdownLabel
 
 class WellDoneViewController: UIViewController, UIScrollViewDelegate {
 
@@ -36,6 +37,11 @@ class WellDoneViewController: UIViewController, UIScrollViewDelegate {
         img_well_done.frame = CGRect(x: (width/2) - 50, y: height/7, width: 100, height: 100)
         txt_well_done.frame = CGRect(x: 20, y: img_well_done.frame.origin.y + 150, width: width - 40, height: 127)
         btn_ok.frame = CGRect(x: (width/2) - 50, y: height - 125 - 44, width: 100, height: 44)
+        
+//        let frame = CGRect(x: 60, y: 10, width: 100, height: 50)
+//        let countdownLabel = CountdownLabel(frame: frame, minutes: 30)
+//        scrl_main.addSubview(countdownLabel)
+//        countdownLabel.start()
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,6 +52,7 @@ class WellDoneViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func on_clicked_btn_ok(_ sender: UIButton) {
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.popViewController(animated: false)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "remove_order"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "well_done1"), object: nil)
     }
     

@@ -46,6 +46,7 @@ class AdditionalViewController: UIViewController, UITableViewDelegate, UITableVi
         init_header()
     }
     
+    
     @objc func go_to_back_remove()
     {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "remove_order_ingredients"), object: nil)

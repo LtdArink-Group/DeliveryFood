@@ -21,7 +21,6 @@ class MainViewController: FormViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        
         PageLoading().showLoading()
         DBHelper().create_tables()
         get_company_info()
@@ -37,6 +36,8 @@ class MainViewController: FormViewController {
                 let contact_info = json["contact_info"] as! [String: Any]
                 PHONE = contact_info["phone"] as! String
                 print(PHONE)
+//                TIME_HOUR_FROM =
+//                TIME_HOUR_TO = 
 //                COST_DELIVERY = json["cost_delivery"] as! Int
 //                COST_FREE_DELIVERY = json["cost_free_delivery"] as! Int
                 self.get_categories_info()

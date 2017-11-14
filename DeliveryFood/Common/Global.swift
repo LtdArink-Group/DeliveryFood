@@ -18,3 +18,4 @@ var New_order = false
 var Main_option = ""
 var Last_title_address = ""
 var Changed_order = false
+var Take_away = true

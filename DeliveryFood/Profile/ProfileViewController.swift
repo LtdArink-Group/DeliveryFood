@@ -33,7 +33,7 @@ class ProfileViewController: FormViewController {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         get_user_info()
     }
-    
+
     func get_user_info()
     {
         self.addresses = []

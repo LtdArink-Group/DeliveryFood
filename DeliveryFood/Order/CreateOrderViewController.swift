@@ -10,28 +10,90 @@ import UIKit
 import Alamofire
 import Crashlytics
 import Fabric
+import SwiftyJSON
 
-class CreateOrderViewController: UIViewController, UINavigationControllerDelegate {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
-        
+class CreateOrderViewController {
+    
+    
+    func create_array_json_order() -> [[String: Any]]
+    {
+        var arr_order = [[String: Any]]()
+        for each in DBHelper().total_order()
+        {
+            if each["type"].stringValue == "p"
+            {
+                let prod = [
+                    "product_id": each["product_id"].intValue,
+                    "main_option": each["main_option"].stringValue,
+                    "qty": each["count"].intValue,
+                    "ingredients": create_array_json_ingredients(product_id: each["product_id"].intValue, main_option: each["main_option"].stringValue)
+                    ] as [String: Any]
+                arr_order.append(prod)
+            }
+        }
+        return arr_order
     }
     
-    func post_order(address_id: Int)
+    func create_array_json_ingredients(product_id: Int, main_option: String) -> [[String: Any]]
     {
-        //Company_id: Constants
-        //ID_phone: Global
-        //id_address: get_from
-        //order_products: JSON
+        var arr_ingred = [[String: Any]]()
+        for each in DBHelper().total_order()
+        {
+            if each["type"].stringValue == "i" && each["product_id"].intValue == product_id && each["main_option"].stringValue == main_option
+            {
+                let ingred = [
+                    "qty": each["count"].intValue,
+                    "name": each["name"].stringValue
+                ] as [String: Any]
+                arr_ingred.append(ingred)
+            }
+        }
+        return arr_ingred
+    }
+    
+    func post_order(address_id: Int, delivery_time: Date)
+    {
+        let params = [
+            "company_id": COMPANY_ID,
+            "account_id" : ID_phone,
+            "address_id": address_id,
+            "delivery_time": "\(delivery_time)",
+            "take_away": Take_away,
+            "order_products": create_array_json_order()
+        ] as [String : Any]
+       print(params)
+        let url = SERVER_NAME + "/api/orders"
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default)
+            .responseJSON() { (response) -> Void in
+                if response.result.value != nil {
+                    if let json = response.result.value as? [String: Any] {
+                        if json["errors"] as? [String: Any] != nil
+                        {
+                            ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
+                        }
+                        else {
+                            print(json)
+                            self.delete_order_sqlite()
+                        }
+                    }
+                    else {
+                        ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом.")
+                    }
+                }
+                else
+                {
+                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом.")
+                }
+        }
     }
 
     func delete_order_sqlite()
     {
+        Total_order_cost = 0
+        Total_delivery_cost = COST_DELIVERY
         DBHelper().delete_order()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "show_well_done"), object: nil)
     }
+    
     
 }
