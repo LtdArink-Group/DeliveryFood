@@ -13,7 +13,10 @@ class OrderTableViewCell: UITableViewCell {
     @IBOutlet weak var lbl_count: UILabel!
     @IBOutlet weak var lbl_title: UILabel!
     @IBOutlet weak var lbl_cost: UILabel!
- 
+    @IBOutlet weak var btn_minus: UIButton!
+    @IBOutlet weak var btn_plus: UIButton!
+    @IBOutlet weak var img_circle: UIImageView!
+    
     var lbl_sum_order: UILabel!
     var lbl_sale: UILabel!
     var lbl_delivery: UILabel!
@@ -81,7 +84,8 @@ class OrderTableViewCell: UITableViewCell {
     func get_detail_info() -> String
     {
         let total = String(Int(lbl_count.text!)! * cost)
-        return "Итого: " + lbl_count.text! + " * " + CURRENCY + String(Int(cost)) + " = " + CURRENCY + total
+        let margin = type == "i" ? "   " : ""
+        return margin + "Итого: " + lbl_count.text! + " * " + CURRENCY + String(Int(cost)) + " = " + CURRENCY + total
     }
     
     func add_to_order()

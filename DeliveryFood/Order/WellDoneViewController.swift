@@ -20,11 +20,9 @@ class WellDoneViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: false)
-        
         scrl_main.delegate = self
         
         init_form()
-        // Do any additional setup after loading the view.
     }
     
     func init_form()
@@ -54,6 +52,7 @@ class WellDoneViewController: UIViewController, UIScrollViewDelegate {
         navigationController?.popViewController(animated: false)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "remove_order"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "well_done1"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "order_done"), object: nil)
     }
     
 

@@ -87,6 +87,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             <<< TimeInlineRow("DeliveryTimeRow"){
                 $0.title = "Выберите время"
                 let currentDate = Date()
+                $0.cell.textLabel?.textColor = UIColor.black
                 $0.value = currentDate.addingTimeInterval(120 * 60)
                 $0.maximumDate = currentDate.set_time_to_date(hour: TIME_HOUR_TO, minute: 00)
                 $0.minimumDate = currentDate.set_time_to_date(hour: TIME_HOUR_FROM, minute: 00)
@@ -287,10 +288,15 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         return false
     }
     
-    func get_delivery_time() -> Date
+    func get_delivery_time() -> String
     {
         let time_row: TimeInlineRow = self.form.rowBy(tag: "DeliveryTimeRow")!
-        return time_row.value!
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        let dateFromString = formatter.string(from: time_row.value!)
+        return dateFromString
     }
     
     func get_name() -> String

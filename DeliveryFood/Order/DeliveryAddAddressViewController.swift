@@ -17,7 +17,7 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
     var name: String = ""
     var email: String = ""
     var phone: String = ""
-    var delivery_time = Date()
+    var delivery_time: String = ""
     var new_profile = false
     
     override func viewDidLoad() {

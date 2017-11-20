@@ -50,10 +50,66 @@ class Helper {
         }
     }
     
-    func delay(_ seconds: Double, completion: @escaping () -> ()) {
+    func delay(_ seconds: Double, completion: @escaping () -> ())
+    {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
             completion()
         }
+    }
+    
+    func string_date_from_string(_ datetime:String) -> String
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.long
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let convertedDate = dateFormatter.date(from: datetime)
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let date = dateFormatter.string(from: convertedDate!)
+        return date
+    }
+    
+    func string_time_from_string(_ datetime:String) -> String
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.long
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let convertedDate = dateFormatter.date(from: datetime)
+        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+//        dateFormatter.timeZone = TimeZone.current
+//        dateFormatter.timeZone = NSTimeZone.init(abbreviation: "VLAT") as TimeZone!
+        let time = dateFormatter.string(from: convertedDate!)
+        return time
+    }
+    
+    func get_today() -> Date
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let str = dateFormatter.string(from: NSDate() as Date)
+        let date = dateFormatter.date(from: str)
+        return date!
+    }
+    
+    func get_date_from_string(_ datetime: String) -> Date
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let date = dateFormatter.date(from: datetime)
+        return date!
+    }
+    
+    func get_now() -> Date
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let str = dateFormatter.string(from: NSDate() as Date)
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let date = dateFormatter.date(from: str)
+        return date!
     }
 
     func get_icon(title: String) -> String

@@ -51,7 +51,7 @@ class CreateOrderViewController {
         return arr_ingred
     }
     
-    func post_order(address_id: Int, delivery_time: Date)
+    func post_order(address_id: Int, delivery_time: String)
     {
         let params = [
             "company_id": COMPANY_ID,
@@ -61,18 +61,18 @@ class CreateOrderViewController {
             "take_away": Take_away,
             "order_products": create_array_json_order()
         ] as [String : Any]
-       print(params)
+        print(params)
         let url = SERVER_NAME + "/api/orders"
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default)
             .responseJSON() { (response) -> Void in
                 if response.result.value != nil {
                     if let json = response.result.value as? [String: Any] {
+                        print(json)
                         if json["errors"] as? [String: Any] != nil
                         {
                             ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
                         }
                         else {
-                            print(json)
                             self.delete_order_sqlite()
                         }
                     }

@@ -15,13 +15,18 @@ import SwiftyJSON
 
 class OrderViewController: FormViewController {
 
-    
     @IBOutlet weak var img_no_order: UIImageView!
+    
+    var get_results = [JSON]()
+    let requestManager = RequestManagerOrders()
+    var request = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.updateGetResults), name: NSNotification.Name(rawValue: "get_result_orders"), object: nil)
         preload_form()
     }
     
@@ -32,22 +37,18 @@ class OrderViewController: FormViewController {
     func preload_form()
     {
         self.navigationItem.setHidesBackButton(true, animated:true)
-
 //        let arr_orders: [[String: String]] = [["address": "Ленинградская 46 - оф. 605", "title_address": "работа", "date": "08.10.2017", "time": "15-00", "cost": "1700", "id": "1"],
 //                          ["address": "Уборевича 42а - кв. 47", "title_address": "дом", "date": "10.10.2017", "time": "20-00", "cost": "1200", "id": "2"],
 //                          ["address": "Ленина 46 - кв. 51", "title_address": "любовница", "date": "12.10.2017", "time": "21-00", "cost": "2500", "id": "3"]]
-        let arr_orders: [[String: String]] = []
         if self.tabBarController?.tabBar.items?[2].badgeValue == "" || self.tabBarController?.tabBar.items?[2].badgeValue == "0"
         {
-            if arr_orders.count > 0
+            if form.isEmpty && !request
             {
-                if form.isEmpty == true
-                {
-                    create_form(arr_orders: arr_orders)
-                }
-            }
-            else {
-                create_no_order()
+                request = true
+                get_results = []
+                requestManager.resetGet()
+                requestManager.get()
+//                updateGetResults()
             }
         }
         else
@@ -56,41 +57,120 @@ class OrderViewController: FormViewController {
         }
     }
     
+    @objc func updateGetResults()
+    {
+        get_results = requestManager.getResults
+        if requestManager.getResults.count > 0
+        {
+            create_form(arr_orders: get_results)
+        }
+        else {
+            create_no_order()
+        }
+    }
+    
     func create_no_order()
     {
         tableView!.contentInset.top = -60
         tableView!.addSubview(img_no_order)
     }
-
-    func create_form(arr_orders: [[String: String]])
+    
+    func get_active_orders(arr_orders: [JSON]) -> [JSON]
     {
+        return arr_orders.filter { ($0["status"].stringValue == "Новый" || $0["status"].stringValue == "Подтвержден") && Helper().get_date_from_string($0["delivery_time"].stringValue) >= Helper().get_today() }
+    }
+
+    func get_old_orders(arr_orders: [JSON]) -> [JSON]
+    {
+        return arr_orders.filter { ($0["status"].stringValue != "Новый" || $0["status"].stringValue != "Подтвержден") && !(Helper().get_date_from_string($0["delivery_time"].stringValue) >= Helper().get_today()) }
+    }
+    
+
+    func create_form(arr_orders: [JSON])
+    {
+        
         form
-            +++ Section("Предыдущие заказы") {on in
+            +++ Section("Активные заказы") { on in
                 on.header?.height = {33}
-                for (index, each) in arr_orders.enumerated()
+                on.hidden = get_active_orders(arr_orders: arr_orders).count > 0 ? false : true
+                for (_, each) in get_active_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
                 {
+                    var address = each["address_info"]
+                    let str_address = address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
+                    on  <<< CustomTimerRow() {
+                        $0.cellProvider = CellProvider<CustomTimerCell>(nibName: "CustomTimerCell")
+                        $0.cell.height = {99}
+                        $0.cell.lbl_title.text = str_address + "\n"
+                            + Helper().string_date_from_string(each["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(each["delivery_time"].stringValue) + " - " + CURRENCY + " " + each["total_cost"].stringValue.dropLast(2)
+                        $0.cell.lbl_state.text = each["status"].stringValue
+                        $0.cell.lbl_timer.addTime(time: get_rest_time(datetime: each["delivery_time"].stringValue))
+                        $0.cell.lbl_timer.start()
+                        }.onCellSelection {row,cell in
+                            self.go_to_order(order: each, status: "new")
+                    }
+                }
+            }
+            
+            +++ Section("Предыдущие заказы") { on in
+//                on.header?.height = {33}
+                on.hidden = get_old_orders(arr_orders: arr_orders).count > 0 ? false : true
+                for (index, each) in get_old_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
+                {
+                    var address = each["address_info"]
+                    let str_address = address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
                     on <<< LabelRow() {
                         $0.cell.backgroundColor = index % 2 != 0 ? Helper().UIColorFromRGB(rgbValue: 0xCEF8B6) : .white
-                        $0.title = each["address"]! + " (" + each["title_address"]! + ")" + "\n"
-                            + each["date"]! + " в " + each["time"]! + " - " + CURRENCY + " " + each["cost"]!
+                        $0.title = str_address + "\n"
+                            + Helper().string_date_from_string(each["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(each["delivery_time"].stringValue) + " - " + CURRENCY + " " + each["total_cost"].stringValue.dropLast(2)
                         $0.cell.textLabel?.font = UIFont(name: "Helvetica", size: 13)
                         $0.cell.textLabel?.numberOfLines = 2
                         $0.cell.accessoryType = .disclosureIndicator
                         }.onCellSelection {row,cell in
-                            self.go_to_order(id: Int(each["id"]!)!)
+//                            self.go_to_order(id: Int(each["id"]!)!)
                     }
                 }
         }
     }
     
-    func go_to_order(id: Int)
+    func get_rest_time(datetime: String) -> Double
     {
-        
+        let date = Helper().get_date_from_string(datetime)
+        let diff = date.seconds(from: Helper().get_now())
+        return Double(diff) > 0 ? Double(diff) : 0
+    }
+    
+    func go_to_order(order: JSON, status: String)
+    {
+        let controller : NewOrderViewController = self.storyboard?.instantiateViewController(withIdentifier: "NewOrderViewController") as! NewOrderViewController
+        controller.from_orders = true
+        controller.order = order
+        controller.status = status
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+}
 
+class RequestManagerOrders {
+    
+    var getResults = [JSON]()
+    func get()
+    {
+        let url = SERVER_NAME + "/api/orders?account_id=" + ID_phone
+        print(url)
+        Alamofire.request(url, encoding: JSONEncoding.default).responseJSON { (response) -> Void in
+            if let results = response.result.value as? [String : Any] {
+                self.getResults = []
+                let item = JSON(results["orders"] as Any).arrayValue
+                self.getResults += item
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "get_result_orders"), object: nil)
+            }
+        }
+    }
+    
+    func resetGet() {
+        getResults = []
+    }
 }

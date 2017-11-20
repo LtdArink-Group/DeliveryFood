@@ -22,6 +22,8 @@
 		841AE4781F7B4CC500DB12D8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841AE4771F7B4CC500DB12D8 /* Constants.swift */; };
 		841FBCB21F83026800DB3E0F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841FBCB11F83026800DB3E0F /* Helper.swift */; };
 		841FBCB61F8352E300DB3E0F /* SalesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841FBCB51F8352E300DB3E0F /* SalesTableViewCell.swift */; };
+		8440C2A51FBD1F5C008B0BC9 /* CustomTimerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8440C2A41FBD1F5B008B0BC9 /* CustomTimerCell.xib */; };
+		8440C2A71FBD1F81008B0BC9 /* CustomTimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440C2A61FBD1F81008B0BC9 /* CustomTimerCell.swift */; };
 		84594F401F8EE31A00769605 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84594F3F1F8EE31A00769605 /* ADVSegmentedControl.swift */; };
 		84594F431F8EE8C500769605 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84594F421F8EE8C500769605 /* OrderViewController.swift */; };
 		845A09841F8C5E450068BB7D /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845A09831F8C5E450068BB7D /* ProductViewController.swift */; };
@@ -88,6 +90,8 @@
 		841AE4771F7B4CC500DB12D8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		841FBCB11F83026800DB3E0F /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		841FBCB51F8352E300DB3E0F /* SalesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesTableViewCell.swift; sourceTree = "<group>"; };
+		8440C2A41FBD1F5B008B0BC9 /* CustomTimerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTimerCell.xib; sourceTree = "<group>"; };
+		8440C2A61FBD1F81008B0BC9 /* CustomTimerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTimerCell.swift; sourceTree = "<group>"; };
 		84594F3F1F8EE31A00769605 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADVSegmentedControl.swift; sourceTree = "<group>"; };
 		84594F421F8EE8C500769605 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
 		845A09831F8C5E450068BB7D /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 		841AE4421F7B4B0500DB12D8 /* DeliveryFood */ = {
 			isa = PBXGroup;
 			children = (
+				8440C2A31FBD1F29008B0BC9 /* CustomCell */,
 				84E056041F95C14C006637CE /* DB */,
 				84594F411F8EE89600769605 /* Order */,
 				84594F3E1F8EE30700769605 /* ADVSegmentedControl */,
@@ -222,6 +227,15 @@
 				84A88CB71FA2AEC0009F5FED /* ShowError.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		8440C2A31FBD1F29008B0BC9 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				8440C2A41FBD1F5B008B0BC9 /* CustomTimerCell.xib */,
+				8440C2A61FBD1F81008B0BC9 /* CustomTimerCell.swift */,
+			);
+			path = CustomCell;
 			sourceTree = "<group>";
 		};
 		84594F3E1F8EE30700769605 /* ADVSegmentedControl */ = {
@@ -440,6 +454,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8440C2A51FBD1F5C008B0BC9 /* CustomTimerCell.xib in Resources */,
 				841AE44E1F7B4B0500DB12D8 /* LaunchScreen.storyboard in Resources */,
 				841AE44B1F7B4B0500DB12D8 /* Assets.xcassets in Resources */,
 				841AE4491F7B4B0500DB12D8 /* Main.storyboard in Resources */,
@@ -659,6 +674,7 @@
 				845F77B11F7C8C9A00043471 /* SalesViewController.swift in Sources */,
 				845B5ED01F95EB5A0068D1CD /* PageLoading.swift in Sources */,
 				848B22491FB3E29C00F3C0BA /* DeliveryAddressViewController.swift in Sources */,
+				8440C2A71FBD1F81008B0BC9 /* CustomTimerCell.swift in Sources */,
 				84E056061F95C168006637CE /* DBHelper.swift in Sources */,
 				845A09861F8C8F510068BB7D /* ProductTableViewCell.swift in Sources */,
 				841AE4761F7B4C6800DB12D8 /* Global.swift in Sources */,
@@ -840,13 +856,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DeliveryFood/DeliveryFood.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4HS4K74US2;
 				INFOPLIST_FILE = DeliveryFood/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ArinkGroup.DeliveryFood;
+				PRODUCT_BUNDLE_IDENTIFIER = Chixx.DeliveryFood;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -858,13 +876,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DeliveryFood/DeliveryFood.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4HS4K74US2;
 				INFOPLIST_FILE = DeliveryFood/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ArinkGroup.DeliveryFood;
+				PRODUCT_BUNDLE_IDENTIFIER = Chixx.DeliveryFood;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

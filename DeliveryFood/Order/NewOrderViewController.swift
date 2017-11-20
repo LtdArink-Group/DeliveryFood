@@ -15,6 +15,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var scrl_main: UIScrollView!
     @IBOutlet weak var btn_create_order: UIButton!
+    @IBOutlet weak var btn_delete_order: UIBarButtonItem!
     
     @IBOutlet weak var lbl_take_away: UILabel!
     @IBOutlet weak var lbl_sum_order: UILabel!
@@ -36,13 +37,15 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     }
     let requestManager = RequestOrder()
     
+    var from_orders = false
+    var order: JSON = []
+    var status: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
-        
-        preload_form()
         
     }
     
@@ -55,7 +58,14 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     {
         if self.tabBarController?.tabBar.items?[2].badgeValue == "" || self.tabBarController?.tabBar.items?[2].badgeValue == "0"
         {
-            go_to_old_order()
+            if from_orders
+            {
+                show_order(order: order)
+            }
+            else
+            {
+                go_to_old_order()
+            }
         }
         else
         {
@@ -114,13 +124,33 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         let btn_width = (UIScreen.main.bounds.size.width - btn_create_order.frame.width)/2
         height = height + 50
         btn_create_order.frame = CGRect(x: btn_width, y: height, width: btn_create_order.frame.width, height: btn_create_order.frame.height)
-        
-        let scrl_height = height < UIScreen.main.bounds.size.height - 64 ? UIScreen.main.bounds.size.height : height + 60
-        scrl_main.contentSize = CGSize(width: width, height: scrl_height + 1)
+        height = height + 64
+    
         scrl_main.frame = CGRect(x: 0,y: 64, width: width, height: UIScreen.main.bounds.size.height)
+        scrl_main.contentSize = CGSize(width: width, height: scrl_height(height: height))
         
-        set_costs_fields()
-        btn_create_order.playImplicitBounceAnimation()
+        if from_orders
+        {
+            set_costs_order_fields()
+            btn_create_order.setImage(UIImage(named: "btn_reorder"), for: .normal)
+            btn_create_order.playImplicitBounceAnimation()
+        }
+        else
+        {
+            set_costs_fields()
+            btn_create_order.playImplicitBounceAnimation()
+        }
+    }
+    
+    func scrl_height(height: CGFloat) -> CGFloat
+    {
+        if UIScreen.main.bounds.size.height - height > 40
+        {
+            return UIScreen.main.bounds.size.height + 1
+        }
+        else {
+            return height > UIScreen.main.bounds.size.height ? height + 60 : UIScreen.main.bounds.size.height + 40
+        }
     }
     
     @IBAction func on_clicked_btn_remove(_ sender: UIBarButtonItem) {
@@ -130,16 +160,30 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     func set_costs_fields()
     {
         sum_order.text = CURRENCY + String(Total_order_cost)
-        sum_sale.text = sw_take_away.isOn ? CURRENCY + String(Total_order_cost/10) : CURRENCY + "0"
+        sum_sale.text = sw_take_away.isOn ? CURRENCY + String(Total_order_cost/DELIVERY_DISCONT) : CURRENCY + "0"
         sum_delivery.text = sw_take_away.isOn ? CURRENCY + "0" : CURRENCY + String(Total_delivery_cost)
-        sum_total.text = sw_take_away.isOn ? CURRENCY + String(Total_order_cost - Total_order_cost/10) : CURRENCY + String(Total_order_cost + Total_delivery_cost)
+        sum_total.text = sw_take_away.isOn ? CURRENCY + String(Total_order_cost - Total_order_cost/DELIVERY_DISCONT) : CURRENCY + String(Total_order_cost + Total_delivery_cost)
+    }
+    
+    func set_costs_order_fields()
+    {
+        let total_order_cost = requestManager.total_order_sum
+        sum_order.text = CURRENCY + String(total_order_cost)
+        sum_sale.text = sw_take_away.isOn ? CURRENCY + String(total_order_cost/DELIVERY_DISCONT) : CURRENCY + "0"
+        sum_delivery.text = sw_take_away.isOn ? CURRENCY + "0" : CURRENCY + String(Total_delivery_cost)
+        sum_total.text = sw_take_away.isOn ? CURRENCY + String(total_order_cost - total_order_cost/DELIVERY_DISCONT) : CURRENCY + String(total_order_cost + Total_delivery_cost)
     }
     
     @IBAction func on_changed_sw_take_away(_ sender: UISwitch) {
+        let total_order_cost = from_orders ? requestManager.total_order_sum : Total_order_cost
+        if from_orders
+        {
+            Total_delivery_cost = total_order_cost >= COST_FREE_DELIVERY ? 0 : Total_delivery_cost
+        }
         Take_away = sender.isOn
-        sum_sale.text = sender.isOn ? CURRENCY + String(Total_order_cost/10) : CURRENCY + "0"
+        sum_sale.text = sender.isOn ? CURRENCY + String(total_order_cost/DELIVERY_DISCONT) : CURRENCY + "0"
         sum_delivery.text = sender.isOn ? CURRENCY + "0" : CURRENCY + String(Total_delivery_cost)
-        sum_total.text = sender.isOn ? CURRENCY + String(Total_order_cost - Total_order_cost/10) : CURRENCY + String(Total_order_cost + Total_delivery_cost)
+        sum_total.text = sender.isOn ? CURRENCY + String(total_order_cost - total_order_cost/DELIVERY_DISCONT) : CURRENCY + String(total_order_cost + Total_delivery_cost)
     }
     
     
@@ -220,6 +264,19 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         cell.lbl_sale = self.view.viewWithTag(1000000002) as? UILabel
         cell.lbl_delivery = self.view.viewWithTag(1000000003) as? UILabel
         cell.lbl_total = self.view.viewWithTag(1000000004) as? UILabel
+        if from_orders == true
+        {
+            cell.btn_plus.isHidden = true
+            cell.btn_minus.isHidden = true
+            cell.lbl_count.isHidden = true
+            cell.img_circle.isHidden = true
+        }
+        else {
+            cell.btn_plus.isHidden = false
+            cell.btn_minus.isHidden = false
+            cell.lbl_count.isHidden = false
+            cell.img_circle.isHidden = false
+        }
         return cell
     }
     
@@ -242,15 +299,70 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    func show_order(order: JSON)
+    {
+        img_no_order.isHidden = true
+        self.navigationItem.rightBarButtonItem = nil
+        scrl_main.isHidden = false
+        tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = 44
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        
+        get_results = []
+        requestManager.resetGet()
+        requestManager.get_exist_order(order: order["order_products"].arrayValue)
+//        requestManager.get_total_order_sum(order: order["order_products"].arrayValue)
+        updateGetResults()
+        correct_height_elements()
+    }
+    
 }
 
 class RequestOrder {
     
     var getResults = [JSON]()
+    var total_order_sum: Int = 0
     func get()
     {
         self.getResults = DBHelper().total_order()
+        print(self.getResults)
     }
+    
+    func get_exist_order(order: [JSON])
+    {
+        total_order_sum = 0
+        for each in order
+        {
+            print(each)
+            total_order_sum += each["total_cost"].intValue * each["qty"].intValue
+            self.getResults.append(["product_id" : each["product_id"].stringValue, "name" : each["main_option"].stringValue, "main_option" : each["main_option"].stringValue, "cost" : each["total_cost"].stringValue, "count" : each["qty"].stringValue, "type" : "p"])
+            if each["ingredients"].arrayValue.count > 0
+            {
+                for ing in each["ingredients"].arrayValue
+                {
+                    total_order_sum += each["total_cost"].intValue * ing["qty"].intValue
+                    self.getResults.append(["product_id" : each["product_id"].stringValue, "name" : ing["name"].stringValue, "main_option" : each["main_option"].stringValue, "cost" : each["total_cost"].stringValue, "count" : ing["qty"].stringValue, "type" : "i"])
+                }
+            }
+        }
+    }
+    
+//    func get_total_order_sum(order: [JSON])
+//    {
+//        total_order_sum = 0
+//        for each in order
+//        {
+//            total_order_sum += each["total_cost"].intValue * each["qty"].intValue
+//            if each["ingredients"].arrayValue.count > 0
+//            {
+//                for ing in each["ingredients"].arrayValue
+//                {
+//                    total_order_sum += each["total_cost"].intValue * ing["qty"].intValue
+//                }
+//            }
+//        }
+//    }
     
     func resetGet() {
         getResults = []

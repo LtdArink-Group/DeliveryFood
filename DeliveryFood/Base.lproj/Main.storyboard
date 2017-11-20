@@ -701,8 +701,8 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Pa3-Pj-zSd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="selectedImageTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="0.97982567549999999" green="0.53176766630000005" blue="0.088088519870000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" red="0.97982567549999999" green="0.53176766630000005" blue="0.088088519870000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                 <color key="value" red="0.99189978837966919" green="0.57755172252655029" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -733,10 +733,10 @@
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                 <color key="value" red="0.99189954996109009" green="0.57754439115524292" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                 <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
                                 <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
@@ -907,6 +907,9 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
+                                                    <outlet property="btn_minus" destination="wQx-jV-Dvg" id="vzM-jp-iB5"/>
+                                                    <outlet property="btn_plus" destination="fe8-Kh-40M" id="fnS-Z6-Krj"/>
+                                                    <outlet property="img_circle" destination="k8O-MJ-PAX" id="8fD-CS-ztN"/>
                                                     <outlet property="lbl_cost" destination="jFA-75-Lc2" id="bmj-sP-AC4"/>
                                                     <outlet property="lbl_count" destination="wZo-Ih-M4I" id="x4S-8q-yeQ"/>
                                                     <outlet property="lbl_title" destination="rj8-qE-6K4" id="yRY-Cl-exk"/>
@@ -926,82 +929,82 @@
                                             <segue destination="GxX-q5-gZM" kind="show" id="Y3v-YK-OTY"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Самовывоз: скидка - 10%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztZ-xL-p5e" userLabel="lbl_take_away">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Самовывоз: скидка - 10%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztZ-xL-p5e" userLabel="lbl_take_away">
                                         <rect key="frame" x="16" y="128" width="240" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Сумма заказа:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w0J-AA-XDF" userLabel="lbl_sum_order">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Сумма заказа:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w0J-AA-XDF" userLabel="lbl_sum_order">
                                         <rect key="frame" x="16" y="157" width="203" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Скидка:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3id-mv-92o" userLabel="lbl_sale">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Скидка:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3id-mv-92o" userLabel="lbl_sale">
                                         <rect key="frame" x="16" y="186" width="190" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Доставка:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FKX-fd-DT2" userLabel="lbl_delivery">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Доставка:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FKX-fd-DT2" userLabel="lbl_delivery">
                                         <rect key="frame" x="16" y="215" width="203" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="К оплате:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wjf-vw-4nZ" userLabel="lbl_all_sum">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="К оплате:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wjf-vw-4nZ" userLabel="lbl_all_sum">
                                         <rect key="frame" x="16" y="244" width="190" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <switch opaque="NO" tag="1000000000" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ALp-e2-ULr" userLabel="swch_take_away">
+                                    <switch opaque="NO" tag="1000000000" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ALp-e2-ULr" userLabel="swch_take_away">
                                         <rect key="frame" x="328" y="123" width="49" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" red="0.97982567549999999" green="0.53176766630000005" blue="0.088088519870000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="onTintColor" red="0.99189954999999996" green="0.57754439120000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <action selector="on_changed_sw_take_away:" destination="AiO-4c-Sdd" eventType="valueChanged" id="h0I-os-xJw"/>
                                         </connections>
                                     </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" tag="1000000001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cip-if-3Gd" userLabel="sum_order">
+                                    <label opaque="NO" userInteractionEnabled="NO" tag="1000000001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cip-if-3Gd" userLabel="sum_order">
                                         <rect key="frame" x="328" y="157" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" tag="1000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8C-ry-L7E" userLabel="sale">
+                                    <label opaque="NO" userInteractionEnabled="NO" tag="1000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8C-ry-L7E" userLabel="sale">
                                         <rect key="frame" x="328" y="186" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" tag="1000000003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIp-y1-oJO" userLabel="delivery">
+                                    <label opaque="NO" userInteractionEnabled="NO" tag="1000000003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIp-y1-oJO" userLabel="delivery">
                                         <rect key="frame" x="328" y="215" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" tag="1000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H0Y-K4-63f" userLabel="all_sum">
+                                    <label opaque="NO" userInteractionEnabled="NO" tag="1000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H0Y-K4-63f" userLabel="all_sum">
                                         <rect key="frame" x="328" y="244" width="59" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="gIp-y1-oJO" secondAttribute="trailing" constant="25" id="0Wa-sl-Xat"/>
-                                    <constraint firstAttribute="trailing" secondItem="ALp-e2-ULr" secondAttribute="trailing" constant="39" id="1E5-aV-wOS"/>
-                                    <constraint firstAttribute="trailing" secondItem="d8C-ry-L7E" secondAttribute="trailing" constant="25" id="39h-fM-FRd"/>
-                                    <constraint firstAttribute="trailing" secondItem="cip-if-3Gd" secondAttribute="trailing" constant="25" id="5bD-qH-sB1"/>
                                     <constraint firstItem="1zz-g2-Qmg" firstAttribute="top" secondItem="dwp-Qe-x9t" secondAttribute="top" constant="8" id="DVC-vG-rZK"/>
-                                    <constraint firstAttribute="trailing" secondItem="H0Y-K4-63f" secondAttribute="trailing" constant="8" id="QS6-nE-x9D"/>
-                                    <constraint firstItem="w0J-AA-XDF" firstAttribute="leading" secondItem="dwp-Qe-x9t" secondAttribute="leading" constant="16" id="SZV-VW-rDZ"/>
                                     <constraint firstItem="lLs-DW-9Kv" firstAttribute="top" secondItem="1zz-g2-Qmg" secondAttribute="bottom" constant="4" id="SkD-y0-uCc"/>
-                                    <constraint firstItem="3id-mv-92o" firstAttribute="leading" secondItem="dwp-Qe-x9t" secondAttribute="leading" constant="16" id="Zbp-Hx-tg5"/>
-                                    <constraint firstItem="ztZ-xL-p5e" firstAttribute="leading" secondItem="dwp-Qe-x9t" secondAttribute="leading" constant="16" id="b7P-J2-jhD"/>
-                                    <constraint firstItem="Wjf-vw-4nZ" firstAttribute="leading" secondItem="dwp-Qe-x9t" secondAttribute="leading" constant="16" id="bz5-O6-1Mq"/>
-                                    <constraint firstItem="FKX-fd-DT2" firstAttribute="leading" secondItem="dwp-Qe-x9t" secondAttribute="leading" constant="16" id="hUP-4w-CrZ"/>
                                     <constraint firstItem="1zz-g2-Qmg" firstAttribute="leading" secondItem="dwp-Qe-x9t" secondAttribute="leading" constant="16" id="rEd-9Y-Dg0"/>
                                 </constraints>
                             </scrollView>
@@ -1017,6 +1020,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="btn_create_order" destination="0bz-EZ-ZqK" id="J4e-oo-s7l"/>
+                        <outlet property="btn_delete_order" destination="bih-3U-nvB" id="Z70-cc-WTP"/>
                         <outlet property="img_no_order" destination="LXf-0T-COQ" id="RCE-4b-Xyn"/>
                         <outlet property="lbl_delivery" destination="FKX-fd-DT2" id="rT5-ov-Tbw"/>
                         <outlet property="lbl_sale" destination="3id-mv-92o" id="py5-K4-II1"/>
@@ -1056,7 +1060,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Мои заказы" id="diC-OT-UPM"/>
+                    <navigationItem key="navigationItem" title="Мои заказы" id="diC-OT-UPM">
+                        <barButtonItem key="backBarButtonItem" title=" " id="CeW-Mf-1yL"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="img_no_order" destination="If0-ue-yS9" id="gnZ-AJ-Zge"/>
                     </connections>
@@ -1253,7 +1259,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9aj-iC-8Xg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-626" y="1566"/>
+            <point key="canvasLocation" x="-768" y="1605"/>
         </scene>
         <!--Адрес доставки-->
         <scene sceneID="Nmg-ek-cvb">

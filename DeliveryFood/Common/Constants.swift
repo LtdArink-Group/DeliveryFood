@@ -18,10 +18,11 @@ var COMPANY_ID = 1
 var CITY = "Хабаровск"
 var TIME_HOUR_FROM = 11
 var TIME_HOUR_TO = 20
+var DELIVERY_DISCONT = 10
 
 //MARK: Colors
 var FIRST_COLOR = 0xFA8109
-var SECOND_COLOR = 0xAAC92D
+var SECOND_COLOR = 0x9BC122 //AAC92D
 
 //MARK: Server properties
 var SERVER_NAME = "http://23.101.67.216:8080"

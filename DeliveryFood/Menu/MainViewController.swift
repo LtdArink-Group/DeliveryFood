@@ -36,10 +36,12 @@ class MainViewController: FormViewController {
                 let contact_info = json["contact_info"] as! [String: Any]
                 PHONE = contact_info["phone"] as! String
                 print(PHONE)
-//                TIME_HOUR_FROM =
-//                TIME_HOUR_TO = 
-//                COST_DELIVERY = json["cost_delivery"] as! Int
-//                COST_FREE_DELIVERY = json["cost_free_delivery"] as! Int
+//                TIME_HOUR_FROM = contact_info["delivery"]["period"]["start"] as! String
+//                TIME_HOUR_TO =
+                let dev = json["delivery"] as! [String: Any]
+                COST_DELIVERY = dev["cost"] as! Int
+                COST_FREE_DELIVERY = dev["free_shipping"] as! Int
+                DELIVERY_DISCONT = dev["pickup_discount"] as! Int
                 self.get_categories_info()
             }
         }
@@ -138,6 +140,7 @@ class MainViewController: FormViewController {
     override func viewDidAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.update_header_costs), name: NSNotification.Name(rawValue: "come_to_products"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.update_header_costs), name: NSNotification.Name(rawValue: "remove_total_order"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.update_header_costs), name: NSNotification.Name(rawValue: "order_done"), object: nil)
     }
     
     deinit {
