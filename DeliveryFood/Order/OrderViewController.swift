@@ -27,6 +27,7 @@ class OrderViewController: FormViewController {
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.updateGetResults), name: NSNotification.Name(rawValue: "get_result_orders"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "cancel_order"), object: nil)
         preload_form()
     }
     
@@ -34,12 +35,16 @@ class OrderViewController: FormViewController {
         preload_form()
     }
     
+    @objc func reload_form()
+    {
+        request = false
+        form.removeAll()
+        preload_form()
+    }
+    
     func preload_form()
     {
         self.navigationItem.setHidesBackButton(true, animated:true)
-//        let arr_orders: [[String: String]] = [["address": "Ленинградская 46 - оф. 605", "title_address": "работа", "date": "08.10.2017", "time": "15-00", "cost": "1700", "id": "1"],
-//                          ["address": "Уборевича 42а - кв. 47", "title_address": "дом", "date": "10.10.2017", "time": "20-00", "cost": "1200", "id": "2"],
-//                          ["address": "Ленина 46 - кв. 51", "title_address": "любовница", "date": "12.10.2017", "time": "21-00", "cost": "2500", "id": "3"]]
         if self.tabBarController?.tabBar.items?[2].badgeValue == "" || self.tabBarController?.tabBar.items?[2].badgeValue == "0"
         {
             if form.isEmpty && !request
@@ -77,12 +82,13 @@ class OrderViewController: FormViewController {
     
     func get_active_orders(arr_orders: [JSON]) -> [JSON]
     {
-        return arr_orders.filter { ($0["status"].stringValue == "Новый" || $0["status"].stringValue == "Подтвержден") && Helper().get_date_from_string($0["delivery_time"].stringValue) >= Helper().get_today() }
+        print(Helper().get_today())
+        return arr_orders.filter { ($0["status"].stringValue == "Новый" || $0["status"].stringValue == "Подтвержден") && Helper().get_date_from_string($0["delivery_time"].stringValue) >= Helper().get_now() }
     }
 
     func get_old_orders(arr_orders: [JSON]) -> [JSON]
     {
-        return arr_orders.filter { ($0["status"].stringValue != "Новый" || $0["status"].stringValue != "Подтвержден") && !(Helper().get_date_from_string($0["delivery_time"].stringValue) >= Helper().get_today()) }
+        return arr_orders.filter { (($0["status"].stringValue != "Новый" || $0["status"].stringValue != "Подтвержден") && (Helper().get_date_from_string($0["delivery_time"].stringValue) < Helper().get_now()) || $0["status"].stringValue == "Отменен") }
     }
     
 
@@ -96,12 +102,13 @@ class OrderViewController: FormViewController {
                 for (_, each) in get_active_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
                 {
                     var address = each["address_info"]
-                    let str_address = address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
+                    let total_cost = each["total_cost"].intValue + each["delivery_cost"].intValue
+                    let str_address = address["street"].stringValue == "" ? "Самовывоз" : address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
                     on  <<< CustomTimerRow() {
                         $0.cellProvider = CellProvider<CustomTimerCell>(nibName: "CustomTimerCell")
                         $0.cell.height = {99}
                         $0.cell.lbl_title.text = str_address + "\n"
-                            + Helper().string_date_from_string(each["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(each["delivery_time"].stringValue) + " - " + CURRENCY + " " + each["total_cost"].stringValue.dropLast(2)
+                            + Helper().string_date_from_string(each["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(each["delivery_time"].stringValue) + " - " + CURRENCY + String(total_cost)
                         $0.cell.lbl_state.text = each["status"].stringValue
                         $0.cell.lbl_timer.addTime(time: get_rest_time(datetime: each["delivery_time"].stringValue))
                         $0.cell.lbl_timer.start()
@@ -117,16 +124,18 @@ class OrderViewController: FormViewController {
                 for (index, each) in get_old_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
                 {
                     var address = each["address_info"]
-                    let str_address = address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
+                    let total_cost = each["total_cost"].intValue + each["delivery_cost"].intValue
+                    let str_address = address["street"].stringValue == "" ? "Самовывоз" : address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
                     on <<< LabelRow() {
                         $0.cell.backgroundColor = index % 2 != 0 ? Helper().UIColorFromRGB(rgbValue: 0xCEF8B6) : .white
                         $0.title = str_address + "\n"
-                            + Helper().string_date_from_string(each["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(each["delivery_time"].stringValue) + " - " + CURRENCY + " " + each["total_cost"].stringValue.dropLast(2)
+                            + Helper().string_date_from_string(each["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(each["delivery_time"].stringValue) + " - " + CURRENCY + String(total_cost)
                         $0.cell.textLabel?.font = UIFont(name: "Helvetica", size: 13)
                         $0.cell.textLabel?.numberOfLines = 2
                         $0.cell.accessoryType = .disclosureIndicator
+                        $0.cell.imageView?.image = UIImage(named: Helper().get_icon(title: address["title"].stringValue))
                         }.onCellSelection {row,cell in
-//                            self.go_to_order(id: Int(each["id"]!)!)
+                            self.go_to_order(order: each, status: "old")
                     }
                 }
         }

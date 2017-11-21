@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import Alamofire
 
 class NewOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
 
@@ -132,12 +133,18 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         if from_orders
         {
             set_costs_order_fields()
-            btn_create_order.setImage(UIImage(named: "btn_reorder"), for: .normal)
-            btn_create_order.playImplicitBounceAnimation()
+            if status == "old"
+            {
+                btn_create_order.setImage(UIImage(named: "btn_reorder"), for: .normal)
+                btn_create_order.playImplicitBounceAnimation()
+            }
+            else {
+                btn_create_order.setImage(UIImage(named: "btn_cancel_order"), for: .normal)
+            }
         }
         else
         {
-            set_costs_fields()
+            set_costs_fields(total_order_cost: Total_order_cost, delivery_cost: Total_delivery_cost)
             btn_create_order.playImplicitBounceAnimation()
         }
     }
@@ -157,21 +164,20 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         show_message_remove()
     }
     
-    func set_costs_fields()
+    func set_costs_fields(total_order_cost: Int, delivery_cost: Int)
     {
-        sum_order.text = CURRENCY + String(Total_order_cost)
-        sum_sale.text = sw_take_away.isOn ? CURRENCY + String(Total_order_cost/DELIVERY_DISCONT) : CURRENCY + "0"
-        sum_delivery.text = sw_take_away.isOn ? CURRENCY + "0" : CURRENCY + String(Total_delivery_cost)
-        sum_total.text = sw_take_away.isOn ? CURRENCY + String(Total_order_cost - Total_order_cost/DELIVERY_DISCONT) : CURRENCY + String(Total_order_cost + Total_delivery_cost)
+        sum_order.text = CURRENCY + String(total_order_cost)
+        sum_sale.text = sw_take_away.isOn ? CURRENCY + String(total_order_cost/DELIVERY_DISCONT) : CURRENCY + "0"
+        sum_delivery.text = sw_take_away.isOn ? CURRENCY + "0" : CURRENCY + String(delivery_cost)
+        sum_total.text = sw_take_away.isOn ? CURRENCY + String(total_order_cost - total_order_cost/DELIVERY_DISCONT) : CURRENCY + String(total_order_cost + delivery_cost)
     }
     
     func set_costs_order_fields()
     {
+        sw_take_away.isOn = order["pickup"].boolValue
         let total_order_cost = requestManager.total_order_sum
-        sum_order.text = CURRENCY + String(total_order_cost)
-        sum_sale.text = sw_take_away.isOn ? CURRENCY + String(total_order_cost/DELIVERY_DISCONT) : CURRENCY + "0"
-        sum_delivery.text = sw_take_away.isOn ? CURRENCY + "0" : CURRENCY + String(Total_delivery_cost)
-        sum_total.text = sw_take_away.isOn ? CURRENCY + String(total_order_cost - total_order_cost/DELIVERY_DISCONT) : CURRENCY + String(total_order_cost + Total_delivery_cost)
+        let delivery_cost = order["delivery_cost"].intValue
+        set_costs_fields(total_order_cost: total_order_cost, delivery_cost: delivery_cost)
     }
     
     @IBAction func on_changed_sw_take_away(_ sender: UISwitch) {
@@ -312,10 +318,53 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         get_results = []
         requestManager.resetGet()
         requestManager.get_exist_order(order: order["order_products"].arrayValue)
-//        requestManager.get_total_order_sum(order: order["order_products"].arrayValue)
         updateGetResults()
         correct_height_elements()
     }
+    
+    @IBAction func on_clicked_create_order(_ sender: UIButton)
+    {
+        if from_orders && status == "old"
+        {
+            //reorder
+        }
+        else if from_orders && status != "old"
+        {
+            //cancel
+            if order["status"] == "Новый"
+            {
+                cancel_order()
+            }
+            else {
+                PageLoading().showLoading()
+                ShowError().show_error(text: "Ваш заказ подтвержден. Его отменить нельзя! Позвоните оператору.")
+            }
+        }
+        else {
+            let controller : DeliveryAddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeliveryAddressViewController") as! DeliveryAddressViewController
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+    
+    func cancel_order()
+    {
+        let url = SERVER_NAME + "/api/orders/\(order["id"].stringValue)/cancel"
+        Alamofire.request(url, method: .post, encoding: JSONEncoding.default)
+            .responseJSON() { (response) -> Void in
+                if let json = response.result.value as? [String: Any] {
+                    if json["errors"] as? [String: Any] != nil
+                    {
+                        PageLoading().showLoading()
+                        ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
+                    }
+                    else {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cancel_order"), object: nil)
+                        self.navigationController?.popViewController(animated: false)
+                    }
+                }
+        }
+    }
+    
     
 }
 
@@ -335,34 +384,37 @@ class RequestOrder {
         for each in order
         {
             print(each)
-            total_order_sum += each["total_cost"].intValue * each["qty"].intValue
-            self.getResults.append(["product_id" : each["product_id"].stringValue, "name" : each["main_option"].stringValue, "main_option" : each["main_option"].stringValue, "cost" : each["total_cost"].stringValue, "count" : each["qty"].stringValue, "type" : "p"])
+            var cost_ings = 0
             if each["ingredients"].arrayValue.count > 0
             {
                 for ing in each["ingredients"].arrayValue
                 {
-                    total_order_sum += each["total_cost"].intValue * ing["qty"].intValue
-                    self.getResults.append(["product_id" : each["product_id"].stringValue, "name" : ing["name"].stringValue, "main_option" : each["main_option"].stringValue, "cost" : each["total_cost"].stringValue, "count" : ing["qty"].stringValue, "type" : "i"])
+                    cost_ings += ing["total_cost"].intValue
+                }
+            }
+            let prod_cost = String((each["total_cost"].intValue - cost_ings) / each["qty"].intValue) + ".0"
+            total_order_sum += each["total_cost"].intValue
+            self.getResults.append(["product_id" : each["product_id"].stringValue,
+                                    "name" : each["product_title"].stringValue,
+                                    "main_option" : each["main_option"].stringValue,
+                                    "cost" : prod_cost,
+                                    "count" : each["qty"].stringValue,
+                                    "type" : "p"])
+            if each["ingredients"].arrayValue.count > 0
+            {
+                for ing in each["ingredients"].arrayValue
+                {
+                    let ing_cost = String(ing["total_cost"].intValue / ing["qty"].intValue) + ".0"
+                    self.getResults.append(["product_id" : each["product_id"].stringValue,
+                                            "name" : ing["name"].stringValue,
+                                            "main_option" : each["main_option"].stringValue,
+                                            "cost" : ing_cost,
+                                            "count" : ing["qty"].stringValue,
+                                            "type" : "i"])
                 }
             }
         }
     }
-    
-//    func get_total_order_sum(order: [JSON])
-//    {
-//        total_order_sum = 0
-//        for each in order
-//        {
-//            total_order_sum += each["total_cost"].intValue * each["qty"].intValue
-//            if each["ingredients"].arrayValue.count > 0
-//            {
-//                for ing in each["ingredients"].arrayValue
-//                {
-//                    total_order_sum += each["total_cost"].intValue * ing["qty"].intValue
-//                }
-//            }
-//        }
-//    }
     
     func resetGet() {
         getResults = []

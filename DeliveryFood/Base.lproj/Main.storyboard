@@ -926,7 +926,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                         <state key="normal" image="btn_order"/>
                                         <connections>
-                                            <segue destination="GxX-q5-gZM" kind="show" id="Y3v-YK-OTY"/>
+                                            <action selector="on_clicked_create_order:" destination="AiO-4c-Sdd" eventType="touchUpInside" id="ZuM-z9-ty7"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Самовывоз: скидка - 10%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztZ-xL-p5e" userLabel="lbl_take_away">
@@ -1035,6 +1035,7 @@
                         <outlet property="sw_take_away" destination="ALp-e2-ULr" id="A1U-XN-dIl"/>
                         <outlet property="tableView" destination="lLs-DW-9Kv" id="aRu-MY-iR2"/>
                         <segue destination="a7E-UF-1bJ" kind="show" identifier="goto_old_order" animates="NO" id="usN-Sq-mqR"/>
+                        <segue destination="GxX-q5-gZM" kind="show" id="F3T-f0-QS4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eJU-0f-t0S" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1219,7 +1220,7 @@
         <!--Адрес и время доставки-->
         <scene sceneID="wc3-iG-GNh">
             <objects>
-                <viewController id="GxX-q5-gZM" customClass="DeliveryAddressViewController" customModule="DeliveryFood" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DeliveryAddressViewController" id="GxX-q5-gZM" customClass="DeliveryAddressViewController" customModule="DeliveryFood" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="g5y-Ka-kil"/>
                         <viewControllerLayoutGuide type="bottom" id="1OB-o7-1Qg"/>

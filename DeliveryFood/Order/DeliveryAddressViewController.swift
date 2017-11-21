@@ -203,6 +203,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         }
             
             +++ Section("Выберите адрес или добавьте новый") { on in
+                on.hidden = Take_away == true ? true : false
                 for (index, each) in Helper().sort_address(array: addresses).enumerated()
                 {
                     address_id = index == 0 ? (each["id"] as? Int)! : address_id
@@ -285,14 +286,14 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             }
             index += 1
         }
-        return false
+        return Take_away
     }
     
     func get_delivery_time() -> String
     {
         let time_row: TimeInlineRow = self.form.rowBy(tag: "DeliveryTimeRow")!
         let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+//        formatter.timeZone = TimeZone(secondsFromGMT: 0)
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         let dateFromString = formatter.string(from: time_row.value!)
@@ -347,7 +348,36 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         else {
             print("click")
             PageLoading().showLoading()
-            CreateOrderViewController().post_order(address_id: address_id, delivery_time: get_delivery_time())
+            if new_profile
+            {
+                post_profile()
+            }
+            else {
+                CreateOrderViewController().post_order(address_id: address_id, delivery_time: get_delivery_time())
+            }
+        }
+    }
+    
+    func post_profile()
+    {
+        let url = SERVER_NAME + "/api/accounts/"
+        let params = [
+            "id": "\(ID_phone)",
+            "name": name,
+            "phone": phone,
+            "email": email
+        ]
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default)
+            .responseJSON() { (response) -> Void in
+                if let json = response.result.value as? [String: Any] {
+                    if json["errors"] as? [String: Any] != nil
+                    {
+                        ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
+                    }
+                    else {
+                        CreateOrderViewController().post_order(address_id: self.address_id, delivery_time: self.get_delivery_time())
+                    }
+                }
         }
     }
     

@@ -53,12 +53,17 @@ class CreateOrderViewController {
     
     func post_order(address_id: Int, delivery_time: String)
     {
-        let params = [
+        let params = Take_away == true ? [
+            "company_id": COMPANY_ID,
+            "account_id" : ID_phone,
+            "delivery_time": "\(delivery_time)",
+            "order_products": create_array_json_order(),
+            "pickup": Take_away
+            ]  : [
             "company_id": COMPANY_ID,
             "account_id" : ID_phone,
             "address_id": address_id,
             "delivery_time": "\(delivery_time)",
-            "take_away": Take_away,
             "order_products": create_array_json_order()
         ] as [String : Any]
         print(params)
@@ -70,6 +75,8 @@ class CreateOrderViewController {
                         print(json)
                         if json["errors"] as? [String: Any] != nil
                         {
+//                            let err = json["errors"] as? [String: Any]
+//                            ShowError().show_error(text: String(describing: err!["address_id"] as? Any) )
                             ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
                         }
                         else {

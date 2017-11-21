@@ -64,7 +64,8 @@ class Helper {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         let convertedDate = dateFormatter.date(from: datetime)
         dateFormatter.dateFormat = "dd.MM.yyyy"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.timeZone = TimeZone.current
+//        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         let date = dateFormatter.string(from: convertedDate!)
         return date
     }
@@ -76,8 +77,8 @@ class Helper {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         let convertedDate = dateFormatter.date(from: datetime)
         dateFormatter.dateFormat = "HH:mm"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-//        dateFormatter.timeZone = TimeZone.current
+//        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.timeZone = TimeZone.current
 //        dateFormatter.timeZone = NSTimeZone.init(abbreviation: "VLAT") as TimeZone!
         let time = dateFormatter.string(from: convertedDate!)
         return time
@@ -87,7 +88,8 @@ class Helper {
     {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.timeZone = TimeZone.current
+//        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         let str = dateFormatter.string(from: NSDate() as Date)
         let date = dateFormatter.date(from: str)
         return date!
@@ -97,7 +99,8 @@ class Helper {
     {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.timeZone = TimeZone.current
+//        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         let date = dateFormatter.date(from: datetime)
         return date!
     }
@@ -107,7 +110,8 @@ class Helper {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let str = dateFormatter.string(from: NSDate() as Date)
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.timeZone = TimeZone.current
+//        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         let date = dateFormatter.date(from: str)
         return date!
     }
