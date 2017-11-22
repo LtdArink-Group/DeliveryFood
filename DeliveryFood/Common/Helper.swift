@@ -57,6 +57,17 @@ class Helper {
         }
     }
     
+    func scrl_height(height: CGFloat, height_screen: CGFloat) -> CGFloat
+    {
+        if height_screen - height > 40
+        {
+            return height_screen + 1
+        }
+        else {
+            return height > height_screen ? height + 60 : height_screen + 40
+        }
+    }
+    
     func string_date_from_string(_ datetime:String) -> String
     {
         let dateFormatter = DateFormatter()

@@ -23,6 +23,7 @@ target 'DeliveryFood' do
   pod 'RAMAnimatedTabBarController'
   pod 'SQLite.swift', '~> 0.11.4'
   pod 'CountdownLabel'
+  pod 'GoogleMaps'
 
   target 'DeliveryFoodTests' do
     inherit! :search_paths

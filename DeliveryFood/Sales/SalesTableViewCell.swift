@@ -41,7 +41,7 @@ class SalesTableViewCell: UITableViewCell {
 
         let rootViewController = self.window?.rootViewController as! UITabBarController!
         let tabArray = rootViewController?.tabBar.items as NSArray!
-        let tabItem = tabArray?.object(at: 2) as! UITabBarItem
+        let tabItem = tabArray?.object(at: 1) as! UITabBarItem
         
         if old_value <= Int(sender.value)
         {

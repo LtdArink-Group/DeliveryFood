@@ -57,7 +57,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     
     func preload_form()
     {
-        if self.tabBarController?.tabBar.items?[2].badgeValue == "" || self.tabBarController?.tabBar.items?[2].badgeValue == "0"
+        if self.tabBarController?.tabBar.items?[1].badgeValue == "" || self.tabBarController?.tabBar.items?[1].badgeValue == "0"
         {
             if from_orders
             {
@@ -128,7 +128,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         height = height + 64
     
         scrl_main.frame = CGRect(x: 0,y: 64, width: width, height: UIScreen.main.bounds.size.height)
-        scrl_main.contentSize = CGSize(width: width, height: scrl_height(height: height))
+        scrl_main.contentSize = CGSize(width: width, height: Helper().scrl_height(height: height, height_screen: UIScreen.main.bounds.size.height))
         
         if from_orders
         {
@@ -146,17 +146,6 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         {
             set_costs_fields(total_order_cost: Total_order_cost, delivery_cost: Total_delivery_cost)
             btn_create_order.playImplicitBounceAnimation()
-        }
-    }
-    
-    func scrl_height(height: CGFloat) -> CGFloat
-    {
-        if UIScreen.main.bounds.size.height - height > 40
-        {
-            return UIScreen.main.bounds.size.height + 1
-        }
-        else {
-            return height > UIScreen.main.bounds.size.height ? height + 60 : UIScreen.main.bounds.size.height + 40
         }
     }
     
@@ -213,7 +202,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     {
         scrl_main.isHidden = true
         img_no_order.isHidden = false
-        tabBarController?.tabBar.items?[2].badgeValue = "0"
+        tabBarController?.tabBar.items?[1].badgeValue = "0"
         DBHelper().delete_order()
         Total_order_cost = 0
         Total_delivery_cost = COST_DELIVERY

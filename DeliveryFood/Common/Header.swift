@@ -13,8 +13,7 @@ class Header {
 
     @objc func on_clicked_call(sender: UIButton)
     {
-        print(PHONE)
-        let phone:NSURL = NSURL(string: "tel://\(PHONE)")!
+        let phone:NSURL = NSURL(string: "tel://\(PHONE.digits)")!
         UIApplication.shared.openURL(phone as URL)
     }
     

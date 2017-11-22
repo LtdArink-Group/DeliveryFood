@@ -130,6 +130,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProductTableViewCell
         cell.img_product.sd_setImage(with: URL(string: get_results[indexPath.row]["photo"].stringValue), placeholderImage: UIImage(named: "img_translucent"))
         cell.lbl_title.text = get_results[indexPath.row]["title"].stringValue
+        cell.lbl_title.underline()
         cell.lbl_info.text = get_results[indexPath.row]["description"].stringValue
 
         let arr_kinds = get_results[indexPath.row]["main_options"].arrayValue

@@ -35,16 +35,27 @@ class MainViewController: FormViewController {
             if let json = response.result.value  as? [String: Any] {
                 let contact_info = json["contact_info"] as! [String: Any]
                 PHONE = contact_info["phone"] as! String
-                print(PHONE)
-//                TIME_HOUR_FROM = contact_info["delivery"]["period"]["start"] as! String
-//                TIME_HOUR_TO =
+                COMPANY_EMAIL = [contact_info["email"] as! String]
+                GEOTEG = contact_info["geoteg"] as! [String]
                 let dev = json["delivery"] as! [String: Any]
                 COST_DELIVERY = dev["cost"] as! Int
+                let period = dev["period"] as! [String: Any]
+                let start = (period["start"] as! String!)
+                let end = period["end"] as! String!
+                TIME_HOUR_FROM = self.get_hour(time: start!)
+                TIME_HOUR_TO = self.get_hour(time: end!)
                 COST_FREE_DELIVERY = dev["free_shipping"] as! Int
                 DELIVERY_DISCONT = dev["pickup_discount"] as! Int
+                COMPANY_INFO = json["description"] as! String
                 self.get_categories_info()
             }
         }
+    }
+    
+    func get_hour(time: String) -> Int
+    {
+        let arr_time = time.split(separator: " ")[0].split(separator: ":")
+        return Int(arr_time[0])!
     }
     
     func get_categories_info()
@@ -87,7 +98,7 @@ class MainViewController: FormViewController {
     func set_tabbar_value()
     {
         Total_order_cost = DBHelper().sum_products_order() + DBHelper().sum_ingredients_order()
-        tabBarController?.tabBar.items?[2].badgeValue = DBHelper().count_prod_in_order() > 0 ? String(DBHelper().count_prod_in_order()) : "0"
+        tabBarController?.tabBar.items?[1].badgeValue = DBHelper().count_prod_in_order() > 0 ? String(DBHelper().count_prod_in_order()) : "0"
         set_order_cost()
         check_free_delivery()
     }

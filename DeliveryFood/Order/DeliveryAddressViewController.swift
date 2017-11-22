@@ -83,7 +83,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         
         form
             
-            +++ Section("Время доставки")
+            +++ Section("Время заказа")
             <<< TimeInlineRow("DeliveryTimeRow"){
                 $0.title = "Выберите время"
                 let currentDate = Date()
@@ -401,7 +401,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     @objc func goto_well_done()
     {
         PageLoading().hideLoading()
-        tabBarController?.tabBar.items?[2].badgeValue = "0"
+        tabBarController?.tabBar.items?[1].badgeValue = "0"
         let controller : WellDoneViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellDoneViewController") as! WellDoneViewController
         self.navigationController?.pushViewController(controller, animated: false)
     }

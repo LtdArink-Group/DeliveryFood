@@ -45,7 +45,7 @@ class OrderViewController: FormViewController {
     func preload_form()
     {
         self.navigationItem.setHidesBackButton(true, animated:true)
-        if self.tabBarController?.tabBar.items?[2].badgeValue == "" || self.tabBarController?.tabBar.items?[2].badgeValue == "0"
+        if self.tabBarController?.tabBar.items?[1].badgeValue == "" || self.tabBarController?.tabBar.items?[1].badgeValue == "0"
         {
             if form.isEmpty && !request
             {
@@ -121,13 +121,13 @@ class OrderViewController: FormViewController {
             +++ Section("Предыдущие заказы") { on in
 //                on.header?.height = {33}
                 on.hidden = get_old_orders(arr_orders: arr_orders).count > 0 ? false : true
-                for (index, each) in get_old_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
+                for (_, each) in get_old_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
                 {
                     var address = each["address_info"]
                     let total_cost = each["total_cost"].intValue + each["delivery_cost"].intValue
                     let str_address = address["street"].stringValue == "" ? "Самовывоз" : address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
                     on <<< LabelRow() {
-                        $0.cell.backgroundColor = index % 2 != 0 ? Helper().UIColorFromRGB(rgbValue: 0xCEF8B6) : .white
+//                        $0.cell.backgroundColor = index % 2 != 0 ? Helper().UIColorFromRGB(rgbValue: 0xCEF8B6) : .white
                         $0.title = str_address + "\n"
                             + Helper().string_date_from_string(each["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(each["delivery_time"].stringValue) + " - " + CURRENCY + String(total_cost)
                         $0.cell.textLabel?.font = UIFont(name: "Helvetica", size: 13)
