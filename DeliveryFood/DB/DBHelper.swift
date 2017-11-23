@@ -346,6 +346,42 @@ class DBHelper {
         }
     }
     
+    func create_order_from_backend(be_product_id: Int, be_name: String, be_main_option: String, be_cost: Double, be_count: Int)
+    {
+        self.connection()
+        let product_id = Expression<Int>("product_id")
+        let name = Expression<String>("name")
+        let main_option = Expression<String>("main_option")
+        let cost = Expression<Double>("cost")
+        let count = Expression<Int>("count")
+        let productTable = Table("products")
+        do {
+            let rowid = try database.run(productTable.insert(product_id <- be_product_id, name <- be_name, main_option <- be_main_option, cost <- Double(be_cost), count <- be_count))
+            print("inserted id: \(rowid)")
+        }
+        catch {
+            print("insertion failed: \(error)")
+        }
+    }
+    
+    func create_order_ings_from_backend(be_product_id: Int, be_name: String, be_main_option: String, be_cost: Double, be_count: Int)
+    {
+        self.connection()
+        let product_id = Expression<Int>("product_id")
+        let name = Expression<String>("name")
+        let main_option = Expression<String>("main_option")
+        let cost = Expression<Double>("cost")
+        let count = Expression<Int>("count")
+        let ingredientTable = Table("ingredients")
+        do {
+            let rowid = try database.run(ingredientTable.insert(product_id <- be_product_id, name <- be_name, main_option <- be_main_option, cost <- Double(be_cost), count <- be_count))
+            print("inserted id: \(rowid)")
+        }
+        catch {
+            print("insertion failed: \(error)")
+        }
+    }
+    
     func update_from_order_ingredients_plus(be_product_id: Int, be_main_option: String, be_name: String)
     {
         self.connection()

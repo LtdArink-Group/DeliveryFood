@@ -37,7 +37,6 @@ class ProfileViewController: FormViewController {
     func get_user_info()
     {
         self.addresses = []
-//        ID_phone = "eb5378e4-48e6-4d03-b954-d00739b8c8ff"
         let url = SERVER_NAME + "/api/accounts/" + ID_phone
         print(url)
         Alamofire.request(url, encoding: JSONEncoding.default)
@@ -63,7 +62,6 @@ class ProfileViewController: FormViewController {
     
     func get_address_user_info()
     {
-//        ID_phone = "eb5378e4-48e6-4d03-b954-d00739b8c8ff"
         self.addresses = []
         let url = SERVER_NAME + "/api/accounts/" + ID_phone
         print(url)
@@ -102,7 +100,6 @@ class ProfileViewController: FormViewController {
                 row.add(rule: RuleMinLength(minLength: 3))
                 row.add(rule: RuleMaxLength(maxLength: 50))
                 row.value = name
-//                row.disabled = true
                 }
                 .cellUpdate { cell, row in
                     if !row.isValid {
@@ -133,7 +130,6 @@ class ProfileViewController: FormViewController {
             +++ Section("Контакты")
             <<< PhoneRow("PhoneRow"){
                 $0.title = "Телефон"
-//                $0.disabled = true
                 $0.placeholder = "7XXXXXXXXXX"
                 $0.add(rule: RuleMinLength(minLength: 6))
                 $0.add(rule: RuleMaxLength(maxLength: 11))
@@ -167,7 +163,6 @@ class ProfileViewController: FormViewController {
                 
             <<< EmailRow("EmailRow"){
                 $0.title = "Email"
-//                $0.disabled = true
                 $0.placeholder = "email@me.com"
                 $0.add(rule: RuleRequired())
                 $0.add(rule: RuleEmail())
@@ -318,7 +313,7 @@ class ProfileViewController: FormViewController {
                 }
                 else
                 {
-                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста введенные данные.")
+                    ShowError().show_error(text: ERR_CHECK_DATA)
                 }
         }
     }
@@ -338,7 +333,7 @@ class ProfileViewController: FormViewController {
                 }
                 else
                 {
-                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста введенные данные.")
+                    ShowError().show_error(text: ERR_CHECK_DATA)
                 }
         }
     }

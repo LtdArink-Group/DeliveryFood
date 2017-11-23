@@ -210,7 +210,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
                 }
                 else
                 {
-                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом.")
+                    ShowError().show_error(text: ERR_CHECK_INTERNET)
                 }
         }
     }
@@ -223,7 +223,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
         }
         else if new_profile && name == ""
         {
-            ShowError().show_error(text: "Необходимо заполнить контактые данные в разделе профиль")
+            ShowError().show_error(text: ERR_NEED_ADD_CONTACT)
         }
         else if !new_profile && new_address
         {
@@ -250,7 +250,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
                 }
                 else
                 {
-                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом.")
+                    ShowError().show_error(text: ERR_CHECK_INTERNET)
                 }
         }
     }
@@ -269,7 +269,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
                             self.go_back(delete: false)
                         }
                         else {
-                            ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
+                            ShowError().show_error(text: ERR_CHECK_DATA)
                         }
                     }
                     else {
@@ -278,7 +278,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
                 }
                 else
                 {
-                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом.")
+                    ShowError().show_error(text: ERR_CHECK_INTERNET)
                 }
         }
     }
@@ -298,7 +298,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
                             self.go_back(delete: false)
                         }
                         else {
-                            ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
+                            ShowError().show_error(text: ERR_CHECK_DATA)
                         }
                     }
                     else {
@@ -307,7 +307,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
                 }
                 else
                 {
-                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом.")
+                    ShowError().show_error(text: ERR_CHECK_INTERNET)
                 }
         }
     }

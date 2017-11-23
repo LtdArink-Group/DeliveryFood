@@ -16,12 +16,15 @@ var CURRENCY = "₽ "
 var COST_FREE_DELIVERY = 1000
 var COMPANY_ID = 3
 var CITY = "Хабаровск"
-var TIME_HOUR_FROM = 11
-var TIME_HOUR_TO = 20
+var WORK_HOUR_FROM = 11
+var WORK_HOUR_TO = 20
+var WORK_MINUTES_FROM = 0
+var WORK_MINUTES_TO = 0
 var DELIVERY_DISCONT = 10
 var COMPANY_INFO = ""
 var COMPANY_EMAIL = ["bodakovda@arink-group.ru"]
-var GEOTEG = ["48.491258,135.083673"]
+var GEOTAG = ["48.491258,135.083673"]
+var CENTER_MAP = "48.477251,135.083662"
 
 //MARK: Colors
 var FIRST_COLOR = 0xFA8109
@@ -33,3 +36,18 @@ var SERVER_NAME = "http://23.101.67.216:8080"
 //MARK: Settings
 var MAP_KEY = "AIzaSyDIbcT6MCPC0VslV-XnT1TwTFbm5dAF27w"
 var FEEDBACK_TXT = "Расскажите нам что вы думаете о нашем приложении?!\nЧто вам нравится в нем? Что следует изменить?\nВаше мнение поможет улучшить сервис!\n\n"
+
+//MARK: STATUSES
+var ST_ACTIVE: [String] = ["Новый","Подтвержден"]
+var ST_CANCEL = "Отменен"
+
+//MARK: Errors
+var ERR_CHECK_DATA = "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста введенные данные."
+var ERR_CHECK_INTERNET = "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом."
+var ERR_NEED_ADD_CONTACT = "Необходимо заполнить контактые данные в разделе профиль"
+var ERR_CHECK_ADDRESS = "Проверьте введенные данные и выберите адрес доставки."
+var ERR_CHECK_DATA_TIME = "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные и время доставки."
+
+var ERR_NEED_ADD_PRODUCT = "Для добавления ингредиентов необходимо добавить продукт в корзину"
+var ERR_CANT_DELETE_ORDER = "Ваш заказ подтвержден. Его отменить нельзя! Позвоните оператору."
+var ERR_CHECK_CONTACTS = "Не верно заполнены контактные данные. Пожалуйста проверьте их."

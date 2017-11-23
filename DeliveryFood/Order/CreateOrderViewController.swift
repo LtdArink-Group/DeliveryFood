@@ -76,20 +76,19 @@ class CreateOrderViewController {
                         if json["errors"] as? [String: Any] != nil
                         {
 //                            let err = json["errors"] as? [String: Any]
-//                            ShowError().show_error(text: String(describing: err!["address_id"] as? Any) )
-                            ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
+                            ShowError().show_error(text: ERR_CHECK_DATA_TIME)
                         }
                         else {
                             self.delete_order_sqlite()
                         }
                     }
                     else {
-                        ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом.")
+                        ShowError().show_error(text: ERR_CHECK_INTERNET)
                     }
                 }
                 else
                 {
-                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом.")
+                    ShowError().show_error(text: ERR_CHECK_INTERNET)
                 }
         }
     }

@@ -38,7 +38,7 @@ class AdditionalTableViewCell: UITableViewCell {
         if get_count_product() == 0
         {
             PageLoading().showLoading()
-            ShowError().show_error(text: "Для добавления ингредиентов необходимо добавить продукт в корзину")
+            ShowError().show_error(text: ERR_NEED_ADD_PRODUCT)
         }
         else
         {

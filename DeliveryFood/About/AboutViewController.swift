@@ -28,7 +28,6 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        
         GMSServices.provideAPIKey(MAP_KEY)
         
         create_form()
@@ -50,32 +49,39 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         btn_phone.frame = CGRect(x: 16 + img_phone.frame.width + 10, y: height, width: 280, height: btn_phone.frame.height)
         height = height + img_phone.frame.height + 16
         img_clock.frame = CGRect(x: 16, y: height, width: img_clock.frame.width, height: img_clock.frame.height)
-        lbl_clock.frame = CGRect(x: 16 + img_clock.frame.width + 10, y: height, width: lbl_clock.frame.width, height: lbl_clock.frame.height)
+        lbl_clock.frame = CGRect(x: 16 + img_clock.frame.width + 10, y: height, width: width - 32, height: lbl_clock.frame.height)
         height = height + lbl_clock.frame.height + 16
         
         let cgrect = CGRect(x: 16, y: height, width: width - 32, height: (width - 32) * 0.7)
-        let center_map = GEOTEG[0].split(separator: ",")
-        let camera = GMSCameraPosition.camera(withLatitude: Double(center_map[0])!, longitude: Double(center_map[1])!, zoom: 16)
+        let center_map = CENTER_MAP.split(separator: ",")
+        let camera = GMSCameraPosition.camera(withLatitude: Double(center_map[0])!, longitude: Double(center_map[1])!, zoom: 12)
         let mapView = GMSMapView.map(withFrame: cgrect, camera: camera)
-        let cur_loc = CLLocationCoordinate2D(latitude: 48.491258, longitude: 135.083673)
-        let marker_chixx = GMSMarker(position: cur_loc)
-        marker_chixx.title = "Кафе Chixx"
-        marker_chixx.map = mapView
-        marker_chixx.icon = UIImage(named: "icon_burger")
-        marker_chixx.appearAnimation = .pop
+        for (index, each) in GEOTAG.enumerated()
+        {
+            let geotag = each.split(separator: ",")
+            let cur_loc = CLLocationCoordinate2D(latitude: Double(geotag[0])!, longitude: Double(geotag[1])!)
+            let marker_chixx = GMSMarker(position: cur_loc)
+            marker_chixx.title = index == 0 ? "Кафе Chixx" : "Доставка Chixx"
+            marker_chixx.map = mapView
+            marker_chixx.icon = index == 0 ? UIImage(named: "icon_burger") : UIImage(named: "icon_truck")
+            marker_chixx.appearAnimation = .pop
+        }
         mapView.settings.zoomGestures = true
         mapView.layer.borderWidth = 1
         mapView.layer.borderColor = UIColor.gray.cgColor
         scrl_main.addSubview(mapView)
         
         height = height + (width - 32) * 0.7 + 40
+        height = width == 320 ? height + 40 : height
         btn_feedback.frame = CGRect(x: (width - btn_feedback.frame.width)/2, y: height, width: btn_feedback.frame.width, height: btn_feedback.frame.height)
         height = height + btn_feedback.frame.height
 
         scrl_main.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: Helper().scrl_height(height: height, height_screen: UIScreen.main.bounds.size.height))
         
         btn_phone.setTitle(PHONE, for:.normal)
-        lbl_clock.text = "\(TIME_HOUR_FROM):00 - \(TIME_HOUR_TO):00"
+        let minutes_from = WORK_MINUTES_FROM == 0 ? "00" : String(WORK_MINUTES_FROM)
+        let minutes_to = WORK_MINUTES_TO == 0 ? "00" : String(WORK_MINUTES_TO)
+        lbl_clock.text = "Время работы доставки: \(WORK_HOUR_FROM):\(minutes_from) - \(WORK_HOUR_TO):\(minutes_to)"
     }
     
     override func didReceiveMemoryWarning() {

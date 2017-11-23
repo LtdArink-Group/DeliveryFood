@@ -28,6 +28,7 @@ class OrderViewController: FormViewController {
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.updateGetResults), name: NSNotification.Name(rawValue: "get_result_orders"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "cancel_order"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "reload_form"), object: nil)
         preload_form()
     }
     
@@ -82,13 +83,12 @@ class OrderViewController: FormViewController {
     
     func get_active_orders(arr_orders: [JSON]) -> [JSON]
     {
-        print(Helper().get_today())
-        return arr_orders.filter { ($0["status"].stringValue == "Новый" || $0["status"].stringValue == "Подтвержден") && Helper().get_date_from_string($0["delivery_time"].stringValue) >= Helper().get_now() }
+        return arr_orders.filter { ( ST_ACTIVE.contains($0["status"].stringValue)) && Helper().get_date_from_string($0["delivery_time"].stringValue) >= Helper().get_now() }
     }
 
     func get_old_orders(arr_orders: [JSON]) -> [JSON]
     {
-        return arr_orders.filter { (($0["status"].stringValue != "Новый" || $0["status"].stringValue != "Подтвержден") && (Helper().get_date_from_string($0["delivery_time"].stringValue) < Helper().get_now()) || $0["status"].stringValue == "Отменен") }
+        return arr_orders.filter { Helper().get_date_from_string($0["delivery_time"].stringValue) < Helper().get_now() || $0["status"].stringValue == ST_CANCEL }
     }
     
 
@@ -119,7 +119,6 @@ class OrderViewController: FormViewController {
             }
             
             +++ Section("Предыдущие заказы") { on in
-//                on.header?.height = {33}
                 on.hidden = get_old_orders(arr_orders: arr_orders).count > 0 ? false : true
                 for (_, each) in get_old_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
                 {
@@ -127,7 +126,6 @@ class OrderViewController: FormViewController {
                     let total_cost = each["total_cost"].intValue + each["delivery_cost"].intValue
                     let str_address = address["street"].stringValue == "" ? "Самовывоз" : address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
                     on <<< LabelRow() {
-//                        $0.cell.backgroundColor = index % 2 != 0 ? Helper().UIColorFromRGB(rgbValue: 0xCEF8B6) : .white
                         $0.title = str_address + "\n"
                             + Helper().string_date_from_string(each["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(each["delivery_time"].stringValue) + " - " + CURRENCY + String(total_cost)
                         $0.cell.textLabel?.font = UIFont(name: "Helvetica", size: 13)

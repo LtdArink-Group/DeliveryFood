@@ -21,6 +21,8 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     var form_ready = false
     var address_id = 0
     var new_profile = false
+    var reorder = false
+    var add_address = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,16 +70,6 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         }
     }
     
-//    func set_time_to_date(hour: Int, minute: Int) -> Date
-//    {
-//        let greg = Calendar(identifier: .gregorian)
-//        let now = Date()
-//        var components = greg.dateComponents([.year, .month, .day, .hour, .minute, .second], from: now)
-//        components.hour = hour
-//        components.minute = minute
-//        return greg.date(from: components)!
-//    }
-    
     func create_form()
     {
         
@@ -89,8 +81,8 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                 let currentDate = Date()
                 $0.cell.textLabel?.textColor = UIColor.black
                 $0.value = currentDate.addingTimeInterval(120 * 60)
-                $0.maximumDate = currentDate.set_time_to_date(hour: TIME_HOUR_TO, minute: 00)
-                $0.minimumDate = currentDate.set_time_to_date(hour: TIME_HOUR_FROM, minute: 00)
+                $0.maximumDate = currentDate.set_time_to_date(hour: WORK_HOUR_TO, minute: WORK_MINUTES_TO)
+                $0.minimumDate = currentDate.set_time_to_date(hour: WORK_HOUR_FROM, minute: WORK_MINUTES_FROM)
                 }.cellSetup { cell, row in
                     row.dateFormatter?.timeStyle = .short
             }
@@ -263,16 +255,16 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     {
         var sort_address = Helper().sort_address(array: addresses)
         address_id = sort_address[tag]["id"] as! Int
-        for (index, _) in sort_address.enumerated()
-        {
-            if tag != index
+            for (index, _) in sort_address.enumerated()
             {
-                let chk_row: CheckRow = self.form.rowBy(tag: "AddressRow\(index)")!
-                chk_row.value = false
-                chk_row.updateCell()
-                self.disabled_order_row()
+                if tag != index
+                {
+                    let chk_row: CheckRow = self.form.rowBy(tag: "AddressRow\(index)")!
+                    chk_row.value = false
+                    chk_row.updateCell()
+                    self.disabled_order_row()
+                }
             }
-        }
     }
     
     func get_selected_address() -> Bool
@@ -297,6 +289,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         let dateFromString = formatter.string(from: time_row.value!)
+//        let date = formatter.date(from: dateFromString)
         return dateFromString
     }
     
@@ -334,7 +327,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         let email_row: EmailRow = self.form.rowBy(tag: "EmailRow")!
         let phone_row: PhoneRow = self.form.rowBy(tag: "PhoneRow")!
         let name_row: TextRow = self.form.rowBy(tag: "NameRow")!
-        return name.characters.count > 2 && phone.characters.count > 6 && email.characters.count > 5 && name_row.isValid && phone_row.isValid && email_row.isValid
+        return name.count > 2 && phone.count > 6 && email.count > 5 && name_row.isValid && phone_row.isValid && email_row.isValid
     }
     
     func on_clicked_send_order()
@@ -343,7 +336,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         {
             print("error")
             PageLoading().showLoading()
-            ShowError().show_error(text: "Проверьте введенные данные и выберите адрес доставки.")
+            ShowError().show_error(text: ERR_CHECK_ADDRESS)
         }
         else {
             print("click")
@@ -372,7 +365,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                 if let json = response.result.value as? [String: Any] {
                     if json["errors"] as? [String: Any] != nil
                     {
-                        ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
+                        ShowError().show_error(text: ERR_CHECK_DATA)
                     }
                     else {
                         CreateOrderViewController().post_order(address_id: self.address_id, delivery_time: self.get_delivery_time())
@@ -385,15 +378,17 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     {
         if check_contacts() == false {
             PageLoading().showLoading()
-            ShowError().show_error(text: "Не верно заполнены контактные данные. Пожалуйста проверьте их.")
+            ShowError().show_error(text: ERR_CHECK_CONTACTS)
         }
         else {
+            add_address = true
             let controller : DeliveryAddAddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeliveryAddAddressViewController") as! DeliveryAddAddressViewController
             controller.name = get_name()
             controller.phone = get_phone()
             controller.email = get_email()
             controller.delivery_time = get_delivery_time()
             controller.new_profile = new_profile
+            controller.reorder = reorder
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }
@@ -403,8 +398,16 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         PageLoading().hideLoading()
         tabBarController?.tabBar.items?[1].badgeValue = "0"
         let controller : WellDoneViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellDoneViewController") as! WellDoneViewController
+        controller.reorder = reorder
         self.navigationController?.pushViewController(controller, animated: false)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if reorder
+        {
+            DBHelper().delete_order()
+        }
+    }
 
 }

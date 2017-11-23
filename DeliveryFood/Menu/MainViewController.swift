@@ -36,14 +36,16 @@ class MainViewController: FormViewController {
                 let contact_info = json["contact_info"] as! [String: Any]
                 PHONE = contact_info["phone"] as! String
                 COMPANY_EMAIL = [contact_info["email"] as! String]
-                GEOTEG = contact_info["geoteg"] as! [String]
+                GEOTAG = contact_info["geoteg"] as! [String]
                 let dev = json["delivery"] as! [String: Any]
                 COST_DELIVERY = dev["cost"] as! Int
                 let period = dev["period"] as! [String: Any]
                 let start = (period["start"] as! String!)
                 let end = period["end"] as! String!
-                TIME_HOUR_FROM = self.get_hour(time: start!)
-                TIME_HOUR_TO = self.get_hour(time: end!)
+                WORK_HOUR_FROM = self.get_hour(time: start!)
+                WORK_HOUR_TO = self.get_hour(time: end!)
+                WORK_MINUTES_FROM = self.get_minutes(time: start!)
+                WORK_MINUTES_TO = self.get_minutes(time: end!)
                 COST_FREE_DELIVERY = dev["free_shipping"] as! Int
                 DELIVERY_DISCONT = dev["pickup_discount"] as! Int
                 COMPANY_INFO = json["description"] as! String
@@ -56,6 +58,12 @@ class MainViewController: FormViewController {
     {
         let arr_time = time.split(separator: " ")[0].split(separator: ":")
         return Int(arr_time[0])!
+    }
+    
+    func get_minutes(time: String) -> Int
+    {
+        let arr_time = time.split(separator: " ")[0].split(separator: ":")
+        return Int(arr_time[1])!
     }
     
     func get_categories_info()

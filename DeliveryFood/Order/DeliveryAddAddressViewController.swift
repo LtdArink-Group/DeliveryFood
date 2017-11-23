@@ -19,6 +19,7 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
     var phone: String = ""
     var delivery_time: String = ""
     var new_profile = false
+    var reorder = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -204,11 +205,10 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
         ]
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default)
             .responseJSON() { (response) -> Void in
-                print(response.result.value)
                 if let json = response.result.value as? [String: Any] {
                     if json["errors"] as? [String: Any] != nil
                     {
-                        ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
+                        ShowError().show_error(text: ERR_CHECK_DATA_TIME)
                     }
                     else {
                         self.post_address()
@@ -228,7 +228,7 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
                     if let json = response.result.value as? [String: Any] {
                         if json["errors"] as? [String: Any] != nil
                         {
-                            ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
+                            ShowError().show_error(text: ERR_CHECK_DATA)
                         }
                         else {
                             print(json)
@@ -237,12 +237,12 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
                         }
                     }
                     else {
-                        ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом.")
+                        ShowError().show_error(text: ERR_CHECK_INTERNET)
                     }
                 }
                 else
                 {
-                    ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом.")
+                    ShowError().show_error(text: ERR_CHECK_INTERNET)
                 }
         }
     }
@@ -266,6 +266,17 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
         tabBarController?.tabBar.items?[1].badgeValue = "0"
         let controller : WellDoneViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellDoneViewController") as! WellDoneViewController
         self.navigationController?.pushViewController(controller, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if !self.isMovingFromParentViewController && reorder
+        {
+            print("2323232323")
+            DBHelper().delete_order()
+            go_to_back()
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "well_done_reorder"), object: nil)
+        }
     }
 
 }

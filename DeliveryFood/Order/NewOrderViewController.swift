@@ -51,8 +51,14 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(NewOrderViewController.go_to_back), name: NSNotification.Name(rawValue: "well_done_reorder"), object: nil)
         super.viewWillAppear(animated)
         preload_form()
+    }
+    
+    @objc func go_to_back()
+    {
+        navigationController?.popViewController(animated: false)
     }
     
     func preload_form()
@@ -316,6 +322,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         if from_orders && status == "old"
         {
             //reorder
+            reorder()
         }
         else if from_orders && status != "old"
         {
@@ -326,7 +333,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
             }
             else {
                 PageLoading().showLoading()
-                ShowError().show_error(text: "Ваш заказ подтвержден. Его отменить нельзя! Позвоните оператору.")
+                ShowError().show_error(text: ERR_CANT_DELETE_ORDER)
             }
         }
         else {
@@ -334,6 +341,27 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }
+    
+    func reorder()
+    {
+        Take_away = sw_take_away.isOn
+        let order_products = order["order_products"].arrayValue
+        for each in order_products
+        {
+            DBHelper().create_order_from_backend(be_product_id: each["product_id"].intValue, be_name: each["product_title"].stringValue, be_main_option: each["main_option"].stringValue, be_cost: 0, be_count: each["qty"].intValue)
+            if each["ingredients"].count > 0
+            {
+                for ing in each["ingredients"].arrayValue
+                {
+                    DBHelper().create_order_ings_from_backend(be_product_id: each["product_id"].intValue, be_name: ing["name"].stringValue, be_main_option: each["main_option"].stringValue, be_cost: 0, be_count: ing["qty"].intValue)
+                }
+            }
+        }
+        let controller : DeliveryAddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeliveryAddressViewController") as! DeliveryAddressViewController
+        controller.reorder = true
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+
     
     func cancel_order()
     {
@@ -344,7 +372,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
                     if json["errors"] as? [String: Any] != nil
                     {
                         PageLoading().showLoading()
-                        ShowError().show_error(text: "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные.")
+                        ShowError().show_error(text: ERR_CHECK_DATA)
                     }
                     else {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cancel_order"), object: nil)
