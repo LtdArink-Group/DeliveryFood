@@ -131,7 +131,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.img_product.sd_setImage(with: URL(string: get_results[indexPath.row]["photo"].stringValue), placeholderImage: UIImage(named: "img_translucent"))
         cell.lbl_title.text = get_results[indexPath.row]["title"].stringValue
         cell.lbl_title.underline()
-        cell.lbl_info.text = get_results[indexPath.row]["description"].stringValue
+        cell.lbl_info.text = get_results[indexPath.row]["brief"].stringValue
 
         let arr_kinds = get_results[indexPath.row]["main_options"].arrayValue
         let arr_costs = arr_kinds.map { ($0["cost"].stringValue) }
@@ -141,7 +141,8 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.arr_main_option = arr_str_kinds
         
         cell.lbl_count.text = String(get_ordered_prod["count"].intValue)
-
+        cell.btn_additional.isHidden = (get_results[indexPath.row]["additional_info"].arrayValue).count > 0 ? false : true
+        
         //init sgm_kinds
         cell.sgm_kinds.items = arr_str_kinds
         cell.sgm_kinds.font = UIFont(name: "Helvetica", size: 13)
