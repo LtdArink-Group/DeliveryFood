@@ -31,7 +31,6 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         
         NotificationCenter.default.addObserver(self, selector: #selector(DeliveryAddressViewController.goto_well_done), name: NSNotification.Name(rawValue: "show_well_done"), object: nil)
-        
         get_user_info()
     }
     
@@ -404,15 +403,11 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if reorder && !add_address
+        if reorder && !add_address && isMovingFromParentViewController
         {
             DBHelper().delete_order()
         }
-        if !self.isMovingFromParentViewController && !add_address
-        {
-            go_to_back()
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "well_done_reorder"), object: nil)
-        }
+
     }
 
 }
