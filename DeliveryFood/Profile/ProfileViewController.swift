@@ -31,7 +31,18 @@ class ProfileViewController: FormViewController {
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        get_user_info()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !form.isEmpty
+        {
+            form.removeAll()
+            get_user_info()
+        }
+        else {
+            get_user_info()
+        }
     }
 
     func get_user_info()
