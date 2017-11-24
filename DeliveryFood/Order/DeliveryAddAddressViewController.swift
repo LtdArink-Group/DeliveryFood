@@ -272,7 +272,6 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
         super.viewWillDisappear(animated)
         if !self.isMovingFromParentViewController && reorder
         {
-            print("2323232323")
             DBHelper().delete_order()
             go_to_back()
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "well_done_reorder"), object: nil)

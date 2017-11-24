@@ -109,7 +109,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         
         let width = UIScreen.main.bounds.size.width
         var height: CGFloat = CGFloat(get_count_products() * 44)
-        tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: UIScreen.main.bounds.size.width, height: height)
+        tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: width, height: height)
         
         height = tableView.frame.origin.y + height + 10
         lbl_take_away.frame = CGRect(x: lbl_take_away.frame.origin.x, y: height, width: lbl_take_away.frame.width, height: lbl_take_away.frame.height)
@@ -348,6 +348,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         let order_products = order["order_products"].arrayValue
         for each in order_products
         {
+            print(each)
             DBHelper().create_order_from_backend(be_product_id: each["product_id"].intValue, be_name: each["product_title"].stringValue, be_main_option: each["main_option"].stringValue, be_cost: 0, be_count: each["qty"].intValue)
             if each["ingredients"].count > 0
             {

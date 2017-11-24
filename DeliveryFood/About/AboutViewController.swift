@@ -72,16 +72,15 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         scrl_main.addSubview(mapView)
         
         height = height + (width - 32) * 0.7 + 40
-        height = width == 320 ? height + 40 : height
         btn_feedback.frame = CGRect(x: (width - btn_feedback.frame.width)/2, y: height, width: btn_feedback.frame.width, height: btn_feedback.frame.height)
         height = height + btn_feedback.frame.height
-
+        height = width == 320 ? height + 70 : height
         scrl_main.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: Helper().scrl_height(height: height, height_screen: UIScreen.main.bounds.size.height))
         
         btn_phone.setTitle(PHONE, for:.normal)
         let minutes_from = WORK_MINUTES_FROM == 0 ? "00" : String(WORK_MINUTES_FROM)
         let minutes_to = WORK_MINUTES_TO == 0 ? "00" : String(WORK_MINUTES_TO)
-        lbl_clock.text = "Время работы доставки: \(WORK_HOUR_FROM):\(minutes_from) - \(WORK_HOUR_TO):\(minutes_to)"
+        lbl_clock.text = "Доставка: \(WORK_HOUR_FROM):\(minutes_from) - \(WORK_HOUR_TO):\(minutes_to)"
     }
     
     override func didReceiveMemoryWarning() {

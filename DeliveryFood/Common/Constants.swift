@@ -14,7 +14,7 @@ var COST_DELIVERY = 300
 var COST_ORDER_DEFAULT = 0
 var CURRENCY = "₽ "
 var COST_FREE_DELIVERY = 1000
-var COMPANY_ID = 10
+var COMPANY_ID = 12
 var CITY = "Хабаровск"
 var WORK_HOUR_FROM = 11
 var WORK_HOUR_TO = 20
@@ -43,6 +43,7 @@ var ST_CANCEL = "Отменен"
 
 //MARK: Errors
 var ERR_CHECK_DATA = "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста введенные данные."
+var ERR_CHECK_DATA_PHONE = "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста введенные данные (номер телефона)."
 var ERR_CHECK_INTERNET = "Мы сожалеем, но что-то пошло не так. Проверьте пожалуйста соединение с интернетом."
 var ERR_NEED_ADD_CONTACT = "Необходимо заполнить контактые данные в разделе профиль"
 var ERR_CHECK_ADDRESS = "Проверьте введенные данные и выберите адрес доставки."

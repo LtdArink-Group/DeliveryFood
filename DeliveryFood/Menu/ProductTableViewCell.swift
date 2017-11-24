@@ -23,7 +23,8 @@ class ProductTableViewCell: UITableViewCell {
     @IBOutlet weak var btn_plus: UIButton!
     @IBOutlet weak var btn_minus: UIButton!
     @IBOutlet weak var lbl_count: UILabel!
-
+    @IBOutlet weak var btn_img_product: UIButton!
+    
     var lbl_delivery: UILabel!
     var lbl_order_cost: UILabel!
     var arr_cost_kinds = [String]()

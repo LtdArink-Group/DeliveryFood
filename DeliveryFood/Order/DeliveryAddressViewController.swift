@@ -365,7 +365,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                 if let json = response.result.value as? [String: Any] {
                     if json["errors"] as? [String: Any] != nil
                     {
-                        ShowError().show_error(text: ERR_CHECK_DATA)
+                        ShowError().show_error(text: ERR_CHECK_DATA_PHONE)
                     }
                     else {
                         CreateOrderViewController().post_order(address_id: self.address_id, delivery_time: self.get_delivery_time())
@@ -404,9 +404,14 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if reorder
+        if reorder && !add_address
         {
             DBHelper().delete_order()
+        }
+        if !self.isMovingFromParentViewController && !add_address
+        {
+            go_to_back()
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "well_done_reorder"), object: nil)
         }
     }
 

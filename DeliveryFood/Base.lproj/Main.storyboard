@@ -334,7 +334,7 @@
                                                     <rect key="frame" x="20" y="11" width="373" height="43"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="₽ 300" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olv-3V-A0k">
-                                                            <rect key="frame" x="279" y="10" width="86" height="22"/>
+                                                            <rect key="frame" x="264" y="10" width="101" height="22"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -423,8 +423,18 @@
                                                         <constraint firstAttribute="height" constant="31" id="dSM-R2-lr6"/>
                                                     </constraints>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Wr-QF-aZL">
+                                                    <rect key="frame" x="21" y="53" width="372" height="229"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="7Wr-QF-aZL" secondAttribute="height" multiplier="372:229" id="g4L-i3-vsc"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <action selector="on_clicked_img_product:" destination="FHb-tY-bMY" eventType="touchUpInside" id="PM5-p9-NhA"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="7Wr-QF-aZL" firstAttribute="leading" secondItem="EeH-U1-uvs" secondAttribute="leadingMargin" constant="6" id="0Dw-CI-kR9"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="c0J-Px-TqW" secondAttribute="bottom" constant="12.67" id="0Qz-Hb-AHA"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="mhI-le-y0A" secondAttribute="bottom" constant="4.6699999999999999" id="2lP-VO-WEL"/>
                                                 <constraint firstItem="81H-mx-IhG" firstAttribute="leading" secondItem="EeH-U1-uvs" secondAttribute="leadingMargin" constant="5" id="4dz-Dw-lYf"/>
@@ -445,10 +455,13 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="DWA-ay-Y2r" secondAttribute="bottom" constant="0.67000000000000004" id="QW6-uM-Ww4"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="6Uh-KL-Uq1" secondAttribute="bottom" constant="4.6699999999999999" id="U93-9V-Yu4"/>
                                                 <constraint firstItem="fRI-yh-UwA" firstAttribute="leading" secondItem="EeH-U1-uvs" secondAttribute="leadingMargin" constant="5" id="UWQ-E0-Yhc"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="7Wr-QF-aZL" secondAttribute="trailing" constant="6" id="Yfh-vd-2LW"/>
                                                 <constraint firstItem="pEt-m9-iiq" firstAttribute="top" secondItem="EeH-U1-uvs" secondAttribute="topMargin" constant="42" id="aqh-tz-GV0"/>
                                                 <constraint firstItem="GWP-xM-nqo" firstAttribute="top" secondItem="fRI-yh-UwA" secondAttribute="bottom" constant="14" id="cEC-CG-KaR"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="fRI-yh-UwA" secondAttribute="trailing" constant="5" id="ebV-bc-9Rl"/>
                                                 <constraint firstItem="pEt-m9-iiq" firstAttribute="leading" secondItem="EeH-U1-uvs" secondAttribute="leadingMargin" constant="5" id="f81-eC-Kgi"/>
+                                                <constraint firstItem="7Wr-QF-aZL" firstAttribute="top" secondItem="EeH-U1-uvs" secondAttribute="topMargin" constant="42" id="flF-eS-yxu"/>
+                                                <constraint firstItem="14T-qK-qf9" firstAttribute="top" secondItem="7Wr-QF-aZL" secondAttribute="bottom" constant="5.3300000000000001" id="iGZ-zc-s4W"/>
                                                 <constraint firstItem="fRI-yh-UwA" firstAttribute="top" secondItem="14T-qK-qf9" secondAttribute="bottom" constant="5.3300000000000001" id="keW-cC-DoS"/>
                                                 <constraint firstItem="DWA-ay-Y2r" firstAttribute="top" secondItem="fRI-yh-UwA" secondAttribute="bottom" constant="20" id="sjM-DY-Bdz"/>
                                                 <constraint firstItem="81H-mx-IhG" firstAttribute="top" secondItem="EeH-U1-uvs" secondAttribute="topMargin" id="zOo-JC-K1l"/>
@@ -456,6 +469,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="btn_additional" destination="DWA-ay-Y2r" id="afT-XX-OgA"/>
+                                            <outlet property="btn_img_product" destination="7Wr-QF-aZL" id="Vwg-bt-oLr"/>
                                             <outlet property="btn_minus" destination="mhI-le-y0A" id="kTe-mz-Nkm"/>
                                             <outlet property="btn_plus" destination="6Uh-KL-Uq1" id="gZB-tu-ZWw"/>
                                             <outlet property="btn_title" destination="UEi-YL-W4i" id="2iF-wp-NSF"/>
@@ -625,14 +639,14 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rj8-qE-6K4">
-                                                            <rect key="frame" x="16" y="3" width="26" height="18"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <rect key="frame" x="16" y="2.9999999999999991" width="23" height="15.666666666666664"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="0.42811626200000003" green="0.42877012489999999" blue="0.44814890619999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="cost" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jFA-75-Lc2">
                                                             <rect key="frame" x="16" y="23" width="29.666666666666671" height="18"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="0.42811626200000003" green="0.42877012489999999" blue="0.44814890619999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -806,6 +820,7 @@
                         <color key="backgroundColor" red="0.89265775680000004" green="0.89328879120000004" blue="0.91193383930000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Мой заказ" id="oeI-pa-D7N">
+                        <barButtonItem key="backBarButtonItem" title=" " id="DWm-Nc-AuG"/>
                         <barButtonItem key="rightBarButtonItem" image="btn_delete_busket" id="bih-3U-nvB" userLabel="btn_remove_order">
                             <connections>
                                 <action selector="on_clicked_btn_remove:" destination="AiO-4c-Sdd" id="0JZ-7t-DIO"/>

@@ -154,6 +154,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.btn_minus.tag = product_id
         cell.btn_additional.tag = indexPath.row
         cell.btn_title.tag = indexPath.row
+        cell.btn_img_product.tag = indexPath.row
         cell.arr_cost_kinds = arr_costs
         cell.lbl_cost.text = CURRENCY + arr_costs[index_main_option]
         cell.lbl_delivery = self.view.viewWithTag(1000000000) as? UILabel
@@ -211,6 +212,16 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         self.navigationController?.pushViewController(controller, animated: true)
     }
+    
+    @IBAction func on_clicked_img_product(_ sender: UIButton) {
+        let modalViewController = ProductInfoViewController()
+        modalViewController.modalPresentationStyle = .overFullScreen
+        modalViewController.info = get_results[sender.tag]["description"].stringValue
+        modalViewController.url_img_product = get_results[sender.tag]["photo"].stringValue
+        modalViewController.title_product = get_results[sender.tag]["title"].stringValue
+        self.present(modalViewController, animated: true, completion: nil)
+    }
+
     
     @IBAction func on_clicked_btn_title(_ sender: UIButton) {
         let modalViewController = ProductInfoViewController()
