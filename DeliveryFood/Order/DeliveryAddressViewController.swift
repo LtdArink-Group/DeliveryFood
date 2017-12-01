@@ -17,6 +17,9 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     var name: String = ""
     var email: String = ""
     var phone: String = ""
+    var old_name: String = ""
+    var old_email: String = ""
+    var old_phone: String = ""
     var addresses: [[String: Any]] = []
     var form_ready = false
     var address_id = 0
@@ -57,6 +60,9 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                         self.name = json["name"] as! String
                         self.email = json["email"] as! String
                         self.phone = json["phone"] as! String
+                        self.old_name = json["name"] as! String
+                        self.old_email = json["email"] as! String
+                        self.old_phone = json["phone"] as! String
                         self.addresses = json["addresses"] as! [[String: Any]]
                         self.create_form()
                     }
@@ -333,20 +339,57 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     {
         if check_contacts_address() == false
         {
-            print("error")
             PageLoading().showLoading()
             ShowError().show_error(text: ERR_CHECK_ADDRESS)
         }
         else {
-            print("click")
             PageLoading().showLoading()
             if new_profile
             {
                 post_profile()
             }
             else {
-                CreateOrderViewController().post_order(address_id: address_id, delivery_time: get_delivery_time())
+                if compare_profile()
+                {
+                    CreateOrderViewController().post_order(address_id: address_id, delivery_time: get_delivery_time())
+                }
+                else {
+                    patch_profile()
+                }
             }
+        }
+    }
+    
+    func compare_profile() -> Bool
+    {
+        if old_email == email && old_phone == phone && old_name == name
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
+    
+    func patch_profile()
+    {
+        let url = SERVER_NAME + "/api/accounts/" + ID_phone + "/update"
+        let params = [
+            "name": name,
+            "phone": phone,
+            "email": email
+        ]
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default)
+            .responseJSON() { (response) -> Void in
+                print(response)
+                if response.result.value != nil {
+                    CreateOrderViewController().post_order(address_id: self.address_id, delivery_time: self.get_delivery_time())
+                }
+                else
+                {
+                    ShowError().show_error(text: ERR_CHECK_DATA)
+                }
         }
     }
     
@@ -385,6 +428,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             controller.name = get_name()
             controller.phone = get_phone()
             controller.email = get_email()
+            controller.need_update_profile = !compare_profile()
             controller.delivery_time = get_delivery_time()
             controller.new_profile = new_profile
             controller.reorder = reorder

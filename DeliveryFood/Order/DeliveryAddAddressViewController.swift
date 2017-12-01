@@ -20,6 +20,7 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
     var delivery_time: String = ""
     var new_profile = false
     var reorder = false
+    var need_update_profile = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -255,10 +256,36 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
             post_profile()
         }
         else {
-            post_address()
+            if need_update_profile
+            {
+                patch_profile()
+            }
+            else
+            {
+                post_address()
+            }
         }
     }
     
+    func patch_profile()
+    {
+        let url = SERVER_NAME + "/api/accounts/" + ID_phone + "/update"
+        let params = [
+            "name": name,
+            "phone": phone,
+            "email": email
+        ]
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default)
+            .responseJSON() { (response) -> Void in
+                if response.result.value != nil {
+                    self.post_address()
+                }
+                else
+                {
+                    ShowError().show_error(text: ERR_CHECK_DATA)
+                }
+        }
+    }
     
     @objc func goto_well_done()
     {
