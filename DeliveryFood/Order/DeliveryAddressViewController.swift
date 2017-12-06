@@ -9,8 +9,6 @@
 import Eureka
 import UIKit
 import Alamofire
-import Crashlytics
-import Fabric
 
 class DeliveryAddressViewController: FormViewController, UINavigationControllerDelegate {
 

@@ -9,8 +9,6 @@
 import Eureka
 import UIKit
 import Alamofire
-import Crashlytics
-import Fabric
 
 class DeliveryAddAddressViewController: FormViewController, UINavigationControllerDelegate {
     
@@ -107,6 +105,7 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
             <<< TextRow("HouseRow"){ row in
                 row.title = "Дом"
                 row.placeholder = "26"
+                row.cell.textField.keyboardType = .numberPad
                 row.add(rule: RuleRequired())
                 }.cellUpdate { cell, row in
                     if !row.isValid {
@@ -135,18 +134,22 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
             <<< TextRow("FlatRow"){ row in
                 row.title = "Квартира/офис"
                 row.placeholder = "605"
+                row.cell.textField.keyboardType = .numbersAndPunctuation
             }
             <<< TextRow("GrandRow"){ row in
                 row.title = "Подъезд"
                 row.placeholder = "1"
+                row.cell.textField.keyboardType = .numbersAndPunctuation
             }
             <<< TextRow("LevelRow"){ row in
                 row.title = "Этаж"
                 row.placeholder = "6"
+                row.cell.textField.keyboardType = .numbersAndPunctuation
             }
             <<< TextRow("CodeRow"){ row in
                 row.title = "Код двери"
                 row.placeholder = "605"
+                row.cell.textField.keyboardType = .numbersAndPunctuation
         }
             +++ Section("")
             <<< ButtonRow("CreateOrderRow"){ row in

@@ -8,9 +8,6 @@
 
 import UIKit
 import Alamofire
-import ASHorizontalScrollView
-import Crashlytics
-import Fabric
 import Eureka
 import SwiftyJSON
 import SQLite

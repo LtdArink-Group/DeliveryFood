@@ -8,9 +8,6 @@
 
 import UIKit
 import Alamofire
-import Crashlytics
-import Fabric
-import Alamofire
 import SwiftyJSON
 import SDWebImage
 

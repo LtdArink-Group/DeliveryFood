@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-import Crashlytics
-import Fabric
 
 class DeliveryInfoView: UIView {
     

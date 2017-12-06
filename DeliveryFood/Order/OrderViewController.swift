@@ -9,8 +9,6 @@
 import UIKit
 import Eureka
 import Alamofire
-import Crashlytics
-import Fabric
 import SwiftyJSON
 
 class OrderViewController: FormViewController {

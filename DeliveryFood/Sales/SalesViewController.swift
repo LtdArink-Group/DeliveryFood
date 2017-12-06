@@ -8,10 +8,6 @@
 
 import UIKit
 import Alamofire
-import ASHorizontalScrollView
-import Crashlytics
-import Fabric
-import Alamofire
 import SwiftyJSON
 
 class SalesViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {

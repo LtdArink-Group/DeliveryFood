@@ -9,8 +9,6 @@
 import Eureka
 import UIKit
 import Alamofire
-import Crashlytics
-import Fabric
 
 class ProfileViewController: FormViewController {
     
@@ -283,19 +281,34 @@ class ProfileViewController: FormViewController {
     func get_name() -> String
     {
         let name_row: TextRow = self.form.rowBy(tag: "NameRow")!
-        return name_row.value as! String
+        if name_row.value != nil {
+            return name_row.value as! String
+        }
+        else {
+            return ""
+        }
     }
     
     func get_phone() -> String
     {
         let phone_row: PhoneRow = self.form.rowBy(tag: "PhoneRow")!
-        return phone_row.value as! String
+        if phone_row.value != nil {
+            return phone_row.value as! String
+        }
+        else {
+            return ""
+        }
     }
     
     func get_email() -> String
     {
         let email_row: EmailRow = self.form.rowBy(tag: "EmailRow")!
-        return email_row.value as! String
+        if email_row.value != nil {
+            return email_row.value as! String
+        }
+        else {
+            return ""
+        }
     }
     
     func save()

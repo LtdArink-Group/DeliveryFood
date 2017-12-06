@@ -9,8 +9,6 @@
 import Eureka
 import UIKit
 import Alamofire
-import Crashlytics
-import Fabric
 class AddressViewController: FormViewController, UINavigationControllerDelegate {
         
     @IBOutlet weak var btn_bar_delete: UIBarButtonItem!
@@ -98,6 +96,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
             <<< TextRow("HouseRow"){ row in
                 row.title = "Дом"
                 row.placeholder = "26"
+                row.cell.textField.keyboardType = .numbersAndPunctuation
                 row.add(rule: RuleRequired())
                 row.value = arr_address.count > 0 ? arr_address["house"] as! String : ""
                 }.cellUpdate { cell, row in
@@ -127,6 +126,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
             <<< TextRow("FlatRow"){ row in
                 row.title = "Квартира/офис"
                 row.placeholder = "605"
+                row.cell.textField.keyboardType = .numbersAndPunctuation
                 row.value = arr_address.count > 0 ? arr_address["office"] as! String : ""
                 }.onChange { row in
 //                    self.btn_bar.title = "Сохранить"
@@ -134,6 +134,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
             <<< TextRow("GrandRow"){ row in
                 row.title = "Подъезд"
                 row.placeholder = "1"
+                row.cell.textField.keyboardType = .numbersAndPunctuation
                 row.value = arr_address.count > 0 ? arr_address["entrance"] as! String : ""
                 }.onChange { row in
 //                    self.btn_bar.title = "Сохранить"
@@ -141,6 +142,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
             <<< TextRow("LevelRow"){ row in
                 row.title = "Этаж"
                 row.placeholder = "6"
+                row.cell.textField.keyboardType = .numbersAndPunctuation
                 row.value = arr_address.count > 0 ? arr_address["floor"] as! String : ""
                 }.onChange { row in
 //                    self.btn_bar.title = "Сохранить"
@@ -148,6 +150,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
             <<< TextRow("CodeRow"){ row in
                 row.title = "Код двери"
                 row.placeholder = "605"
+                row.cell.textField.keyboardType = .numbersAndPunctuation
                 row.value = arr_address.count > 0 ? arr_address["code"] as! String : ""
                 }.onChange { row in
 //                    self.btn_bar.title = "Сохранить"

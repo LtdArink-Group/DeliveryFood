@@ -8,8 +8,6 @@
 
 import UIKit
 import Alamofire
-import Crashlytics
-import Fabric
 import SwiftyJSON
 
 class CreateOrderViewController {
