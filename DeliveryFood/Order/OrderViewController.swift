@@ -31,7 +31,15 @@ class OrderViewController: FormViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         preload_form()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        if get_active_orders(arr_orders: get_results).count > 0 {
+            reload_form()
+        }
     }
     
     @objc func reload_form()

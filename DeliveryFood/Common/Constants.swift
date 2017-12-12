@@ -24,7 +24,10 @@ var DELIVERY_DISCONT = 10
 var COMPANY_INFO = ""
 var COMPANY_EMAIL = ["bodakovda@arink-group.ru"]
 var GEOTAG = ["48.491258,135.083673"]
+var GEOTAG_CAFE = ["48.469463,135.071622"]
 var CENTER_MAP = "48.477251,135.083662"
+var TIME_ZONE = " +10"
+var TIME_ZONE_TITLE = " (хаб. время)"
 
 //MARK: Colors
 var FIRST_COLOR = 0xFA8109
@@ -52,3 +55,7 @@ var ERR_CHECK_DATA_TIME = "Мы сожалеем, но что-то пошло н
 var ERR_NEED_ADD_PRODUCT = "Для добавления ингредиентов необходимо добавить продукт в корзину"
 var ERR_CANT_DELETE_ORDER = "Ваш заказ подтвержден. Его отменить нельзя! Позвоните оператору."
 var ERR_CHECK_CONTACTS = "Не верно заполнены контактные данные. Пожалуйста проверьте их."
+
+
+//MARK: Phone versions
+var DB_VERSION = 2

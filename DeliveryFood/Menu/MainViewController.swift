@@ -34,6 +34,7 @@ class MainViewController: FormViewController {
                 PHONE = contact_info["phone"] as! String
                 COMPANY_EMAIL = [contact_info["email"] as! String]
                 GEOTAG = contact_info["geotag"] as! [String]
+                GEOTAG_CAFE = contact_info["geotag_cafe"] as! [String]
                 let dev = json["delivery"] as! [String: Any]
                 COST_DELIVERY = dev["cost"] as! Int
                 let period = dev["period"] as! [String: Any]

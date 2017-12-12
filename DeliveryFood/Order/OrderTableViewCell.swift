@@ -25,6 +25,7 @@ class OrderTableViewCell: UITableViewCell {
     
     var product_id = 0
     var main_option = ""
+    var photo_url: String = ""
     var cost = 0
     var name = ""
     var type = ""
@@ -104,7 +105,7 @@ class OrderTableViewCell: UITableViewCell {
         else {
             if DBHelper().check_exists(be_product_id: product_id, be_main_option: main_option) == 0
             {
-                DBHelper().add_to_order(be_product_id: product_id, be_name: name, be_main_option: main_option, be_cost: Double(cost))
+                DBHelper().add_to_order(be_product_id: product_id, be_name: name, be_main_option: main_option, be_cost: Double(cost), be_photo: photo_url)
             }
             else
             {

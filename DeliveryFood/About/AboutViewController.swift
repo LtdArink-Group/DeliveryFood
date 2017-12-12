@@ -44,10 +44,10 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         
         lbl_info.numberOfLines = countline + 1
         lbl_info.frame = CGRect(x: 16, y: height, width: width - 32, height: CGFloat(countline * 25))
-        height = height + CGFloat(countline * 25) + 16
+        height = height + CGFloat(countline * 25) + 14
         img_phone.frame = CGRect(x: 16, y: height, width: img_phone.frame.width, height: img_phone.frame.height)
         btn_phone.frame = CGRect(x: 16 + img_phone.frame.width + 10, y: height, width: 280, height: btn_phone.frame.height)
-        height = height + img_phone.frame.height + 16
+        height = height + img_phone.frame.height + 18
         img_clock.frame = CGRect(x: 16, y: height, width: img_clock.frame.width, height: img_clock.frame.height)
         lbl_clock.frame = CGRect(x: 16 + img_clock.frame.width + 10, y: height, width: width - 32, height: lbl_clock.frame.height)
         height = height + lbl_clock.frame.height + 16
@@ -56,14 +56,24 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         let center_map = CENTER_MAP.split(separator: ",")
         let camera = GMSCameraPosition.camera(withLatitude: Double(center_map[0])!, longitude: Double(center_map[1])!, zoom: 12)
         let mapView = GMSMapView.map(withFrame: cgrect, camera: camera)
-        for (index, each) in GEOTAG.enumerated()
+        for each in GEOTAG
         {
             let geotag = each.split(separator: ",")
             let cur_loc = CLLocationCoordinate2D(latitude: Double(geotag[0])!, longitude: Double(geotag[1])!)
             let marker_chixx = GMSMarker(position: cur_loc)
-            marker_chixx.title = index == 0 ? "Кафе Chixx" : "Доставка Chixx"
+            marker_chixx.title = "Доставка Chixx"
             marker_chixx.map = mapView
-            marker_chixx.icon = index == 0 ? UIImage(named: "icon_burger") : UIImage(named: "icon_truck")
+            marker_chixx.icon = UIImage(named: "icon_truck")
+            marker_chixx.appearAnimation = .pop
+        }
+        for each in GEOTAG_CAFE
+        {
+            let geotag = each.split(separator: ",")
+            let cur_loc = CLLocationCoordinate2D(latitude: Double(geotag[0])!, longitude: Double(geotag[1])!)
+            let marker_chixx = GMSMarker(position: cur_loc)
+            marker_chixx.title = "Кафе Chixx"
+            marker_chixx.map = mapView
+            marker_chixx.icon = UIImage(named: "icon_burger")
             marker_chixx.appearAnimation = .pop
         }
         mapView.settings.zoomGestures = true
@@ -80,7 +90,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         btn_phone.setTitle(PHONE, for:.normal)
         let minutes_from = WORK_MINUTES_FROM == 0 ? "00" : String(WORK_MINUTES_FROM)
         let minutes_to = WORK_MINUTES_TO == 0 ? "00" : String(WORK_MINUTES_TO)
-        lbl_clock.text = "Доставка: \(WORK_HOUR_FROM):\(minutes_from) - \(WORK_HOUR_TO):\(minutes_to)"
+        lbl_clock.text = "\(WORK_HOUR_FROM):\(minutes_from) - \(WORK_HOUR_TO):\(minutes_to)" + TIME_ZONE_TITLE
     }
     
     override func didReceiveMemoryWarning() {

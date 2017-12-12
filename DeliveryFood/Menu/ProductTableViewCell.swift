@@ -30,6 +30,7 @@ class ProductTableViewCell: UITableViewCell {
     var arr_cost_kinds = [String]()
     var arr_main_option = [String]()
     var product_id = 0
+    var photo_url: String = ""
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -92,7 +93,7 @@ class ProductTableViewCell: UITableViewCell {
     {
         if DBHelper().check_exists(be_product_id: prod_id, be_main_option: sgm_kinds.items[sgm_kinds.selectedIndex]) == 0
         {
-            DBHelper().add_to_order(be_product_id: prod_id, be_name: lbl_title.text!, be_main_option: sgm_kinds.items[sgm_kinds.selectedIndex], be_cost: Double(arr_cost_kinds[sgm_kinds.selectedIndex])!)
+            DBHelper().add_to_order(be_product_id: prod_id, be_name: lbl_title.text!, be_main_option: sgm_kinds.items[sgm_kinds.selectedIndex], be_cost: Double(arr_cost_kinds[sgm_kinds.selectedIndex])!, be_photo: photo_url)
         }
         else
         {

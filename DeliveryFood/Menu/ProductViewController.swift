@@ -129,6 +129,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.lbl_title.text = get_results[indexPath.row]["title"].stringValue
         cell.lbl_title.underline()
         cell.lbl_info.text = get_results[indexPath.row]["brief"].stringValue
+        cell.photo_url = get_results[indexPath.row]["photo"].stringValue
 
         let arr_kinds = get_results[indexPath.row]["main_options"].arrayValue
         let arr_costs = arr_kinds.map { ($0["cost"].stringValue) }
@@ -210,23 +211,23 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
-    @IBAction func on_clicked_img_product(_ sender: UIButton) {
+    func product_description(index: Int)
+    {
         let modalViewController = ProductInfoViewController()
         modalViewController.modalPresentationStyle = .overFullScreen
-        modalViewController.info = get_results[sender.tag]["description"].stringValue
-        modalViewController.url_img_product = get_results[sender.tag]["photo"].stringValue
-        modalViewController.title_product = get_results[sender.tag]["title"].stringValue
+        modalViewController.info = get_results[index]["description"].stringValue
+        modalViewController.url_img_product = get_results[index]["photo"].stringValue
+        modalViewController.title_product = get_results[index]["title"].stringValue
         self.present(modalViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func on_clicked_img_product(_ sender: UIButton) {
+        product_description(index: sender.tag)
     }
 
     
     @IBAction func on_clicked_btn_title(_ sender: UIButton) {
-        let modalViewController = ProductInfoViewController()
-        modalViewController.modalPresentationStyle = .overFullScreen
-        modalViewController.info = get_results[sender.tag]["description"].stringValue
-        modalViewController.url_img_product = get_results[sender.tag]["photo"].stringValue
-        modalViewController.title_product = get_results[sender.tag]["title"].stringValue
-        self.present(modalViewController, animated: true, completion: nil)
+        product_description(index: sender.tag)
     }
 
     @objc func update_header_costs()

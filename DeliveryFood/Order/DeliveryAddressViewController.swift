@@ -80,7 +80,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             
             +++ Section("Время заказа")
             <<< TimeInlineRow("DeliveryTimeRow"){
-                $0.title = "Выберите время"
+                $0.title = "Выберите время" + TIME_ZONE_TITLE
                 let currentDate = Date()
                 $0.cell.textLabel?.textColor = UIColor.black
                 $0.value = currentDate.addingTimeInterval(120 * 60)
@@ -290,9 +290,10 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         let formatter = DateFormatter()
 //        formatter.timeZone = TimeZone(secondsFromGMT: 0)
         formatter.timeZone = TimeZone.current
-        formatter.dateFormat = "yyyy-MM-dd HH:mm"
-        let dateFromString = formatter.string(from: time_row.value!)
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        var dateFromString = formatter.string(from: time_row.value!)
 //        let date = formatter.date(from: dateFromString)
+        dateFromString = dateFromString + TIME_ZONE
         return dateFromString
     }
     

@@ -13,6 +13,7 @@ import SwiftyJSON
 class DBHelper {
     
     var database: Connection!
+    var first_entry = false
     
     func connection()
     {
@@ -30,13 +31,47 @@ class DBHelper {
     {
         self.connection()
         
-        let productTable = Table("products")
+        let versions = Table("versions")
         let id = Expression<Int64>("id")
+        let num = Expression<Int64>("num")
+        let createTable = versions.create { (table) in
+            table.column(id, primaryKey: .autoincrement)
+            table.column(num)
+        }
+        
+        if !tableExists(tableName: "versions") {
+            do { try self.database.run(createTable)
+                print("created table")
+                self.insert_new_version(version: DB_VERSION)
+                self.first_entry = true
+            }
+            catch {
+                print(error)
+            }
+        }
+        if first_entry
+        {
+            create_order_tables(drop: false)
+        }
+        else if !last_db_versions()
+        {
+            self.insert_new_version(version: DB_VERSION)
+            create_order_tables(drop: true)
+        }
+    }
+    
+    func create_order_tables(drop: Bool)
+    {
+        self.connection()
+        
+        let id = Expression<Int64>("id")
+        let productTable = Table("products")
         let product_id = Expression<Int64>("product_id")
         let name = Expression<String>("name")
         let count = Expression<Int64>("count")
         let main_option = Expression<String>("main_option")
         let cost = Expression<Double>("cost")
+        let photo = Expression<String>("photo")
         
         var createTable = productTable.create { (table) in
             table.column(id, primaryKey: .autoincrement)
@@ -45,10 +80,16 @@ class DBHelper {
             table.column(count, defaultValue: 1)
             table.column(main_option)
             table.column(cost)
+            table.column(photo)
         }
-        print(database.userVersion)
-        if !tableExists(tableName: "products") {
-            do { try self.database.run(createTable)
+        if !tableExists(tableName: "products") || drop
+        {
+            do {
+                if drop
+                {
+                    try self.database.run(productTable.drop())
+                }
+                try self.database.run(createTable)
                 print("created table")
             }
             catch {
@@ -56,12 +97,6 @@ class DBHelper {
             }
         }
         else {
-//            if database.userVersion == 0 {
-//                do { try self.database.run(productTable.drop())
-//                     try self.database.run(createTable)
-//                }
-//                catch { }
-//            }
             print("table exists")
             if count_orders() == 0
             {
@@ -79,8 +114,14 @@ class DBHelper {
             table.column(cost)
         }
         
-        if !tableExists(tableName: "ingredients") {
-            do { try self.database.run(createTable)
+        if !tableExists(tableName: "ingredients") || drop
+        {
+            do {
+                if drop
+                {
+                    try self.database.run(ingredientsTable.drop())
+                }
+                try self.database.run(createTable)
                 print("created table")
             }
             catch {
@@ -88,18 +129,12 @@ class DBHelper {
             }
         }
         else {
-//            if database.userVersion == 0 {
-//                do { try self.database.run(ingredientsTable.drop())
-//                     try self.database.run(createTable)
-//                }
-//                catch { }
-//            }
             print("table exists")
         }
         
         do {
             for prod in try database.prepare(productTable) {
-                print("id: \(prod[id]), main_option: \(prod[main_option]), name: \(prod[name]), count: \(prod[count]), product_id: \(prod[product_id])")
+                print("id: \(prod[id]), main_option: \(prod[main_option]), name: \(prod[name]), count: \(prod[count]), product_id: \(prod[product_id]), photo: \(prod[photo])")
             }
             for prod in try database.prepare(ingredientsTable) {
                 print("id: \(prod[id]), main_option: \(prod[main_option]), name: \(prod[name]), count: \(prod[count]), product_id: \(prod[product_id])")
@@ -107,8 +142,29 @@ class DBHelper {
         } catch {
             print(error)
         }
-
-        
+    }
+    
+    func last_db_versions() -> Bool
+    {
+        print("check_db_versions")
+        do {
+            let num:Int64 = try self.database.scalar("SELECT max(num) from versions") as! Int64
+            return num == DB_VERSION
+        }
+        catch {
+            return false
+        }
+    }
+    
+    func insert_new_version(version: Int)
+    {
+        self.connection()
+        let num = Expression<Int>("num")
+        let versions = Table("versions")
+        do {
+            _ = try database.run(versions.insert(num <- version))
+        }
+        catch {}
     }
     
     func tableExists(tableName: String) -> Bool {
@@ -173,15 +229,13 @@ class DBHelper {
     {
         self.connection()
         do {
-//            return try self.database.scalar("select * from (SELECT id, product_id, name, main_option, cost, count from products union all SELECT id, product_id, name, main_option, cost, count from ingredients) tbl1 order by product_id, main_option") as! [JSON]
-            
-            let orders = try self.database.prepare("select * from (SELECT product_id, name, main_option, cost, count, 'p' as type from products union all SELECT product_id, name, main_option, cost, count, 'i' as type from ingredients) tbl1 order by product_id, main_option")
+            let orders = try self.database.prepare("select * from (SELECT product_id, name, main_option, cost, count, photo, 'p' as type from products union all SELECT product_id, name, main_option, cost, count, '', 'i' as type from ingredients) tbl1 order by product_id, main_option")
             var arr_ordered_prods = [JSON]()
             for order in orders
             {
                 let prod_id = order[0] as! Int64
                 let count_prod = order[4] as! Int64
-                arr_ordered_prods.append(["product_id" : "\(Int(prod_id))", "name" : "\(order[1] as! String)", "main_option" : "\(order[2] as! String)", "cost" : "\(order[3] as! Double)", "count" : "\(Int(count_prod))", "type" : "\(order[5] as! String)"])
+                arr_ordered_prods.append(["product_id" : "\(Int(prod_id))", "name" : "\(order[1] as! String)", "main_option" : "\(order[2] as! String)", "cost" : "\(order[3] as! Double)", "count" : "\(Int(count_prod))", "photo" : "\(order[5] as! String)", "type" : "\(order[6] as! String)"])
             }
             return arr_ordered_prods
         }
@@ -293,16 +347,17 @@ class DBHelper {
     
     
     
-    func add_to_order(be_product_id: Int, be_name: String, be_main_option: String, be_cost: Double)
+    func add_to_order(be_product_id: Int, be_name: String, be_main_option: String, be_cost: Double, be_photo: String)
     {
         self.connection()
         let product_id = Expression<Int>("product_id")
         let name = Expression<String>("name")
         let main_option = Expression<String>("main_option")
         let cost = Expression<Double>("cost")
+        let photo = Expression<String>("photo")
         let productTable = Table("products")
         do {
-            let rowid = try database.run(productTable.insert(product_id <- be_product_id, name <- be_name, main_option <- be_main_option, cost <- Double(be_cost)))
+            let rowid = try database.run(productTable.insert(product_id <- be_product_id, name <- be_name, main_option <- be_main_option, cost <- Double(be_cost), photo <- be_photo))
             print("inserted id: \(rowid)")
         }
         catch {

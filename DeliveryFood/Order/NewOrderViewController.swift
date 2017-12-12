@@ -80,6 +80,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
             scrl_main.isHidden = false
             tableView.rowHeight = UITableViewAutomaticDimension
             self.tableView.rowHeight = 44
+//            tableView.estimatedRowHeight = 132
             tableView.delegate = self
             tableView.tableFooterView = UIView()
             
@@ -251,6 +252,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         }
         else {
             main_option = " (" + get_results[indexPath.row]["main_option"].stringValue + ")"
+            cell.photo_url = get_results[indexPath.row]["photo"].stringValue
         }
         cell.lbl_title?.text = margin + get_results[indexPath.row]["name"].stringValue + main_option
         cell.lbl_cost?.text =  margin + get_detail_info(index: indexPath.row)
@@ -287,6 +289,14 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         return "Итого: " + get_results[index]["count"].stringValue + " * " + CURRENCY + get_results[index]["cost"].stringValue.dropLast(2) + " = " + CURRENCY + total
     }
     
+//    internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if get_results[indexPath.row]["type"].stringValue == "p"
+//        {
+//            return 132.0
+//        }
+//        return 44.0
+//    }
+    
     func get_count_products() -> Int
     {
         return get_results.count
@@ -307,6 +317,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         scrl_main.isHidden = false
         tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.rowHeight = 44
+//        tableView.estimatedRowHeight = 132
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         
@@ -417,6 +428,7 @@ class RequestOrder {
                                     "main_option" : each["main_option"].stringValue,
                                     "cost" : prod_cost,
                                     "count" : each["qty"].stringValue,
+                                    "photo" : each["photo"].stringValue,
                                     "type" : "p"])
             if each["ingredients"].arrayValue.count > 0
             {
