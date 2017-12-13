@@ -73,7 +73,6 @@ class CreateOrderViewController {
                         print(json)
                         if json["errors"] as? [String: Any] != nil
                         {
-//                            let err = json["errors"] as? [String: Any]
                             ShowError().show_error(text: ERR_CHECK_DATA_TIME)
                         }
                         else {

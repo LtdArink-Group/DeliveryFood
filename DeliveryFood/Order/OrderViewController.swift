@@ -24,6 +24,7 @@ class OrderViewController: FormViewController {
 
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        self.navigationItem.hidesBackButton = true
         NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.updateGetResults), name: NSNotification.Name(rawValue: "get_result_orders"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "cancel_order"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "reload_form"), object: nil)
@@ -60,7 +61,6 @@ class OrderViewController: FormViewController {
                 get_results = []
                 requestManager.resetGet()
                 requestManager.get()
-//                updateGetResults()
             }
         }
         else
