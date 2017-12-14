@@ -49,7 +49,10 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         btn_phone.frame = CGRect(x: 16 + img_phone.frame.width + 10, y: height, width: 280, height: btn_phone.frame.height)
         height = height + img_phone.frame.height + 18
         img_clock.frame = CGRect(x: 16, y: height, width: img_clock.frame.width, height: img_clock.frame.height)
-        lbl_clock.frame = CGRect(x: 16 + img_clock.frame.width + 10, y: height, width: width - 32, height: lbl_clock.frame.height)
+        lbl_clock.frame = CGRect(x: 16 + img_clock.frame.width + 10, y: height, width: width - 32, height: lbl_clock.frame.height * 8)
+        lbl_clock.numberOfLines = 8
+        lbl_clock.lineBreakMode = NSLineBreakMode.byWordWrapping
+        
         height = height + lbl_clock.frame.height + 16
         
         let cgrect = CGRect(x: 16, y: height, width: width - 32, height: (width - 32) * 0.7)
@@ -88,9 +91,58 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         scrl_main.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: Helper().scrl_height(height: height, height_screen: UIScreen.main.bounds.size.height))
         
         btn_phone.setTitle(PHONE, for:.normal)
-        let minutes_from = WORK_MINUTES_FROM == 0 ? "00" : String(WORK_MINUTES_FROM)
-        let minutes_to = WORK_MINUTES_TO == 0 ? "00" : String(WORK_MINUTES_TO)
-        lbl_clock.text = "\(WORK_HOUR_FROM):\(minutes_from) - \(WORK_HOUR_TO):\(minutes_to)" + TIME_ZONE_TITLE
+        lbl_clock.text = "Доставка" + TIME_ZONE_TITLE + ":" + get_schedules()
+    }
+    
+    func get_schedules() -> String
+    {
+        var work_days = ""
+        for each in WORK_DAYS
+        {
+            work_days = work_days + "\n" + get_day(day: each["week_day"].stringValue) + get_time(time: each["time_start"].stringValue)
+            if each["time_start"].stringValue != ""
+            {
+                work_days = work_days + " - " + get_time(time: each["time_end"].stringValue)
+            }
+        }
+        return work_days
+    }
+    
+    func get_time(time: String) -> String
+    {
+        var time_work = ""
+        if time == ""
+        {
+            time_work = "Выходной"
+        }
+        else {
+            let arr_time = time.split(separator: ":")
+            time_work = arr_time[0] + ":" + arr_time[1]
+
+        }
+        return time_work
+    }
+    
+    func get_day(day: String) -> String
+    {
+        var russian_day = ""
+        switch day {
+        case "sun":
+            russian_day = "Вс. "
+        case "mon":
+            russian_day = "Пн. "
+        case "tue":
+            russian_day = "Вт. "
+        case "wed":
+            russian_day = "Ср. "
+        case "thu":
+            russian_day = "Чт. "
+        case "fri":
+            russian_day = "Пт. "
+        default:
+            russian_day = "Сб. "
+        }
+        return russian_day
     }
     
     override func didReceiveMemoryWarning() {
@@ -126,6 +178,5 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
     }
     
 }
-
 
 

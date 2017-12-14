@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 //MARK: Properties for company
 var PHONE = ""
@@ -16,10 +17,13 @@ var CURRENCY = "₽ "
 var COST_FREE_DELIVERY = 1000
 var COMPANY_ID = 12
 var CITY = "Хабаровск"
+// ВЫПИЛИТЬ
 var WORK_HOUR_FROM = 11
 var WORK_HOUR_TO = 20
 var WORK_MINUTES_FROM = 0
 var WORK_MINUTES_TO = 0
+
+var WORK_DAYS = [JSON]()
 var DELIVERY_DISCONT = 10
 var COMPANY_INFO = ""
 var COMPANY_EMAIL = ["bodakovda@arink-group.ru"]
