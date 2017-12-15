@@ -91,58 +91,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         scrl_main.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: Helper().scrl_height(height: height, height_screen: UIScreen.main.bounds.size.height))
         
         btn_phone.setTitle(PHONE, for:.normal)
-        lbl_clock.text = "Доставка" + TIME_ZONE_TITLE + ":" + get_schedules()
-    }
-    
-    func get_schedules() -> String
-    {
-        var work_days = ""
-        for each in WORK_DAYS
-        {
-            work_days = work_days + "\n" + get_day(day: each["week_day"].stringValue) + get_time(time: each["time_start"].stringValue)
-            if each["time_start"].stringValue != ""
-            {
-                work_days = work_days + " - " + get_time(time: each["time_end"].stringValue)
-            }
-        }
-        return work_days
-    }
-    
-    func get_time(time: String) -> String
-    {
-        var time_work = ""
-        if time == ""
-        {
-            time_work = "Выходной"
-        }
-        else {
-            let arr_time = time.split(separator: ":")
-            time_work = arr_time[0] + ":" + arr_time[1]
-
-        }
-        return time_work
-    }
-    
-    func get_day(day: String) -> String
-    {
-        var russian_day = ""
-        switch day {
-        case "sun":
-            russian_day = "Вс. "
-        case "mon":
-            russian_day = "Пн. "
-        case "tue":
-            russian_day = "Вт. "
-        case "wed":
-            russian_day = "Ср. "
-        case "thu":
-            russian_day = "Чт. "
-        case "fri":
-            russian_day = "Пт. "
-        default:
-            russian_day = "Сб. "
-        }
-        return russian_day
+        lbl_clock.text = "Доставка" + TIME_ZONE_TITLE + ":" + Helper().get_schedules()
     }
     
     override func didReceiveMemoryWarning() {

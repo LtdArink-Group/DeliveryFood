@@ -41,10 +41,11 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     var from_orders = false
     var order: JSON = []
     var status: String = ""
+    var today_schedule: JSON = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         
@@ -94,6 +95,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     
     func correct_height_elements()
     {
+        get_today_schedule()
         tableView.translatesAutoresizingMaskIntoConstraints = true
         lbl_take_away.translatesAutoresizingMaskIntoConstraints = true
         lbl_sum_order.translatesAutoresizingMaskIntoConstraints = true
@@ -289,14 +291,6 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         return "Итого: " + get_results[index]["count"].stringValue + " * " + CURRENCY + get_results[index]["cost"].stringValue.dropLast(2) + " = " + CURRENCY + total
     }
     
-//    internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if get_results[indexPath.row]["type"].stringValue == "p"
-//        {
-//            return 132.0
-//        }
-//        return 44.0
-//    }
-    
     func get_count_products() -> Int
     {
         return get_results.count
@@ -330,6 +324,18 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func on_clicked_create_order(_ sender: UIButton)
     {
+        if is_working_now() == true {
+            open_create_order()
+        }
+        else {
+            let modalViewController = NotWorkingViewController()
+            modalViewController.modalPresentationStyle = .overFullScreen
+            self.present(modalViewController, animated: true, completion: nil)
+        }
+    }
+    
+    func open_create_order()
+    {
         if from_orders && status == "old"
         {
             //reorder
@@ -351,6 +357,64 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
             let controller : DeliveryAddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeliveryAddressViewController") as! DeliveryAddressViewController
             self.navigationController?.pushViewController(controller, animated: true)
         }
+    }
+    
+    func get_today_schedule()
+    {
+        for each in WORK_DAYS
+        {
+            if getDayOfWeekString() == each["week_day"].stringValue
+            {
+                today_schedule = each
+            }
+        }
+    }
+    
+    func is_working_now() -> Bool
+    {
+        if today_schedule["time_start"].stringValue == ""
+        {
+            return false
+        }
+        
+        let now = Date()
+        let date_start = now.set_time_to_date(hour: Int( today_schedule["time_start"].stringValue[0...1])!, minute: Int( today_schedule["time_start"].stringValue[3...4])!)
+        let date_end = now.set_time_to_date(hour: Int( today_schedule["time_end"].stringValue[0...1])!, minute: Int( today_schedule["time_end"].stringValue[3...4])!)
+        if date_start < now && date_end > now
+        {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    func getDayOfWeekString() -> String?
+    {
+        let formatter  = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let todayDate = NSDate()
+        let myCalendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
+        let myComponents = myCalendar.components(.weekday, from: todayDate as Date)
+        let weekDay = myComponents.weekday
+            switch weekDay {
+            case 1?:
+                return "sun"
+            case 2?:
+                return "mon"
+            case 3?:
+                return "tue"
+            case 4?:
+                return "wed"
+            case 5?:
+                return "thu"
+            case 6?:
+                return "fri"
+            case 7?:
+                return "sat"
+            default:
+                return "day"
+            }
     }
     
     func reorder()

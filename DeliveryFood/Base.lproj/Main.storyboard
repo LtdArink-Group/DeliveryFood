@@ -567,6 +567,24 @@
             </objects>
             <point key="canvasLocation" x="832.42753623188423" y="-166.75"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="RcU-aI-c4h">
+            <objects>
+                <viewController storyboardIdentifier="NotWorkingViewController" id="wz0-oD-Fdw" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Mb5-DI-GDI"/>
+                        <viewControllerLayoutGuide type="bottom" id="oqe-OD-lf9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DDH-GD-jyA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cNC-zy-5Tw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="832" y="702"/>
+        </scene>
         <!--О компании-->
         <scene sceneID="MRa-hS-ZX5">
             <objects>
@@ -845,6 +863,7 @@
                         <outlet property="tableView" destination="lLs-DW-9Kv" id="aRu-MY-iR2"/>
                         <segue destination="a7E-UF-1bJ" kind="show" identifier="goto_old_order" animates="NO" id="usN-Sq-mqR"/>
                         <segue destination="GxX-q5-gZM" kind="show" id="F3T-f0-QS4"/>
+                        <segue destination="wz0-oD-Fdw" kind="presentation" modalPresentationStyle="overFullScreen" id="vgn-Rc-eeq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eJU-0f-t0S" userLabel="First Responder" sceneMemberID="firstResponder"/>
