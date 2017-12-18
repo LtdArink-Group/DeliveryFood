@@ -15,7 +15,7 @@ var COST_DELIVERY = 300
 var COST_ORDER_DEFAULT = 0
 var CURRENCY = "₽ "
 var COST_FREE_DELIVERY = 1000
-var COMPANY_ID = 12
+var COMPANY_ID = 15
 var CITY = "Хабаровск"
 // ВЫПИЛИТЬ
 var WORK_HOUR_FROM = 11
@@ -56,7 +56,7 @@ var ERR_NEED_ADD_CONTACT = "Необходимо заполнить контак
 var ERR_CHECK_ADDRESS = "Проверьте введенные данные и выберите адрес доставки."
 var ERR_CHECK_DATA_TIME = "Мы сожалеем, но что-то пошло не так. Проверьте введенные данные и время доставки."
 
-var ERROR_DELIVERY_NOT_WORKING = "Увы, доставка уже не работает... Но!\nВы можете сделать заказ немного позже!\nВаш заказ сохранится в телефоне и дождется вашего возвращения.\n\n Время работы доставки " + TIME_ZONE_TITLE + ":"
+var ERROR_DELIVERY_NOT_WORKING = "Увы, доставка не работает... Но!\nВы можете сделать заказ немного позже!\nВаш заказ сохранится в телефоне и дождется вашего возвращения.\n\n Время работы доставки " + TIME_ZONE_TITLE + ":"
 
 var ERR_NEED_ADD_PRODUCT = "Для добавления ингредиентов необходимо добавить продукт в корзину"
 var ERR_CANT_DELETE_ORDER = "Ваш заказ подтвержден. Его отменить нельзя! Позвоните оператору."

@@ -23,66 +23,6 @@ class MainViewController: FormViewController {
         get_company_info()
         
         ID_phone = UIDevice.current.identifierForVendor!.uuidString
-        
-//        WORK_DAYS = [ [ "day" : "Mon", "time_from" : "12:00 +10", "time_to" : "21:00 +10" ],
-//                      [ "day" : "Tue", "time_from" : "12:00 +10", "time_to" : "21:00 +10" ],
-//                      [ "day" : "Wed", "time_from" : "12:00 +10", "time_to" : "21:00 +10" ],
-//                      [ "day" : "Thu", "time_from" : "12:00 +10", "time_to" : "21:00 +10" ],
-//                      [ "day" : "Fri", "time_from" : "12:00 +10", "time_to" : "21:00 +10" ],
-//                      [ "day" : "Sat", "time_from" : "12:00 +10", "time_to" : "21:00 +10" ],
-//                      [ "day" : "Sun", "time_from" : "12:00 +10", "time_to" : "21:00 +10" ]
-//        ]
-        WORK_DAYS = [
-        [
-        "id": 1,
-        "company_id": 12,
-        "week_day": "sun",
-        "time_start": "13:00:00+10",
-        "time_end": "21:00:00+10"
-        ],
-        [
-        "id": 2,
-        "company_id": 12,
-        "week_day": "mon",
-        "time_start": "",
-        "time_end": ""
-        ],
-        [
-        "id": 3,
-        "company_id": 12,
-        "week_day": "tue",
-        "time_start": "12:00:00+10",
-        "time_end": "21:00:00+10"
-        ],
-        [
-        "id": 4,
-        "company_id": 12,
-        "week_day": "wed",
-        "time_start": "12:00:00+10",
-        "time_end": "21:00:00+10"
-        ],
-        [
-        "id": 5,
-        "company_id": 12,
-        "week_day": "thu",
-        "time_start": "12:00:00+10",
-        "time_end": "21:00:00+10"
-        ],
-        [
-        "id": 6,
-        "company_id": 12,
-        "week_day": "fri",
-        "time_start": "12:00:00+10",
-        "time_end": "21:00:00+10"
-        ],
-        [
-        "id": 7,
-        "company_id": 12,
-        "week_day": "sat",
-        "time_start": "12:00:00+10",
-        "time_end": "21:00:00+10"
-        ]
-        ]
     }
     
     func get_company_info()
@@ -107,7 +47,7 @@ class MainViewController: FormViewController {
                 COST_FREE_DELIVERY = dev["free_shipping"] as! Int
                 DELIVERY_DISCONT = dev["pickup_discount"] as! Int
                 COMPANY_INFO = json["description"] as! String
-//                WORK_DAYS = json["schedules"] as! [JSON]
+                WORK_DAYS = JSON(json["schedules"] as Any).arrayValue
                 self.get_categories_info()
             }
         }
