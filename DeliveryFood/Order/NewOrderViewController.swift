@@ -221,7 +221,6 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     
     func go_to_old_order()
     {
-        print("old_order")
         self.performSegue(withIdentifier: "goto_old_order", sender: self)
     }
 

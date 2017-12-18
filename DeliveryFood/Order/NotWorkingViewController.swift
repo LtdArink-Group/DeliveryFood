@@ -61,13 +61,13 @@ class NotWorkingViewController: UIViewController, UIScrollViewDelegate {
         
         let info = Helper().get_schedules()
         //uidescription
-        let lbl_description = UILabel(frame: CGRect(x: 0, y: 187, width: width, height: 22 * 7))
+        let lbl_description = UILabel(frame: CGRect(x: 0, y: 187, width: width, height: 22 * 8))
         lbl_description.textAlignment = NSTextAlignment.center
         lbl_description.text = info
         lbl_description.font = UIFont(name: "Helvetica", size: 18)
         lbl_description.lineBreakMode = NSLineBreakMode.byWordWrapping
         lbl_description.textColor = UIColor(red: 189, green: 189, blue: 189, alpha: 1.0)
-        lbl_description.numberOfLines = 7
+        lbl_description.numberOfLines = 8
         self.view.addSubview(lbl_description)
     }
     
