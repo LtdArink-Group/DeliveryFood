@@ -80,10 +80,10 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             
             +++ Section("Время заказа")
             <<< TimeInlineRow("DeliveryTimeRow"){
-                $0.title = "Выберите время" + TIME_ZONE_TITLE
+                $0.title = "Доставка к" + TIME_ZONE_TITLE
                 let currentDate = Date()
                 $0.cell.textLabel?.textColor = UIColor.black
-                $0.value = currentDate.addingTimeInterval(120 * 60)
+                $0.value = currentDate.set_time_to_date(hour: WORK_HOUR_FROM, minute: WORK_MINUTES_FROM).addingTimeInterval(120 * 60)
                 $0.maximumDate = currentDate.set_time_to_date(hour: WORK_HOUR_TO, minute: WORK_MINUTES_TO)
                 $0.minimumDate = currentDate.set_time_to_date(hour: WORK_HOUR_FROM, minute: WORK_MINUTES_FROM)
                 }.cellSetup { cell, row in

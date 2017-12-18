@@ -378,9 +378,9 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         let now = Date()
-        let date_start = now.set_time_to_date(hour: Int( today_schedule["time_start"].stringValue[0...1])!, minute: Int( today_schedule["time_start"].stringValue[3...4])!)
+//        _ = now.set_time_to_date(hour: Int( today_schedule["time_start"].stringValue[0...1])!, minute: Int( today_schedule["time_start"].stringValue[3...4])!)
         let date_end = now.set_time_to_date(hour: Int( today_schedule["time_end"].stringValue[0...1])!, minute: Int( today_schedule["time_end"].stringValue[3...4])!)
-        if date_start < now && date_end > now
+        if date_end > now
         {
             return true
         }
