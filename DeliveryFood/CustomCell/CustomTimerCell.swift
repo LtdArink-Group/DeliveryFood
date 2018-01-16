@@ -22,7 +22,8 @@ public class CustomTimerCell: Cell<Bool>, CellType {
         {
             lbl_timer.font = UIFont(name: "Helvetica-Bold", size: 32)
         }
-        lbl_state.textColor = Helper().UIColorFromRGB(rgbValue: UInt(SECOND_COLOR))
+        lbl_timer.textColor = Helper().UIColorFromRGB(rgbValue: UInt(CUCCESS_COLOR))
+        lbl_state.textColor = Helper().UIColorFromRGB(rgbValue: UInt(CUCCESS_COLOR))
     }
 }
     
