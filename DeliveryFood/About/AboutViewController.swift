@@ -42,6 +42,8 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         lbl_info.lineBreakMode = NSLineBreakMode.byWordWrapping
         let countline = lbl_info.numberOfVisibleLines
         
+        let workingDays = Helper().getWorkDays()
+
         lbl_info.numberOfLines = countline + 1
         lbl_info.frame = CGRect(x: 16, y: height, width: width - 32, height: CGFloat(countline * 25))
         height = height + CGFloat(countline * 25) + 14
@@ -49,8 +51,8 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         btn_phone.frame = CGRect(x: 16 + img_phone.frame.width + 10, y: height, width: 280, height: btn_phone.frame.height)
         height = height + img_phone.frame.height + 18
         img_clock.frame = CGRect(x: 16, y: height, width: img_clock.frame.width, height: img_clock.frame.height)
-        lbl_clock.frame = CGRect(x: 16 + img_clock.frame.width + 10, y: height, width: width - 32, height: lbl_clock.frame.height * 8)
-        lbl_clock.numberOfLines = 8
+        lbl_clock.frame = CGRect(x: 16 + img_clock.frame.width + 10, y: height, width: width - 32, height: lbl_clock.frame.height * CGFloat(workingDays.count + 1))
+        lbl_clock.numberOfLines = workingDays.count + 1
         lbl_clock.lineBreakMode = NSLineBreakMode.byWordWrapping
         
         height = height + lbl_clock.frame.height + 16
@@ -91,7 +93,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
         scrl_main.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: Helper().scrl_height(height: height, height_screen: UIScreen.main.bounds.size.height))
         
         btn_phone.setTitle(PHONE, for:.normal)
-        lbl_clock.text = "Доставка" + TIME_ZONE_TITLE + ":" + Helper().get_schedules()
+        lbl_clock.text = "Доставка" + TIME_ZONE_TITLE + ":\n" + Helper().getSchedules(workDays: workingDays)
     }
     
     override func didReceiveMemoryWarning() {

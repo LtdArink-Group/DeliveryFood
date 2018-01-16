@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftyJSON
 
 class Helper {
 
@@ -169,18 +170,61 @@ class Helper {
         }
     }
     
-    func get_schedules() -> String
-    {
+    func getWorkDays() -> [String: [String]] {
+        return combineDays(days: parseList(days: WORK_DAYS))
+    }
+
+    func getSchedules(workDays: [String: [String]]) -> String {
+        var result = ""
+        for (time, days) in workDays {
+            result.append("\(days.joined(separator: ", ")) - \(time)\n")
+        }
+        return result
+    }
+
+    func get_schedules() -> String {
         var work_days = ""
-        for each in WORK_DAYS
+        for day in WORK_DAYS
         {
-            work_days = work_days + "\n" + get_day(day: each["week_day"].stringValue) + get_time(time: each["time_start"].stringValue)
-            if each["time_start"].stringValue != ""
+            work_days = work_days + "\n" + get_day(day: day["week_day"].stringValue) + get_time(time: day["time_start"].stringValue)
+            if day["time_start"].stringValue != ""
             {
-                work_days = work_days + " - " + get_time(time: each["time_end"].stringValue)
+                work_days = work_days + " - " + get_time(time: day["time_end"].stringValue)
             }
+
         }
         return work_days
+    }
+
+    private func parseList(days: [JSON]) -> [String] {
+        var parsedList = [String]()
+        for day in days {
+            parsedList.append(parse(day: day))
+        }
+        return parsedList
+    }
+
+    private func parse(day: JSON) -> String {
+        let dw = get_day(day: day["week_day"].stringValue)
+        if day["time_start"] == nil || day["time_end"] == nil {
+            return "\(dw) Выходной"
+        }
+        return "\(dw) \(get_time(time: day["time_start"].stringValue))-\(get_time(time: day["time_end"].stringValue))"
+    }
+
+    private func combineDays(days: [String]) -> [String: [String]] {
+        var combinedDays = [String: [String]]()
+        for day in days {
+            let dt = day.split(separator: " ")
+            let dy = dt[0]
+            let tm = dt[1]
+            if combinedDays[String(tm)] == nil {
+                combinedDays[String(tm)] = [String(dy)]
+            } else {
+                combinedDays[String(tm)]?.append(String(dy))
+            }
+        }
+        return combinedDays
     }
     
     func get_time(time: String) -> String
