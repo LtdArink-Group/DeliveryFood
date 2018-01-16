@@ -49,7 +49,8 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
-        
+        sw_take_away.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        sw_take_away.onTintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
     }
     
     override func viewWillAppear(_ animated: Bool) {

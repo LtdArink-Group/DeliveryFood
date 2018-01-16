@@ -32,19 +32,19 @@ import UIKit
         }
     }
     
-    @IBInspectable var unselectedLabelColor : UIColor = Helper().UIColorFromRGB(rgbValue: UInt(SECOND_COLOR)) {
+    @IBInspectable var unselectedLabelColor : UIColor = Helper().UIColorFromRGB(rgbValue: UInt(CONTROL_COLOR_TEXT_NOT_SELECTED)) {
         didSet {
             setSelectedColors()
         }
     }
     
-    @IBInspectable var thumbColor : UIColor = Helper().UIColorFromRGB(rgbValue: UInt(SECOND_COLOR)) {
+    @IBInspectable var thumbColor : UIColor = Helper().UIColorFromRGB(rgbValue: UInt(CONTROL_COLOR)) {
         didSet {
             setSelectedColors()
         }
     }
     
-    @IBInspectable var borderColor : UIColor = Helper().UIColorFromRGB(rgbValue: UInt(SECOND_COLOR)) {
+    @IBInspectable var borderColor : UIColor = Helper().UIColorFromRGB(rgbValue: UInt(CONTROL_COLOR)) {
         didSet {
             layer.borderColor = borderColor.cgColor
         }

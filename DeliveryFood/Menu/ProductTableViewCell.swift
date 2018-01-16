@@ -13,6 +13,7 @@ import SwiftyJSON
 
 class ProductTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var title: UIView!
     @IBOutlet weak var btn_title: UIButton!
     @IBOutlet weak var lbl_title: UILabel!
     @IBOutlet weak var lbl_cost: UILabel!
@@ -25,6 +26,8 @@ class ProductTableViewCell: UITableViewCell {
     @IBOutlet weak var lbl_count: UILabel!
     @IBOutlet weak var btn_img_product: UIButton!
     
+
+    
     var lbl_delivery: UILabel!
     var lbl_order_cost: UILabel!
     var arr_cost_kinds = [String]()
@@ -36,7 +39,9 @@ class ProductTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         init_sgm_kinds()
-
+        title.backgroundColor = Helper().UIColorFromRGB(rgbValue: UInt(SECOND_COLOR))
+        lbl_title.textColor = Helper().UIColorFromRGB(rgbValue: UInt(SECOND_COLOR_TEXT))
+        lbl_cost.textColor = Helper().UIColorFromRGB(rgbValue: UInt(SECOND_COLOR_TEXT))
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

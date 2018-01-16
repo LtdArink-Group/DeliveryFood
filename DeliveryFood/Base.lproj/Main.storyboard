@@ -135,7 +135,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ajq-sT-Cab" userLabel="btn_minus">
-                                                            <rect key="frame" x="274" y="13.999999999999998" width="33" height="30.333333333333329"/>
+                                                            <rect key="frame" x="275" y="13.999999999999998" width="32" height="30.333333333333329"/>
                                                             <state key="normal" image="img_minus"/>
                                                             <connections>
                                                                 <action selector="on_clicked_btn_minus:" destination="eal-bk-9G8" eventType="touchUpInside" id="5H2-wm-Wgn"/>
@@ -222,7 +222,7 @@
             </objects>
             <point key="canvasLocation" x="3063.768115942029" y="-232.33695652173915"/>
         </scene>
-        <!--Chixx-->
+        <!--ChiXX-->
         <scene sceneID="01d-Ln-ai4">
             <objects>
                 <viewController storyboardIdentifier="MainViewController" id="Kmc-vo-OXz" customClass="MainViewController" customModule="DeliveryFood" customModuleProvider="target" sceneMemberID="viewController">
@@ -279,7 +279,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Chixx" id="ykj-rM-hax"/>
+                    <navigationItem key="navigationItem" title="ChiXX" id="ykj-rM-hax"/>
                     <connections>
                         <segue destination="FHb-tY-bMY" kind="show" identifier="go_to_category" id="soV-9G-cMA"/>
                     </connections>
@@ -337,7 +337,6 @@
                                                             <rect key="frame" x="264" y="10" width="101" height="22"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UEi-YL-W4i" userLabel="btn_title">
@@ -355,11 +354,10 @@
                                                             <rect key="frame" x="8" y="9" width="280" height="26"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.99189978840000004" green="0.57755172249999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="tJd-qc-wF1"/>
                                                     </constraints>
@@ -383,7 +381,7 @@
                                                     </constraints>
                                                     <color key="tintColor" red="0.99189978840000004" green="0.57755172249999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" image="img_additional_filled">
-                                                        <color key="titleColor" red="0.99189978840000004" green="0.57755172249999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="on_clicked_additional:" destination="9Js-wN-dLc" eventType="touchUpInside" id="QpC-7D-cgW"/>
@@ -391,7 +389,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mhI-le-y0A" userLabel="btn_minus">
-                                                    <rect key="frame" x="270" y="383.33333333333331" width="33" height="21"/>
+                                                    <rect key="frame" x="271" y="383.33333333333331" width="32" height="21"/>
                                                     <state key="normal" image="img_minus"/>
                                                     <connections>
                                                         <action selector="ob_clicked_btn_minus:" destination="hfp-2a-ZHF" eventType="touchUpInside" id="kAt-6P-bRa"/>
@@ -479,6 +477,7 @@
                                             <outlet property="lbl_info" destination="14T-qK-qf9" id="2Br-6a-04T"/>
                                             <outlet property="lbl_title" destination="os8-ly-OLz" id="nPc-qL-cVg"/>
                                             <outlet property="sgm_kinds" destination="fRI-yh-UwA" id="Vcc-wI-8g8"/>
+                                            <outlet property="title" destination="81H-mx-IhG" id="UI6-8q-BVi"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -793,8 +792,6 @@
                                     <switch opaque="NO" tag="1000000000" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ALp-e2-ULr" userLabel="swch_take_away">
                                         <rect key="frame" x="328" y="120" width="49" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" red="0.97982567549999999" green="0.53176766630000005" blue="0.088088519870000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="onTintColor" red="0.99189954999999996" green="0.57754439120000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <action selector="on_changed_sw_take_away:" destination="AiO-4c-Sdd" eventType="valueChanged" id="h0I-os-xJw"/>
                                         </connections>
@@ -1142,7 +1139,7 @@
         <image name="img_clock" width="23" height="23"/>
         <image name="img_info_filled" width="30" height="30"/>
         <image name="img_menu_filled" width="33" height="33"/>
-        <image name="img_minus" width="33" height="2"/>
+        <image name="img_minus" width="32" height="3"/>
         <image name="img_no_order" width="382" height="116"/>
         <image name="img_plus" width="32" height="32"/>
         <image name="img_profile_filled" width="33" height="33"/>

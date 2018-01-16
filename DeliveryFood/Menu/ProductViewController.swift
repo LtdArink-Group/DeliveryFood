@@ -16,6 +16,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet weak var tableView: UITableView!
     
+    
     var category_id: Int = 0
     var get_results = [JSON]() {
         didSet {
@@ -127,7 +128,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProductTableViewCell
         cell.img_product.sd_setImage(with: URL(string: get_results[indexPath.row]["photo"].stringValue), placeholderImage: UIImage(named: "img_translucent"))
         cell.lbl_title.text = get_results[indexPath.row]["title"].stringValue
-        cell.lbl_title.underline()
+        // cell.lbl_title.underline()
         cell.lbl_info.text = get_results[indexPath.row]["brief"].stringValue
         cell.photo_url = get_results[indexPath.row]["photo"].stringValue
 
@@ -144,7 +145,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         //init sgm_kinds
         cell.sgm_kinds.items = arr_str_kinds
         cell.sgm_kinds.font = UIFont(name: "Helvetica", size: 13)
-        cell.sgm_kinds.borderColor = Helper().UIColorFromRGB(rgbValue: UInt(SECOND_COLOR))
+        cell.sgm_kinds.borderColor = Helper().UIColorFromRGB(rgbValue: UInt(CONTROL_COLOR))
         let index_main_option = get_ordered_prod["main_option"].intValue
         cell.sgm_kinds.selectedIndex = index_main_option //0
         cell.product_id = product_id
