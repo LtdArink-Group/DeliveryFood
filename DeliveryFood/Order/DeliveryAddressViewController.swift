@@ -61,7 +61,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                         self.old_name = json["name"] as! String
                         self.old_email = json["email"] as! String
                         self.old_phone = json["phone"] as! String
-                        self.addresses = json["addresses"] as! [[String: Any]]
+                        self.addresses = Take_away == true ? COMPANY_ADDRESSES : json["addresses"] as! [[String: Any]]
                         self.create_form()
                     }
                     else
@@ -198,13 +198,13 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         }
             
             +++ Section("Выберите адрес или добавьте новый") { on in
-                on.hidden = Take_away == true ? true : false
-                for (index, each) in Helper().sort_address(array: addresses).enumerated()
+//                on.hidden = Take_away == true ? true : false
+                for (index, address) in Helper().sort_address(array: addresses).enumerated()
                 {
-                    address_id = index == 0 ? (each["id"] as? Int)! : address_id
+                    address_id = index == 0 ? (address["id"] as? Int)! : address_id
                    on <<< CheckRow("AddressRow\(index)") {
-                        $0.cell.imageView?.image = UIImage(named: Helper().get_icon(title: (each["title"] as? String)!))
-                        $0.title = each["title"] as? String
+                        $0.cell.imageView?.image = UIImage(named: Helper().get_icon(title: (address["title"] as? String)!))
+                    $0.title = "\(address["title"] ?? " ") (\(address["street"] ?? " "), \(address["house"] ?? " "))"
                         $0.value = index == 0
                         $0.cell.tag = index
                     $0.cell.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
@@ -212,14 +212,15 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                         self.set_selected_address(tag: row.tag)
                     }
                 }
-                on <<< LabelRow("AddAddressRow") {
-                    $0.cell.imageView?.image = UIImage(named: "btn_add_row")!
-                    $0.title = "Добавить"
-                    $0.cell.accessoryType = .disclosureIndicator
-                    }.onCellSelection {_,_ in
-                        self.on_clicked_add_address()
+                if(Take_away != true) {
+                    on <<< LabelRow("AddAddressRow") {
+                        $0.cell.imageView?.image = UIImage(named: "btn_add_row")!
+                        $0.title = "Добавить"
+                        $0.cell.accessoryType = .disclosureIndicator
+                        }.onCellSelection {_,_ in
+                            self.on_clicked_add_address()
+                    }
                 }
-                        
             }
             
             +++ Section("")

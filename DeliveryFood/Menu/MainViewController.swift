@@ -47,6 +47,7 @@ class MainViewController: FormViewController {
                 COST_FREE_DELIVERY = dev["free_shipping"] as! Int
                 DELIVERY_DISCONT = dev["pickup_discount"] as! Int
                 COMPANY_INFO = json["description"] as! String
+                COMPANY_ADDRESSES = json["addresses"] as! [[String: Any]]
                 WORK_DAYS = JSON(json["schedules"] as Any).arrayValue
                 self.get_categories_info()
             }
