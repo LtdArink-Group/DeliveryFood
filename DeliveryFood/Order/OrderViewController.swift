@@ -105,41 +105,44 @@ class OrderViewController: FormViewController {
             +++ Section("Активные заказы") { on in
                 on.header?.height = {33}
                 on.hidden = get_active_orders(arr_orders: arr_orders).count > 0 ? false : true
-                for (_, each) in get_active_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
+                for (_, order) in get_active_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
                 {
-                    var address = each["address_info"]
-                    let total_cost = each["total_cost"].intValue + each["delivery_cost"].intValue
-                    let str_address = address["street"].stringValue == "" ? "Самовывоз" : address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
+                    var address = order["address_info"]
+                    let total_cost = order["total_cost"].intValue + order["delivery_cost"].intValue
+                    let delivery_type = order["pickup"] == true ? "Самовывоз" : "Доставка"
+                    let str_address = address["street"].stringValue == "" ? "" : address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
                     on  <<< CustomTimerRow() {
                         $0.cellProvider = CellProvider<CustomTimerCell>(nibName: "CustomTimerCell")
                         $0.cell.height = {99}
-                        $0.cell.lbl_title.text = str_address + "\n"
-                            + Helper().string_date_from_string(each["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(each["delivery_time"].stringValue) + " - " + CURRENCY + String(total_cost)
-                        $0.cell.lbl_state.text = each["status"].stringValue
-                        $0.cell.lbl_timer.addTime(time: get_rest_time(datetime: each["delivery_time"].stringValue))
+                        $0.cell.lbl_title.text = delivery_type + "\n" + str_address + "\n"
+                            + Helper().string_date_from_string(order["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(order["delivery_time"].stringValue) + " - " + CURRENCY + String(total_cost)
+                        $0.cell.lbl_state.text = order["status"].stringValue
+                        $0.cell.lbl_timer.addTime(time: get_rest_time(datetime: order["delivery_time"].stringValue))
                         $0.cell.lbl_timer.start()
                         }.onCellSelection {row,cell in
-                            self.go_to_order(order: each, status: "new")
+                            self.go_to_order(order: order, status: "new")
                     }
                 }
             }
             
             +++ Section("Предыдущие заказы") { on in
                 on.hidden = get_old_orders(arr_orders: arr_orders).count > 0 ? false : true
-                for (_, each) in get_old_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
+                for (_, order) in get_old_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
                 {
-                    var address = each["address_info"]
-                    let total_cost = each["total_cost"].intValue + each["delivery_cost"].intValue
-                    let str_address = address["street"].stringValue == "" ? "Самовывоз" : address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
+                    var address = order["address_info"]
+                    let total_cost = order["total_cost"].intValue + order["delivery_cost"].intValue
+                    let delivery_type = order["pickup"] == true ? "Самовывоз" : "Доставка"
+                    let str_address = address["street"].stringValue == "" ? "" : address["street"].stringValue + ", " + address["house"].stringValue + " - кв/оф " + address["office"].stringValue  +  " (" + address["title"].stringValue + ")"
                     on <<< LabelRow() {
-                        $0.title = str_address + "\n"
-                            + Helper().string_date_from_string(each["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(each["delivery_time"].stringValue) + " - " + CURRENCY + String(total_cost)
+                        $0.title = delivery_type + "\n"
+                            + str_address + "\n"
+                            + Helper().string_date_from_string(order["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(order["delivery_time"].stringValue) + " - " + CURRENCY + String(total_cost)
                         $0.cell.textLabel?.font = UIFont(name: "Helvetica", size: 13)
                         $0.cell.textLabel?.numberOfLines = 2
                         $0.cell.accessoryType = .disclosureIndicator
                         $0.cell.imageView?.image = UIImage(named: Helper().get_icon(title: address["title"].stringValue))
                         }.onCellSelection {row,cell in
-                            self.go_to_order(order: each, status: "old")
+                            self.go_to_order(order: order, status: "old")
                     }
                 }
         }

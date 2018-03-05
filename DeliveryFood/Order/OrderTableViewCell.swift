@@ -62,7 +62,7 @@ class OrderTableViewCell: UITableViewCell {
     }
     
     @IBAction func on_clicked_btn_minus(_ sender: UIButton) {
-        if Int(lbl_count.text!)! - 1 >= 0
+        if Int(lbl_count.text!)! - 1 >= 1
         {
             lbl_count.text = String(Int(lbl_count.text!)! - 1)
             Total_order_cost = Total_order_cost - cost

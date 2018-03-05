@@ -51,18 +51,14 @@ class CreateOrderViewController {
     
     func post_order(address_id: Int, delivery_time: String)
     {
-        let params = Take_away == true ? [
-            "company_id": COMPANY_ID,
-            "account_id" : ID_phone,
-            "delivery_time": "\(delivery_time)",
-            "order_products": create_array_json_order(),
-            "pickup": Take_away
-            ]  : [
+        let params = [
             "company_id": COMPANY_ID,
             "account_id" : ID_phone,
             "address_id": address_id,
             "delivery_time": "\(delivery_time)",
-            "order_products": create_array_json_order()
+            "order_products": create_array_json_order(),
+            "pickup": Take_away,
+            "device": "iphone"
         ] as [String : Any]
         print(params)
         let url = SERVER_NAME + "/api/orders"

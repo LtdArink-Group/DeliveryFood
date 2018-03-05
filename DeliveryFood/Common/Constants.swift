@@ -15,7 +15,7 @@ var COST_DELIVERY = 300
 var COST_ORDER_DEFAULT = 0
 var CURRENCY = "₽ "
 var COST_FREE_DELIVERY = 1000
-var COMPANY_ID = 15
+var COMPANY_ID = 1
 var CITY = "Хабаровск"
 // ВЫПИЛИТЬ
 var WORK_HOUR_FROM = 11
@@ -26,6 +26,7 @@ var WORK_MINUTES_TO = 0
 var WORK_DAYS = [JSON]()
 var DELIVERY_DISCONT = 10
 var COMPANY_INFO = ""
+var COMPANY_ADDRESSES: [[String: Any]] = []
 var COMPANY_EMAIL = ["bodakovda@arink-group.ru"]
 var GEOTAG = ["48.491258,135.083673"]
 var GEOTAG_CAFE = ["48.469463,135.071622"]
