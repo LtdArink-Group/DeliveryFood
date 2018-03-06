@@ -33,6 +33,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         
         NotificationCenter.default.addObserver(self, selector: #selector(DeliveryAddressViewController.goto_well_done), name: NSNotification.Name(rawValue: "show_well_done"), object: nil)
         get_user_info()
+        if(Take_away == true) { self.addresses = COMPANY_ADDRESSES }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,7 +81,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             
             +++ Section("Время заказа")
             <<< TimeInlineRow("DeliveryTimeRow"){
-                $0.title = "Доставка к" + TIME_ZONE_TITLE
+                $0.title = (Take_away == true ? "Самовывоз в" : "Доставка к") + TIME_ZONE_TITLE
                 let currentDate = Date()
                 $0.cell.textLabel?.textColor = UIColor.black
                 $0.value = currentDate.set_time_to_date(hour: WORK_HOUR_FROM, minute: WORK_MINUTES_FROM).addingTimeInterval(120 * 60)
@@ -197,7 +198,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                     }
         }
             
-            +++ Section("Выберите адрес или добавьте новый") { on in
+            +++ Section("Выберите адрес") { on in
 //                on.hidden = Take_away == true ? true : false
                 for (index, address) in Helper().sort_address(array: addresses).enumerated()
                 {
