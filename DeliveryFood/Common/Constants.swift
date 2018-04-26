@@ -35,11 +35,12 @@ var TIME_ZONE = " +10"
 var TIME_ZONE_TITLE = " (хаб. время)"
 
 //MARK: Colors
-var FIRST_COLOR = 0xFA8109
-var SECOND_COLOR = 0x9BC122 //AAC92D
+var FIRST_COLOR = 0x8db82b
+var SECOND_COLOR = 0xdc002f
 
 //MARK: Server properties
-var SERVER_NAME = "http://manage.newbill.info"
+//var SERVER_NAME = "http://manage.newbill.info"
+var SERVER_NAME = "http://23.101.67.216:8080"
 
 //MARK: Settings
 var MAP_KEY = "AIzaSyDIbcT6MCPC0VslV-XnT1TwTFbm5dAF27w"

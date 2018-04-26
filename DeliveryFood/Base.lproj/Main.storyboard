@@ -27,24 +27,16 @@
                                 <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_chixx" translatesAutoresizingMaskIntoConstraints="NO" id="r2k-N1-cvF">
+                                    <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Image_logo" translatesAutoresizingMaskIntoConstraints="NO" id="r2k-N1-cvF">
                                         <rect key="frame" x="111" y="22" width="192" height="74"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="45b-dt-hcX">
-                                        <rect key="frame" x="16" y="116" width="382" height="41"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur </string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.40781760215759277" green="0.40782788395881653" blue="0.4078223705291748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_shape_phone" translatesAutoresizingMaskIntoConstraints="NO" id="V9S-ZL-Zvx">
-                                        <rect key="frame" x="16" y="173" width="23" height="23"/>
+                                        <rect key="frame" x="16" y="255" width="23" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NAv-Hp-o5a">
-                                        <rect key="frame" x="55" y="167" width="155" height="33"/>
+                                        <rect key="frame" x="55" y="250" width="155" height="33"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <state key="normal" title="+7 (962) 109-11-23">
@@ -55,11 +47,11 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_clock" translatesAutoresizingMaskIntoConstraints="NO" id="nDd-rN-ftQ">
-                                        <rect key="frame" x="16" y="212" width="23" height="23"/>
+                                        <rect key="frame" x="16" y="289" width="23" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10:00 - 20:00" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2o9-GM-MlC">
-                                        <rect key="frame" x="55" y="214" width="343" height="21"/>
+                                        <rect key="frame" x="55" y="291" width="343" height="21"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <color key="textColor" red="0.40781760215759277" green="0.40782788395881653" blue="0.4078223705291748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -73,6 +65,14 @@
                                             <action selector="on_clicked_btn_feedback:" destination="jSB-Js-kGf" eventType="touchUpInside" id="iz5-FW-PtX"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="45b-dt-hcX">
+                                        <rect key="frame" x="16" y="201" width="382" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur </string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.40781760215759277" green="0.40782788395881653" blue="0.4078223705291748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -114,6 +114,7 @@
                                         <rect key="frame" x="0.0" y="38" width="414" height="482"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" editingAccessoryType="checkmark" rowHeight="57" id="eal-bk-9G8" customClass="AdditionalTableViewCell" customModule="DeliveryFood" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="414" height="57"/>
@@ -135,7 +136,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ajq-sT-Cab" userLabel="btn_minus">
-                                                            <rect key="frame" x="274" y="13.999999999999998" width="33" height="30.333333333333329"/>
+                                                            <rect key="frame" x="275" y="13.999999999999998" width="32" height="30.333333333333329"/>
                                                             <state key="normal" image="img_minus"/>
                                                             <connections>
                                                                 <action selector="on_clicked_btn_minus:" destination="eal-bk-9G8" eventType="touchUpInside" id="5H2-wm-Wgn"/>
@@ -222,7 +223,7 @@
             </objects>
             <point key="canvasLocation" x="3063.768115942029" y="-232.33695652173915"/>
         </scene>
-        <!--Chixx-->
+        <!--Burgx-->
         <scene sceneID="01d-Ln-ai4">
             <objects>
                 <viewController storyboardIdentifier="MainViewController" id="Kmc-vo-OXz" customClass="MainViewController" customModule="DeliveryFood" customModuleProvider="target" sceneMemberID="viewController">
@@ -242,7 +243,7 @@
                                         <rect key="frame" x="8" y="29" width="116" height="49"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -256,7 +257,7 @@
                                         <rect key="frame" x="0.0" y="43" width="132" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -270,7 +271,7 @@
                                         <rect key="frame" x="0.0" y="26" width="121" height="55"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -279,7 +280,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Chixx" id="ykj-rM-hax"/>
+                    <navigationItem key="navigationItem" title="Burgx" id="ykj-rM-hax"/>
                     <connections>
                         <segue destination="FHb-tY-bMY" kind="show" identifier="go_to_category" id="soV-9G-cMA"/>
                     </connections>
@@ -359,7 +360,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.99189978840000004" green="0.57755172249999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.899314284324646" green="0.13545212149620056" blue="0.23863720893859863" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="tJd-qc-wF1"/>
                                                     </constraints>
@@ -391,7 +392,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mhI-le-y0A" userLabel="btn_minus">
-                                                    <rect key="frame" x="270" y="383.33333333333331" width="33" height="21"/>
+                                                    <rect key="frame" x="271" y="383.33333333333331" width="32" height="21"/>
                                                     <state key="normal" image="img_minus"/>
                                                     <connections>
                                                         <action selector="ob_clicked_btn_minus:" destination="hfp-2a-ZHF" eventType="touchUpInside" id="kAt-6P-bRa"/>
@@ -539,10 +540,10 @@
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="img_menu_filled"/>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="0.99189954996109009" green="0.57754439115524292" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="value" red="0.99189954996109009" green="0.57754439115524292" blue="0.96451822916666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="value" red="0.40781933069229126" green="0.12158203125" blue="0.40781933069229126" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
                                 <color key="value" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
@@ -793,8 +794,8 @@
                                     <switch opaque="NO" tag="1000000000" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ALp-e2-ULr" userLabel="swch_take_away">
                                         <rect key="frame" x="328" y="120" width="49" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" red="0.97982567549999999" green="0.53176766630000005" blue="0.088088519870000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="onTintColor" red="0.99189954999999996" green="0.57754439120000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.55294117647058827" green="0.72156862745098038" blue="0.16862745098039217" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="onTintColor" red="0.55294117647058827" green="0.72156862745098038" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="on_changed_sw_take_away:" destination="AiO-4c-Sdd" eventType="valueChanged" id="h0I-os-xJw"/>
                                         </connections>
@@ -828,6 +829,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="1zz-g2-Qmg" firstAttribute="top" secondItem="dwp-Qe-x9t" secondAttribute="top" constant="8" id="DVC-vG-rZK"/>
                                     <constraint firstItem="lLs-DW-9Kv" firstAttribute="top" secondItem="1zz-g2-Qmg" secondAttribute="bottom" constant="4" id="SkD-y0-uCc"/>
@@ -1111,6 +1113,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1131,22 +1134,23 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Image_logo" width="189" height="148"/>
         <image name="btn_delete_busket" width="24" height="26"/>
-        <image name="btn_feedback" width="225" height="45"/>
+        <image name="btn_feedback" width="263" height="44"/>
         <image name="btn_order" width="163" height="44"/>
         <image name="btn_well_done_ok" width="100" height="44"/>
         <image name="img_additional_filled" width="29" height="9"/>
         <image name="img_basket_filled" width="33" height="33"/>
-        <image name="img_chixx" width="192" height="74"/>
         <image name="img_circle" width="40" height="40"/>
         <image name="img_clock" width="23" height="23"/>
         <image name="img_info_filled" width="30" height="30"/>
         <image name="img_menu_filled" width="33" height="33"/>
-        <image name="img_minus" width="33" height="2"/>
+        <image name="img_minus" width="32" height="3"/>
         <image name="img_no_order" width="382" height="116"/>
         <image name="img_plus" width="32" height="32"/>
         <image name="img_profile_filled" width="33" height="33"/>
         <image name="img_shape_phone" width="23" height="23"/>
         <image name="img_well_done" width="55" height="55"/>
     </resources>
+    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

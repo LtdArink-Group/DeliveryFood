@@ -66,9 +66,9 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
             let geotag = each.split(separator: ",")
             let cur_loc = CLLocationCoordinate2D(latitude: Double(geotag[0])!, longitude: Double(geotag[1])!)
             let marker_chixx = GMSMarker(position: cur_loc)
-            marker_chixx.title = "Доставка Chixx"
+            marker_chixx.title = "Burgx - Бар"
             marker_chixx.map = mapView
-            marker_chixx.icon = UIImage(named: "icon_truck")
+            marker_chixx.icon = UIImage(named: "icon_burger")
             marker_chixx.appearAnimation = .pop
         }
         for each in GEOTAG_CAFE
@@ -76,7 +76,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
             let geotag = each.split(separator: ",")
             let cur_loc = CLLocationCoordinate2D(latitude: Double(geotag[0])!, longitude: Double(geotag[1])!)
             let marker_chixx = GMSMarker(position: cur_loc)
-            marker_chixx.title = "Кафе Chixx"
+            marker_chixx.title = "Burgx - Бар"
             marker_chixx.map = mapView
             marker_chixx.icon = UIImage(named: "icon_burger")
             marker_chixx.appearAnimation = .pop

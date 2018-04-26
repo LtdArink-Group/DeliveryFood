@@ -37,6 +37,7 @@ class Header {
         lbl_delivery.font = UIFont(name: "Helvetica", size: 17)
         lbl_delivery.text = CURRENCY + String(Total_delivery_cost)
         lbl_delivery.tag = 1000000000
+        lbl_delivery.textColor = UIColor.white
         return lbl_delivery
     }
     
@@ -47,6 +48,7 @@ class Header {
         lbl_order.font = UIFont(name: "Helvetica", size: 17)
         lbl_order.tag = 2000000000
         lbl_order.text = CURRENCY + String(Total_order_cost)
+        lbl_order.textColor = UIColor.white
         return lbl_order
     }
     

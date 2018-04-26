@@ -92,8 +92,11 @@ class AdditionalViewController: UIViewController, UITableViewDelegate, UITableVi
     {
         let lbl_delivery = self.view.viewWithTag(1) as? UILabel
         lbl_delivery?.text = CURRENCY + String(Total_delivery_cost)
+        lbl_delivery?.textColor = UIColor.white
+
         let lbl_order = self.view.viewWithTag(2) as? UILabel
         lbl_order?.text = CURRENCY + String(Total_order_cost)
+        lbl_order?.textColor = UIColor.white
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -113,6 +116,7 @@ class AdditionalViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.lbl_cost.text = "Цена: " + CURRENCY + arr_additionals[indexPath.row]["cost"].stringValue
         cell.product_id = product_id
         cell.lbl_delivery = self.view.viewWithTag(1000000000) as? UILabel
+        cell.lbl_delivery.textColor = UIColor.white
         cell.lbl_order_cost = self.view.viewWithTag(2000000000) as? UILabel
         cell.lbl_count.text = String(get_choosen_ingredients(product_id: product_id, name: name))
         return cell
