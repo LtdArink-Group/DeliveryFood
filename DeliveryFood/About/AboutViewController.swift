@@ -37,7 +37,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate, MFMailCompose
     {
         let width = UIScreen.main.bounds.size.width
         img_logo.frame = CGRect(x: (width - img_logo.frame.width)/2, y: 24, width: img_logo.frame.width, height: img_logo.frame.height)
-        var height = img_logo.frame.height + 32
+        var height = img_logo.frame.height + 95
         lbl_info.text = COMPANY_INFO
         lbl_info.lineBreakMode = NSLineBreakMode.byWordWrapping
         let countline = lbl_info.numberOfVisibleLines

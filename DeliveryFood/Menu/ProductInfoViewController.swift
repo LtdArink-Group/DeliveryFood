@@ -90,7 +90,7 @@ class ProductInfoViewController: UIViewController, UIScrollViewDelegate {
         lbl_description.font = UIFont(name: "Helvetica", size: 16)
         lbl_description.lineBreakMode = NSLineBreakMode.byWordWrapping
         lbl_description.textColor = UIColor(red: 189, green: 189, blue: 189, alpha: 1.0)
-        let countline: Int = Int(info.count / 34) + 1
+        let countline: Int = Int(info.count / 34) + 5
         lbl_description.numberOfLines = countline
         lbl_description.makeLabelTextPosition(sampleLabel: lbl_description, positionIdentifier: UILabelTextPositions.VERTICAL_ALIGNMENT_TOP.rawValue)
         lbl_description.frame = CGRect(x: 30, y: Int((width - 60) / 1.6 + 15), width: Int(lbl_description.frame.width), height: countline * 22)
