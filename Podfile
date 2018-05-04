@@ -10,7 +10,7 @@ target 'DeliveryFood' do
   pod 'Alamofire'
   pod 'SDWebImage'
   pod 'SwiftyJSON'
-  pod 'Eureka', :git => 'https://github.com/xmartlabs/Eureka.git', :branch => 'feature/Xcode9-Swift4'
+  pod 'Eureka', :git => 'https://github.com/xmartlabs/Eureka.git', :branch => 'master'
   pod 'BEMCheckBox'
   pod 'RAMAnimatedTabBarController'
   pod 'SQLite.swift', '~> 0.11.4'
