@@ -47,14 +47,15 @@ class OrderTableViewCell: UITableViewCell {
         lbl_count.text = String(Int(lbl_count.text!)! + 1)
         Total_order_cost = Total_order_cost + cost
         add_to_order()
-        if type != "i"
-        {
-            if let badgeValue = get_tab_bar2().badgeValue {
-                get_tab_bar2().badgeValue = String((Int(badgeValue) ?? 0) + 1)
-            } else {
-                get_tab_bar2().badgeValue = "1"
-            }
-        }
+//tv
+//        if type != "i"
+//        {
+//            if let badgeValue = get_tab_bar2().badgeValue {
+//                get_tab_bar2().badgeValue = String((Int(badgeValue) ?? 0) + 1)
+//            } else {
+//                get_tab_bar2().badgeValue = "1"
+//            }
+//        }
         check_free_delivery()
         self.lbl_cost.text = get_detail_info()
         set_costs_fields()
@@ -62,19 +63,20 @@ class OrderTableViewCell: UITableViewCell {
     }
     
     @IBAction func on_clicked_btn_minus(_ sender: UIButton) {
-        if Int(lbl_count.text!)! - 1 >= 1
+        if Int(lbl_count.text!)! - 1 >= 0
         {
             lbl_count.text = String(Int(lbl_count.text!)! - 1)
             Total_order_cost = Total_order_cost - cost
             delete_from_order()
-            if type != "i"
-            {
-                if let badgeValue = get_tab_bar2().badgeValue {
-                    get_tab_bar2().badgeValue = String((Int(badgeValue) ?? 0) - 1)
-                } else {
-                    get_tab_bar2().badgeValue = "0"
-                }
-            }
+//tv
+//            if type != "i"
+//            {
+//                if let badgeValue = get_tab_bar2().badgeValue {
+//                    get_tab_bar2().badgeValue = String((Int(badgeValue) ?? 0) - 1)
+//                } else {
+//                    get_tab_bar2().badgeValue = "0"
+//                }
+//            }
             check_free_delivery()
             self.lbl_cost.text = get_detail_info()
             set_costs_fields()

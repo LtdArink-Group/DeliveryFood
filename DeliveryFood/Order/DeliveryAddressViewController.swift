@@ -74,19 +74,26 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         }
     }
     
+    func getWorkTimeAtTheMoment(moment currentDate: Date) -> (sh: Int, sm: Int, eh: Int, em: Int) {
+        let weekday = currentDate.getShortWeekDay(forTimeZone: Int(TIME_ZONE.trimmingCharacters(in: .whitespaces))!).lowercased()
+        
+        return Helper.shared.getScheduleDict(jsonSchedule: WORK_DAYS)[weekday] ?? (sh: 0, sm:0 , eh: 0, em: 0)
+    }
+    
     func create_form()
     {
-        
+        let currentDate = Date()
+        let workTime = getWorkTimeAtTheMoment(moment: currentDate)
         form
             
             +++ Section("Время заказа")
             <<< TimeInlineRow("DeliveryTimeRow"){
                 $0.title = (Take_away == true ? "Самовывоз в" : "Доставка к") + TIME_ZONE_TITLE
-                let currentDate = Date()
+
                 $0.cell.textLabel?.textColor = UIColor.black
-                $0.value = currentDate.set_time_to_date(hour: WORK_HOUR_FROM, minute: WORK_MINUTES_FROM).addingTimeInterval(120 * 60)
-                $0.maximumDate = currentDate.set_time_to_date(hour: WORK_HOUR_TO, minute: WORK_MINUTES_TO)
-                $0.minimumDate = currentDate.set_time_to_date(hour: WORK_HOUR_FROM, minute: WORK_MINUTES_FROM)
+                $0.value = currentDate.set_time_to_date(hour: workTime.sh, minute: workTime.sm).addingTimeInterval(120 * 60)
+                $0.minimumDate = currentDate.set_time_to_date(hour: workTime.sh, minute: workTime.sm)
+                $0.maximumDate = currentDate.set_time_to_date(hour: workTime.eh, minute: workTime.em)
                 }.cellSetup { cell, row in
                     row.dateFormatter?.timeStyle = .short
             }
@@ -440,7 +447,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     @objc func goto_well_done()
     {
         PageLoading().hideLoading()
-        tabBarController?.tabBar.items?[1].badgeValue = "0"
+        //tabBarController?.tabBar.items?[1].badgeValue = "0" //tv
         let controller : WellDoneViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellDoneViewController") as! WellDoneViewController
         controller.reorder = reorder
         self.navigationController?.pushViewController(controller, animated: false)

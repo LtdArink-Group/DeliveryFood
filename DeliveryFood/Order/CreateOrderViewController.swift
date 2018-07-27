@@ -58,6 +58,7 @@ class CreateOrderViewController {
             "delivery_time": "\(delivery_time)",
             "order_products": create_array_json_order(),
             "pickup": Take_away,
+            "note": Note,
             "device": "iphone"
         ] as [String : Any]
         print(params)

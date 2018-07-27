@@ -97,7 +97,7 @@ extension String {
     
 }
 
-extension Date {
+public extension Date {
     func set_time_to_date(hour: Int, minute: Int) -> Date
     {
         let greg = Calendar(identifier: .gregorian)
@@ -146,6 +146,23 @@ extension Date {
         if minutes(from: date) > 0 { return "\(minutes(from: date))m" }
         if seconds(from: date) > 0 { return "\(seconds(from: date))s" }
         return ""
+    }
+    
+    ///получить день недели в определенной тайм зоне
+    ///нужна когда клиент в другой таймзоне, но нужно знать какой день неделе, где кафе
+    func getShortWeekDay(forTimeZone tz: Int) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: tz * 3600)!
+        dateFormatter.locale = Locale(identifier: "en_US")
+        
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ssZZZZ"
+        debugPrint("day ", dateFormatter.string(from: (self as Date)))
+        
+        dateFormatter.dateFormat = "ccc"
+        let weekDayName = dateFormatter.string(from: (self as Date))
+        debugPrint ("week day ", weekDayName)
+        
+        return weekDayName
     }
 }
 

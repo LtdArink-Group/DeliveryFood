@@ -25,6 +25,11 @@ class MainViewController: FormViewController {
         ID_phone = UIDevice.current.identifierForVendor!.uuidString
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        set_tabbar_value()
+    }
+    
     func get_company_info()
     {
         let url = SERVER_NAME + "/api/companies/" + String(COMPANY_ID)
@@ -78,12 +83,21 @@ class MainViewController: FormViewController {
         }
     }
     
+    var orderStatusPanel: OrderStatusPanel!;
     func create_form(arr_categories: [[String: Any]])
     {
         form
-            +++ Section() {
-                $0.header = HeaderFooterView<DeliveryInfoView>(.class)
+//            +++ Section() { //tv todo del
+//                $0.header = HeaderFooterView<DeliveryInfoView>(.class)
+//                }
+            +++ Section() { section in
+                var header = HeaderFooterView<OrderStatusPanel>(.class)
+                header.height = {80}
+                header.onSetupView = { view, _ in
+                    self.orderStatusPanel = view;
                 }
+                section.header = header
+            }
             +++ Section("Выберите категорию") {on in
                 on.header?.height = {20}
                 for each in arr_categories
@@ -106,34 +120,54 @@ class MainViewController: FormViewController {
     func set_tabbar_value()
     {
         Total_order_cost = DBHelper().sum_products_order() + DBHelper().sum_ingredients_order()
-        tabBarController?.tabBar.items?[1].badgeValue = DBHelper().count_prod_in_order() > 0 ? String(DBHelper().count_prod_in_order()) : "0"
-        set_order_cost()
-        check_free_delivery()
+//        tabBarController?.tabBar.items?[1].badgeValue = DBHelper().count_prod_in_order() > 0 ? String(DBHelper().count_prod_in_order()) : "0" //tv todo del
+        
+        
+        MainViewController.updateOrderStatusPanel(self.orderStatusPanel)
+
     }
     
-    func set_order_cost()
+    
+    //tv todo move to better place
+    class func updateOrderStatusPanel(_ orderStatusPanel: OrderStatusPanel?) {
+        if (orderStatusPanel != nil) {
+            MainViewController.set_order_cost(orderStatusPanel!)
+            MainViewController.check_free_delivery(orderStatusPanel!)
+        }
+    }
+    
+    class func set_order_cost(_ orderStatusPanel: OrderStatusPanel)
     {
-        let lbl_order = self.view.viewWithTag(20000001) as? UILabel
-        lbl_order?.text = CURRENCY + String(Total_order_cost)
+        //tv todo del
+//        let lbl_order = self.view.viewWithTag(20000001) as? UILabel
+//        lbl_order?.text = CURRENCY + String(Total_order_cost)
+        
+        orderStatusPanel.totalCost = Total_order_cost
+        orderStatusPanel.productCount = DBHelper().count_prod_in_order() > 0 ?  DBHelper().count_prod_in_order()  : 0
     }
     
-    func check_delivery_cost() -> String
+    class func check_delivery_cost() -> Int
     {
         if Total_order_cost >= COST_FREE_DELIVERY
         {
-            return CURRENCY + "0"
+            //return CURRENCY + "0" //tv todo del
+            return 0
         }
         else
         {
-            return CURRENCY + String(COST_DELIVERY)
+            //return CURRENCY + String(COST_DELIVERY) //tv todo del
+            return COST_DELIVERY
         }
     }
     
-    func check_free_delivery()
+    class func check_free_delivery(_ orderStatusPanel: OrderStatusPanel)
     {
-        let lbl_delivery = self.view.viewWithTag(10000001) as? UILabel
-        lbl_delivery?.text = check_delivery_cost()
-        Total_delivery_cost = Int((lbl_delivery?.text?.replacingOccurrences(of: CURRENCY, with: ""))!)!
+//        let lbl_delivery = self.view.viewWithTag(10000001) as? UILabel
+//        lbl_delivery?.text = check_delivery_cost()
+//        Total_delivery_cost = Int((lbl_delivery?.text?.replacingOccurrences(of: CURRENCY, with: ""))!)!
+        Total_delivery_cost = check_delivery_cost()
+        orderStatusPanel.deliveryCost = Total_delivery_cost
+        
     }
     
     
@@ -152,8 +186,8 @@ class MainViewController: FormViewController {
     
     @objc func update_header_costs()
     {
-        set_order_cost()
-        check_free_delivery()
+        MainViewController.set_order_cost(orderStatusPanel)
+        MainViewController.check_free_delivery(orderStatusPanel)
     }
     
     override func viewDidAppear(_ animated: Bool) {

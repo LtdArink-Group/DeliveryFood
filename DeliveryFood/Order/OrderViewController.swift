@@ -53,7 +53,7 @@ class OrderViewController: FormViewController {
     func preload_form()
     {
         self.navigationItem.setHidesBackButton(true, animated:true)
-        if self.tabBarController?.tabBar.items?[1].badgeValue == "" || self.tabBarController?.tabBar.items?[1].badgeValue == "0"
+        if DBHelper().count_prod_in_order() == 0 //tv replaced old cond based on badge
         {
             if form.isEmpty && !request
             {

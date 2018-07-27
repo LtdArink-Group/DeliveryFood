@@ -10,7 +10,9 @@ import UIKit
 import SwiftyJSON
 import Alamofire
 
-class NewOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class NewOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate{
+    
+    let NOTE_HEIGHT: CGFloat = 76
 
     @IBOutlet weak var img_no_order: UIImageView!
     @IBOutlet weak var tableView: UITableView!
@@ -30,6 +32,11 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var sum_delivery: UILabel!
     @IBOutlet weak var sum_total: UILabel!
     
+    @IBOutlet weak var noteLabel: UILabel!
+    @IBOutlet weak var noteField: UITextView!
+    @IBOutlet weak var noteHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var noteSwitch: UISwitch!
+    
     var arr_order_post_server: JSON = []
     var get_results = [JSON]() {
         didSet {
@@ -44,19 +51,42 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     var today_schedule: JSON = []
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+    
+        noteField.layer.borderWidth = 0.5
+        noteField.layer.borderColor = Helper.shared.UIColorFromRGB(rgbValue: UInt(FIRST_COLOR)).cgColor
+        noteField.layer.cornerRadius = 5.0
+        noteField.text = ""
         
-        self.navigationItem.hidesBackButton = true
+        super.viewDidLoad()
+    
+        
+        //self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
+        
+        // keyboard for text field
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        self.scrl_main.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(returnTextView(gesture:))))
+
+    }
+    
+    @objc func returnTextView(gesture: UIGestureRecognizer) {
+
+        
+        noteField.resignFirstResponder()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(NewOrderViewController.go_to_back), name: NSNotification.Name(rawValue: "well_done_reorder"), object: nil)
+
+                noteField.layer.borderWidth = 1; noteField.layer.borderColor = Helper.shared.UIColorFromRGB(rgbValue: UInt(FIRST_COLOR)).cgColor
         super.viewWillAppear(animated)
+
         preload_form()
     }
+
     
     @objc func go_to_back()
     {
@@ -65,7 +95,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     
     func preload_form()
     {
-        if self.tabBarController?.tabBar.items?[1].badgeValue == "" || self.tabBarController?.tabBar.items?[1].badgeValue == "0"
+        if DBHelper().count_prod_in_order() == 0 //tv replaced old cond based on badge
         {
             if from_orders
             {
@@ -94,6 +124,11 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    var yButtonWithNote: CGFloat!
+    
+    
+    
+    //tv what is!!! where simple constraints
     func correct_height_elements()
     {
         get_today_schedule()
@@ -110,7 +145,10 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         sum_sale.translatesAutoresizingMaskIntoConstraints = true
         sum_delivery.translatesAutoresizingMaskIntoConstraints = true
         sum_total.translatesAutoresizingMaskIntoConstraints = true
-        
+        noteLabel.translatesAutoresizingMaskIntoConstraints = true
+        noteSwitch.translatesAutoresizingMaskIntoConstraints = true
+        noteField.translatesAutoresizingMaskIntoConstraints = true
+
         let width = UIScreen.main.bounds.size.width
         var height: CGFloat = CGFloat(get_count_products() * 44)
         tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: width, height: height)
@@ -132,10 +170,18 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         lbl_total.frame = CGRect(x: lbl_total.frame.origin.x, y: height, width: lbl_total.frame.width, height: lbl_total.frame.height)
         sum_total.frame = CGRect(x: width - 72, y: height, width: 72, height: sum_total.frame.height)
         
+        height = height + 40
+        noteLabel.frame = CGRect(x: noteLabel.frame.origin.x, y: height, width: noteLabel.frame.width, height: noteLabel.frame.height)
+        noteSwitch.frame = CGRect(x: width - 72, y: height, width: noteSwitch.frame.width, height: noteSwitch.frame.height)
+        height = height + 40
+        
+        noteField.text = Note; noteField.isHidden = !(noteField.text != nil && !noteField.text.isEmpty);  noteSwitch.isOn = !noteField.isHidden
+        noteField.frame = CGRect(x: noteField.frame.origin.x, y: height, width: width - noteField.frame.origin.x*2, height: NOTE_HEIGHT)
+
         let btn_width = (UIScreen.main.bounds.size.width - btn_create_order.frame.width)/2
-        height = height + 50
+        height = height + 30 + (noteField.isHidden ? 0 : NOTE_HEIGHT)
         btn_create_order.frame = CGRect(x: btn_width, y: height, width: btn_create_order.frame.width, height: btn_create_order.frame.height)
-        height = height + 64
+        height = height + 64 + 20
     
         scrl_main.frame = CGRect(x: 0,y: 64, width: width, height: UIScreen.main.bounds.size.height)
         scrl_main.contentSize = CGSize(width: width, height: Helper().scrl_height(height: height, height_screen: UIScreen.main.bounds.size.height))
@@ -212,7 +258,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     {
         scrl_main.isHidden = true
         img_no_order.isHidden = false
-        tabBarController?.tabBar.items?[1].badgeValue = "0"
+        //tabBarController?.tabBar.items?[1].badgeValue = "0" //tv
         DBHelper().delete_order()
         Total_order_cost = 0
         Total_delivery_cost = COST_DELIVERY
@@ -324,6 +370,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func on_clicked_create_order(_ sender: UIButton)
     {
+        Note = noteSwitch.isOn ? noteField.text : ""
         if is_working_now() == true {
             open_create_order()
         }
@@ -458,7 +505,19 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    var lastOffset: CGPoint!
+    var keyboardHeight: CGFloat!
+
     
+
+    @IBAction func triggerNoteHidding(_ sender: Any) {
+        noteField.isHidden = !noteSwitch.isOn
+        btn_create_order.frame = CGRect(x: btn_create_order.frame.origin.x, y: btn_create_order.frame.origin.y + (noteField.isHidden ? -NOTE_HEIGHT : NOTE_HEIGHT) , width: btn_create_order.frame.width, height: btn_create_order.frame.height)
+        
+        self.scrl_main.contentSize = CGSize(width: self.scrl_main.contentSize.width, height: self.scrl_main.contentSize.height + (noteField.isHidden ? -NOTE_HEIGHT : NOTE_HEIGHT))
+        
+        view.layoutIfNeeded()
+    }
 }
 
 class RequestOrder {
@@ -512,5 +571,61 @@ class RequestOrder {
     
     func resetGet() {
         getResults = []
+    }
+}
+
+
+// Keybord handling for text fields (views)
+extension NewOrderViewController: UITextViewDelegate {
+    
+    func textViewShouldBeginEditing(_ textField: UITextView) -> Bool {
+        //activeField = textField
+        lastOffset = self.scrl_main.contentOffset
+        return true
+    }
+    
+    private func textViewShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
+        self.view.endEditing(true)
+        
+        return true
+        
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if keyboardHeight != nil {
+            return
+        }
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            keyboardHeight = keyboardSize.height + Helper.shared.getContentTopOffset(controller: self)
+            
+            scrl_main.contentSize = CGSize(width: scrl_main.contentSize.width, height: scrl_main.contentSize.height+keyboardHeight)
+            
+            // move if keyboard hide input field
+            let distanceToBottom = self.scrl_main.frame.size.height - (noteField?.frame.origin.y)! - (noteField?.frame.size.height)!
+            let collapseSpace = keyboardHeight - distanceToBottom
+            
+            if collapseSpace < 0 {
+                // no collapse
+                return
+            }
+            
+            self.scrl_main.contentOffset = CGPoint(x: self.lastOffset.x, y: collapseSpace + 10)
+            
+            //scrl_main.frame = CGRect(x: 0,y: 64, width: width, height: UIScreen.main.bounds.size.height)
+            
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.3) {
+            
+            self.scrl_main.contentSize = CGSize(width: self.scrl_main.contentSize.width, height: self.scrl_main.contentSize.height - (self.keyboardHeight ?? 0)!)
+            
+            self.scrl_main.contentOffset = self.lastOffset
+        }
+        
+        keyboardHeight = nil
     }
 }

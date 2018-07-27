@@ -79,11 +79,13 @@ class ProductTableViewCell: UITableViewCell {
         lbl_count.text = String(Int(lbl_count.text!)! + 1)
         Helper().increment_label(from_value: Total_order_cost, end_value: Total_order_cost + product_cost(), label: lbl_order_cost)
         Total_order_cost = Total_order_cost + product_cost()
-        if let badgeValue = get_tab_bar2().badgeValue {
-            get_tab_bar2().badgeValue = String((Int(badgeValue) ?? 0) + 1)
-        } else {
-            get_tab_bar2().badgeValue = "1"
-        }
+        
+        //tv
+//        if let badgeValue = get_tab_bar2().badgeValue {
+//            get_tab_bar2().badgeValue = String((Int(badgeValue) ?? 0) + 1)
+//        } else {
+//            get_tab_bar2().badgeValue = "1"
+//        }
         check_free_delivery()
         add_to_order(prod_id: sender.tag)
         Main_option = sgm_kinds.items[sgm_kinds.selectedIndex]
@@ -99,6 +101,9 @@ class ProductTableViewCell: UITableViewCell {
         {
             DBHelper().update_from_order_plus(be_product_id: prod_id, be_main_option: sgm_kinds.items[sgm_kinds.selectedIndex])
         }
+        
+        //tv todo temp in curren conceptcost_delivery
+        ProductViewController.updateOrderStatus()
     }
 
     func delete_from_order(prod_id: Int)
@@ -118,6 +123,10 @@ class ProductTableViewCell: UITableViewCell {
             DBHelper().delete_product(be_product_id: prod_id, be_main_option: sgm_kinds.items[sgm_kinds.selectedIndex])
             DBHelper().delete_ingredient_of_product(be_product_id: prod_id, be_main_option: sgm_kinds.items[sgm_kinds.selectedIndex])
         }
+        
+        //tv todo temp in curren conceptcost_delivery
+        ProductViewController.updateOrderStatus()
+
     }
     
     func increase_cost_ingredients() -> Int
@@ -133,11 +142,12 @@ class ProductTableViewCell: UITableViewCell {
             let new_total_cost = Total_order_cost - product_cost()
             Helper().increment_label(from_value: Total_order_cost, end_value: new_total_cost, label: lbl_order_cost)
             Total_order_cost = new_total_cost
-            if let badgeValue = get_tab_bar2().badgeValue {
-                get_tab_bar2().badgeValue = String((Int(badgeValue) ?? 0) - 1)
-            } else {
-                get_tab_bar2().badgeValue = "0"
-            }
+            //tv
+//            if let badgeValue = get_tab_bar2().badgeValue {
+//                get_tab_bar2().badgeValue = String((Int(badgeValue) ?? 0) - 1)
+//            } else {
+//                get_tab_bar2().badgeValue = "0"
+//            }
             delete_from_order(prod_id: sender.tag)
             check_free_delivery()
             Main_option = sgm_kinds.items[sgm_kinds.selectedIndex]

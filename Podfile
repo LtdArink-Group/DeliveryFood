@@ -1,5 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
+project 'DeliveryFood.xcodeproj'
 
 target 'DeliveryFood' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -13,7 +14,7 @@ target 'DeliveryFood' do
   pod 'Eureka', :git => 'https://github.com/xmartlabs/Eureka.git', :branch => 'master'
   pod 'BEMCheckBox'
   pod 'RAMAnimatedTabBarController'
-  pod 'SQLite.swift', '~> 0.11.4'
+  pod 'SQLite.swift', '0.11.4'
   pod 'CountdownLabel'
   pod 'GoogleMaps'
 

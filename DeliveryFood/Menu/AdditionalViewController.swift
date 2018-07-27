@@ -64,13 +64,14 @@ class AdditionalViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func init_header()
     {
-        view.addSubview(Header().init_header_img_view())
-        view.addSubview(Header().init_header_lbl_delivery())
-        view.addSubview(Header().init_header_lbl_order())
-        let btn_call = UIButton(type: UIButtonType.custom) as UIButton
-        btn_call.frame = CGRect(x: (Header().get_width_screen()/3) * 2, y: 64, width: Header().get_width_screen()/3, height: Header().get_width_screen()/4)
-        btn_call.addTarget(self, action: #selector(ProductViewController.on_clicked_call(sender:)), for: UIControlEvents.touchUpInside)
-        view.addSubview(btn_call)
+        //tv todo del
+//        view.addSubview(Header().init_header_img_view())
+//        view.addSubview(Header().init_header_lbl_delivery())
+//        view.addSubview(Header().init_header_lbl_order())
+//        let btn_call = UIButton(type: UIButtonType.custom) as UIButton
+//        btn_call.frame = CGRect(x: (Header().get_width_screen()/3) * 2, y: 64, width: Header().get_width_screen()/3, height: Header().get_width_screen()/4)
+//        btn_call.addTarget(self, action: #selector(ProductViewController.on_clicked_call(sender:)), for: UIControlEvents.touchUpInside)
+//        view.addSubview(btn_call)
         
         init_table_view()
         set_cost_order()

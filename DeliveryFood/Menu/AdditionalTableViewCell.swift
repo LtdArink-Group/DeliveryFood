@@ -114,6 +114,9 @@ class AdditionalTableViewCell: UITableViewCell {
         let cost_delivery = check_delivery_cost()
         lbl_delivery.text = cost_delivery
         Total_delivery_cost = Int((cost_delivery.replacingOccurrences(of: CURRENCY, with: "").trimmingCharacters(in: .whitespacesAndNewlines)))!
+        
+        //tv todo temp in curren conceptcost_delivery
+        ProductViewController.updateOrderStatus()
     }
     
     

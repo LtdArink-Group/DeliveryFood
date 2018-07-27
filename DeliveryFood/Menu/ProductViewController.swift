@@ -14,6 +14,7 @@ import SDWebImage
 class ProductViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     
+    @IBOutlet weak var orderStatusPanel: OrderStatusPanel!
     @IBOutlet weak var tableView: UITableView!
     
     var category_id: Int = 0
@@ -22,6 +23,9 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
             tableView.reloadData()
         }
     }
+    
+    //tv todo temp in current concept
+    static var currentOrderStatusPanel: OrderStatusPanel!
     
     let requestManager = RequestManagerProducts()
     
@@ -71,23 +75,31 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func init_header()
     {
-        view.addSubview(Header().init_header_img_view())
-        view.addSubview(Header().init_header_lbl_delivery())
-        view.addSubview(Header().init_header_lbl_order())
-        
-        let btn_call = UIButton(type: UIButtonType.custom) as UIButton
-        btn_call.frame = CGRect(x: (Header().get_width_screen()/3) * 2, y: 64, width: Header().get_width_screen()/3, height: Header().get_width_screen()/4)
-        btn_call.addTarget(self, action: #selector(ProductViewController.on_clicked_call(sender:)), for: UIControlEvents.touchUpInside)
-        view.addSubview(btn_call)
+        //tv temp - it's bad but here there is that code
+        self.orderStatusPanel.orderCostButton.sumLabel.tag = 2000000000
+        self.orderStatusPanel.deliveryCostButton.sumLabel.tag = 1000000000
+        //tv todo del
+//        view.addSubview(Header().init_header_img_view())
+//        view.addSubview(Header().init_header_lbl_delivery())
+//        view.addSubview(Header().init_header_lbl_order())
+//
+//        let btn_call = UIButton(type: UIButtonType.custom) as UIButton
+//        btn_call.frame = CGRect(x: (Header().get_width_screen()/3) * 2, y: 64, width: Header().get_width_screen()/3, height: Header().get_width_screen()/4)
+//        btn_call.addTarget(self, action: #selector(ProductViewController.on_clicked_call(sender:)), for: UIControlEvents.touchUpInside)
+//        view.addSubview(btn_call)
         
         init_table_view(width: Header().get_width_screen())
-        set_cost_order()
+        //set_cost_order() //tv todo del
+        
+        type(of: self).currentOrderStatusPanel = self.orderStatusPanel
+        update_header_costs()
     }
-    
-    @objc func on_clicked_call(sender: UIButton!)
-    {
-        Header().on_clicked_call(sender: sender)
-    }
+
+   //tv todo del
+//    @objc func on_clicked_call(sender: UIButton!)
+//    {
+//        Header().on_clicked_call(sender: sender)
+//    }
     
     func init_table_view(width: CGFloat)
     {
@@ -95,11 +107,17 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.frame = CGRect(x: 0, y: 64 + width/4, width: width, height: height - width/4 - 64)
     }
     
-    func set_cost_order()
-    {
-        (self.view.viewWithTag(1000000000) as? UILabel)?.text = CURRENCY + String(Total_delivery_cost)
-        (self.view.viewWithTag(2000000000) as? UILabel)?.text = CURRENCY + String(Total_order_cost)
-    }
+    //tv todo del
+//    func set_cost_order() //tv todo dublicate
+//    {
+//        //tv todo del
+////        (self.view.viewWithTag(1000000000) as? UILabel)?.text = CURRENCY + String(Total_delivery_cost)
+////        (self.view.viewWithTag(2000000000) as? UILabel)?.text = CURRENCY + String(Total_order_cost)
+//
+//        self.orderStatusPanel.totalCost = Total_order_cost
+//        self.orderStatusPanel.deliveryCost = Total_delivery_cost
+//
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -232,34 +250,45 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @objc func update_header_costs()
     {
-        set_order_cost()
-        check_free_delivery()
+        //tv todo del
+//        set_order_cost()
+//        check_free_delivery()
+        
+        type(of: self).updateOrderStatus()
     }
     
-    func set_order_cost()
-    {
-        let lbl_order = self.view.viewWithTag(2000000000) as? UILabel
-        lbl_order?.text = CURRENCY + String(Total_order_cost)
+    //tv todo temp
+    class func updateOrderStatus() {
+        MainViewController.updateOrderStatusPanel(ProductViewController.currentOrderStatusPanel)
     }
-    
-    func check_delivery_cost() -> String
-    {
-        if Total_order_cost >= COST_FREE_DELIVERY
-        {
-            return CURRENCY + "0"
-        }
-        else
-        {
-            return CURRENCY + String(COST_DELIVERY)
-        }
-    }
-    
-    func check_free_delivery()
-    {
-        let lbl_delivery = self.view.viewWithTag(1000000000) as? UILabel
-        lbl_delivery?.text = check_delivery_cost()
-        Total_delivery_cost = Int((lbl_delivery?.text?.replacingOccurrences(of: CURRENCY, with: ""))!)!
-    }
+
+    //tv todo del
+//    func set_order_cost()
+//    {
+//        let lbl_order = self.view.viewWithTag(2000000000) as? UILabel
+//        lbl_order?.text = CURRENCY + String(Total_order_cost)
+//
+//    }
+//
+
+//    func check_delivery_cost() -> String
+//    {
+//        if Total_order_cost >= COST_FREE_DELIVERY
+//        {
+//            return CURRENCY + "0"
+//        }
+//        else
+//        {
+//            return CURRENCY + String(COST_DELIVERY)
+//        }
+//    }
+//
+//    func check_free_delivery()
+//    {
+//        let lbl_delivery = self.view.viewWithTag(1000000000) as? UILabel
+//        lbl_delivery?.text = check_delivery_cost()
+//        Total_delivery_cost = Int((lbl_delivery?.text?.replacingOccurrences(of: CURRENCY, with: ""))!)!
+//    }
     
 }
 

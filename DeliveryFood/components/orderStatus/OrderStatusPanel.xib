@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OrderStatusPanel" customModule="DeliveryFood" customModuleProvider="target">
+            <connections>
+                <outlet property="deliveryCostButton" destination="zeq-Av-4ka" id="bvV-V8-HZ3"/>
+                <outlet property="orderCostButton" destination="nQX-NJ-pO7" id="Opx-DP-yWr"/>
+                <outlet property="phoneButton" destination="JzX-eh-egD" id="1LO-1i-Sgf"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="yl4-ug-UdO">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zeq-Av-4ka" customClass="OrderStatusButton" customModule="DeliveryFood" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="125" height="90"/>
+                            <color key="tintColor" red="0.55294117647058827" green="0.72156862745098038" blue="0.16862745098039217" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="caption" value="Стоимость доставки"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="badgeValue">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="image" keyPath="image" value="img_car"/>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" tag="50000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nQX-NJ-pO7" customClass="OrderStatusButton" customModule="DeliveryFood" customModuleProvider="target">
+                            <rect key="frame" x="125" y="0.0" width="125" height="90"/>
+                            <color key="tintColor" red="0.55294117649999996" green="0.72156862749999995" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="caption" value="Заказ"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="badgeValue">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="onClickOrderButton:" destination="-1" eventType="touchUpInside" id="c5B-2H-FYE"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JzX-eh-egD" customClass="OrderStatusButton" customModule="DeliveryFood" customModuleProvider="target">
+                            <rect key="frame" x="250" y="0.0" width="125" height="90"/>
+                            <color key="tintColor" red="0.55294117647058827" green="0.72156862745098038" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="caption" value="Позвонить нам"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="badgeValue">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="summaHidden" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="rightLineHidden" value="YES"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="image" value="img_phone"/>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="onClickCallButton:" destination="-1" eventType="touchUpInside" id="u1I-lz-FMs"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="POh-c0-9WX">
+                    <rect key="frame" x="0.0" y="89" width="375" height="1"/>
+                    <color key="backgroundColor" red="0.55294117649999996" green="0.72156862749999995" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="tcC-et-lcG"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="POh-c0-9WX" secondAttribute="trailing" id="AAH-jP-14e"/>
+                <constraint firstItem="yl4-ug-UdO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="EUX-g1-t20"/>
+                <constraint firstAttribute="bottom" secondItem="yl4-ug-UdO" secondAttribute="bottom" id="NeQ-zm-ub8"/>
+                <constraint firstAttribute="trailing" secondItem="yl4-ug-UdO" secondAttribute="trailing" id="QAR-0h-cIj"/>
+                <constraint firstAttribute="bottom" secondItem="POh-c0-9WX" secondAttribute="bottom" id="Qqe-yW-7kS"/>
+                <constraint firstItem="yl4-ug-UdO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="aeo-EQ-XAz"/>
+                <constraint firstItem="POh-c0-9WX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="neP-EH-m6n"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="33.5" y="88.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="img_car" width="72" height="43"/>
+        <image name="img_phone" width="44" height="44"/>
+    </resources>
+</document>

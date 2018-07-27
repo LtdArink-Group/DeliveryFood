@@ -10,8 +10,10 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
+//tv todo modificate all to singleton
 class Helper {
-
+    static let shared = Helper()
+    
     func UIColorFromRGB(rgbValue: UInt) -> UIColor {
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
@@ -67,6 +69,17 @@ class Helper {
         else {
             return height > height_screen ? height + 60 : height_screen + 40
         }
+    }
+    
+    //tv temp, a little better for the way of created forms here
+    func getContentTopOffset (controller: UIViewController) -> CGFloat{
+            if controller.navigationController != nil && !controller.navigationController!.navigationBar.isTranslucent {
+                return 0
+            } else {
+                let barHeight=controller.navigationController?.navigationBar.frame.height ?? 0
+                let statusBarHeight = UIApplication.shared.isStatusBarHidden ? CGFloat(0) : UIApplication.shared.statusBarFrame.height
+                return barHeight + statusBarHeight
+            }
     }
     
     func string_date_from_string(_ datetime:String) -> String
@@ -177,7 +190,8 @@ class Helper {
     func getSchedules(workDays: [String: [String]]) -> String {
         var result = ""
         for (time, days) in workDays {
-            result.append("\(days.joined(separator: ", ")) - \(time)\n")
+            let daysStr = days.count == 7 ? "Ежедневно" : days.joined(separator: ", ")
+            result.append("\(daysStr): \(time)\n")
         }
         return result
     }
@@ -242,6 +256,7 @@ class Helper {
         return time_work
     }
     
+    //tv зачем?! в телефоне это есть
     func get_day(day: String) -> String
     {
         var russian_day = ""
@@ -263,4 +278,36 @@ class Helper {
         }
         return russian_day
     }
+    
+    ///получить список расписанияб из json объекта, в будущем использовать только его
+    public func getScheduleDict(jsonSchedule: [JSON]) -> [String:(sh: Int, sm: Int, eh: Int, em: Int)] {
+        func getTimeTupleFromString(_ time: String) -> (Int, Int) {
+            var result = (hour: 0, min:0)
+            if time != "" {
+                let arr_time = time.split(separator: ":")
+                result = (hour: Int(arr_time[0])!, min: Int(arr_time[1])!)
+            }
+            return result
+        }
+        
+        func schedulerItemToTuple(day: JSON) -> (Int,Int,Int,Int) {
+            var startTuple = (0,0)
+            var endTuple = (0,0)
+            
+            if day["time_start"] == JSON.null  || day["time_end"] == JSON.null  {
+                
+            } else {
+                startTuple = getTimeTupleFromString(day["time_start"].stringValue)
+                endTuple = getTimeTupleFromString(day["time_end"].stringValue)
+            }
+            return (startTuple.0, startTuple.1, endTuple.0, endTuple.1)
+        }
+        
+        var list = [String:(Int,Int,Int,Int)]()
+        for day in jsonSchedule {
+            list[day["week_day"].stringValue] = schedulerItemToTuple(day: day)
+        }
+        return list
+    }
+    
 }
