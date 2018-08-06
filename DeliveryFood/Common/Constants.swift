@@ -33,14 +33,15 @@ var GEOTAG_CAFE = ["48.469463,135.071622"]
 var CENTER_MAP = "48.477251,135.083662"
 var TIME_ZONE = " +10"
 var TIME_ZONE_TITLE = " (хаб. время)"
+var TIME_ZONE_TITLE2 = " хабаровское"
 
 //MARK: Colors
 var FIRST_COLOR = 0x8db82b
 var SECOND_COLOR = 0xdc002f
 
 //MARK: Server properties
-var SERVER_NAME = "http://manage.newbill.info"
-//var SERVER_NAME = "http://23.101.67.216:8080"
+
+var SERVER_NAME = !Utils.shared.isDebugMode() ? "http://manage.newbill.info" : "http://23.101.67.216:8080"
 
 //MARK: Settings
 var MAP_KEY = "AIzaSyDIbcT6MCPC0VslV-XnT1TwTFbm5dAF27w"

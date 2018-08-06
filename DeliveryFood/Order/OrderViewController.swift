@@ -24,9 +24,9 @@ class OrderViewController: FormViewController {
 
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
-        self.navigationItem.hidesBackButton = true
+        //self.navigationItem.hidesBackButton = true
         NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.updateGetResults), name: NSNotification.Name(rawValue: "get_result_orders"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "cancel_order"), object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "cancel_order"), object: nil) //tv commented
         NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "reload_form"), object: nil)
         preload_form()
     }
@@ -47,12 +47,17 @@ class OrderViewController: FormViewController {
     {
         request = false
         form.removeAll()
+        self.tableView.subviews.forEach { (view) in
+            if view is UIImageView {
+                view.removeFromSuperview()
+            }
+        }
         preload_form()
     }
     
     func preload_form()
     {
-        self.navigationItem.setHidesBackButton(true, animated:true)
+        //self.navigationItem.setHidesBackButton(true, animated:true)
         if DBHelper().count_prod_in_order() == 0 //tv replaced old cond based on badge
         {
             if form.isEmpty && !request
@@ -83,18 +88,18 @@ class OrderViewController: FormViewController {
     
     func create_no_order()
     {
-        tableView!.contentInset.top = -60
+        //tableView!.contentInset.top = -60
         tableView!.addSubview(img_no_order)
     }
     
     func get_active_orders(arr_orders: [JSON]) -> [JSON]
     {
-        return arr_orders.filter { ( ST_ACTIVE.contains($0["status"].stringValue)) && Helper().get_date_from_string($0["delivery_time"].stringValue) >= Helper().get_now() }
+        return arr_orders.filter { ( ST_ACTIVE.contains($0["status"].stringValue)) && Helper.shared.get_date_from_string($0["delivery_time"].stringValue) ?? Helper.shared.get_date_from_string($0["created_at"].stringValue)!.addingTimeInterval(600) >= Helper.shared.get_now() } //tv todo move to veiwmodel
     }
 
-    func get_old_orders(arr_orders: [JSON]) -> [JSON]
+    func get_old_orders(arr_orders: [JSON]) -> [JSON] //tv todo - old it is not active simply
     {
-        return arr_orders.filter { Helper().get_date_from_string($0["delivery_time"].stringValue) < Helper().get_now() || $0["status"].stringValue == ST_CANCEL }
+        return arr_orders.filter { Helper.shared.get_date_from_string($0["delivery_time"].stringValue) ?? Helper.shared.get_date_from_string($0["created_at"].stringValue)!.addingTimeInterval(600) < Helper.shared.get_now() || $0["status"].stringValue == ST_CANCEL }
     }
     
 
@@ -119,6 +124,7 @@ class OrderViewController: FormViewController {
                         $0.cell.lbl_state.text = order["status"].stringValue
                         $0.cell.lbl_timer.addTime(time: get_rest_time(datetime: order["delivery_time"].stringValue))
                         $0.cell.lbl_timer.start()
+                        $0.cell.lbl_timer.isHidden = (order["delivery_time"].stringValue == nil || order["delivery_time"].stringValue == "")
                         }.onCellSelection {row,cell in
                             self.go_to_order(order: order, status: "new")
                     }
@@ -151,8 +157,8 @@ class OrderViewController: FormViewController {
     func get_rest_time(datetime: String) -> Double
     {
         let date = Helper().get_date_from_string(datetime)
-        let diff = date.seconds(from: Helper().get_now())
-        return Double(diff) > 0 ? Double(diff) : 0
+        let diff = date?.seconds(from: Helper().get_now())
+        return diff != nil && Double(diff!) > 0 ? Double(diff!) : 0
     }
     
     func go_to_order(order: JSON, status: String)

@@ -13,6 +13,7 @@ import SDWebImage
 
 class ProductViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var pullRefreshing: PullRefreshing!
     
     @IBOutlet weak var orderStatusPanel: OrderStatusPanel!
     @IBOutlet weak var tableView: UITableView!
@@ -46,11 +47,18 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         NotificationCenter.default.addObserver(self, selector: #selector(ProductViewController.go_to_back_remove), name: NSNotification.Name(rawValue: "remove_order"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ProductViewController.go_to_back_remove), name: NSNotification.Name(rawValue: "remove_order_ingredients"), object: nil)
         
+        pullRefreshing = PullRefreshing(tableView: tableView, action: {self.refresh()})
+        
+        refresh()
+    }
+    
+    func refresh() {
         get_results = []
-        updateGetResults()
+        //updateGetResults()
         requestManager.resetGet()
         requestManager.get(id: category_id)
     }
+    
     
     @objc func go_to_back()
     {
@@ -63,12 +71,20 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         go_to_back()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        update_header_costs()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "come_to_products"), object: nil)
     }
     
+
+
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(ProductViewController.update_header_costs), name: NSNotification.Name(rawValue: "come_from_ingredients"), object: nil)
         Main_option = ""
     }
@@ -88,7 +104,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
 //        btn_call.addTarget(self, action: #selector(ProductViewController.on_clicked_call(sender:)), for: UIControlEvents.touchUpInside)
 //        view.addSubview(btn_call)
         
-        init_table_view(width: Header().get_width_screen())
+        //init_table_view(width: Header().get_width_screen()) //tv todo del
         //set_cost_order() //tv todo del
         
         type(of: self).currentOrderStatusPanel = self.orderStatusPanel
@@ -100,12 +116,13 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
 //    {
 //        Header().on_clicked_call(sender: sender)
 //    }
-    
-    func init_table_view(width: CGFloat)
-    {
-        let height = UIScreen.main.bounds.height
-        tableView.frame = CGRect(x: 0, y: 64 + width/4, width: width, height: height - width/4 - 64)
-    }
+
+//tv todo del
+//    func init_table_view(width: CGFloat)
+//    {
+//        let height = UIScreen.main.bounds.height
+//        tableView.frame = CGRect(x: 0, y: 64 + width/4, width: width, height: height - width/4 - 64)
+//    }
     
     //tv todo del
 //    func set_cost_order() //tv todo dublicate
@@ -126,7 +143,17 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @objc func updateGetResults() {
         get_results = requestManager.getResults
-        tableView.reloadData()
+        if get_results.count > 0 {
+            pullRefreshing.hideErrorMessage()
+            self.pullRefreshing.isEnabled = false;
+            orderStatusPanel.orderCostButton.isEnabled = true;
+            orderStatusPanel.orderCostButton.tintColor = orderStatusPanel.deliveryCostButton.tintColor //temp decison, move to Panel
+        } else {
+            self.pullRefreshing.showErrorMessage()
+            orderStatusPanel.orderCostButton.isEnabled = false;
+            orderStatusPanel.orderCostButton.tintColor = orderStatusPanel.deliveryCostButton.tintColor.withAlphaComponent(0.6)
+        }
+        //tableView.reloadData()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -259,9 +286,12 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     //tv todo temp
     class func updateOrderStatus() {
-        MainViewController.updateOrderStatusPanel(ProductViewController.currentOrderStatusPanel)
+        MainViewController.updateOrderStatusPanel(currentOrderStatusPanel)
     }
 
+
+    
+    
     //tv todo del
 //    func set_order_cost()
 //    {
@@ -294,7 +324,6 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 
 class RequestManagerProducts {
-    
     var getResults = [JSON]()
     func get(id: Int)
     {
@@ -302,11 +331,11 @@ class RequestManagerProducts {
         print(url)
         Alamofire.request(url, encoding: JSONEncoding.default).responseJSON { (response) -> Void in
             if let results = response.result.value as? [String : Any] {
-                    self.getResults = []
+                self.getResults = []
                 let item = JSON(results["products"] as Any).arrayValue
-                    self.getResults += item
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "get_result_product_updated"), object: nil)
-                }
+                self.getResults += item
+            }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "get_result_product_updated"), object: nil)
         }
     }
     

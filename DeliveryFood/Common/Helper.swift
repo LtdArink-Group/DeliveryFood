@@ -91,7 +91,7 @@ class Helper {
         dateFormatter.dateFormat = "dd.MM.yyyy"
         dateFormatter.timeZone = TimeZone.current
 //        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-        let date = dateFormatter.string(from: convertedDate!)
+        let date = (convertedDate != nil ? dateFormatter.string(from: convertedDate!) : "")
         return date
     }
     
@@ -105,7 +105,7 @@ class Helper {
 //        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         dateFormatter.timeZone = TimeZone.current
 //        dateFormatter.timeZone = NSTimeZone.init(abbreviation: "VLAT") as TimeZone!
-        let time = dateFormatter.string(from: convertedDate!)
+        let time = (convertedDate != nil ? dateFormatter.string(from: convertedDate!) : "")
         return time
     }
     
@@ -120,14 +120,14 @@ class Helper {
         return date!
     }
     
-    func get_date_from_string(_ datetime: String) -> Date
+    func get_date_from_string(_ datetime: String) -> Date?
     {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         dateFormatter.timeZone = TimeZone.current
 //        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         let date = dateFormatter.date(from: datetime)
-        return date!
+        return date
     }
     
     func get_now() -> Date

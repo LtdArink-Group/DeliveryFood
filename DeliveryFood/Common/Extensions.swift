@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SQLite
 import SQLite3
+import Eureka
 
 enum UILabelTextPositions : String {
     
@@ -95,16 +96,31 @@ extension String {
         return suffix(max(0,count-range.lowerBound))
     }
     
+    func removingRegexMatches(pattern: String, replaceWith: String = "") -> String {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
+            let range = NSMakeRange(0, self.count)
+            return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replaceWith)
+        } catch {
+            return self
+        }
+    }
+    
 }
 
 public extension Date {
-    func set_time_to_date(hour: Int, minute: Int) -> Date
+    func set_time_to_date(hour: Int = -1, minute: Int = -1) -> Date
     {
         let greg = Calendar(identifier: .gregorian)
         let now = Date()
         var components = greg.dateComponents([.year, .month, .day, .hour, .minute, .second], from: now)
-        components.hour = hour
-        components.minute = minute
+        if hour >= 0 {
+            components.hour = hour
+        }
+        if minute >= 0 {
+            components.minute = minute
+        }
+        components.second = 0
         return greg.date(from: components)!
     }
     
@@ -163,6 +179,12 @@ public extension Date {
         debugPrint ("week day ", weekDayName)
         
         return weekDayName
+    }
+    
+    //round date
+    func round(precision: TimeInterval, rule: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Date {
+        let seconds = (self.timeIntervalSinceReferenceDate / precision).rounded(rule) *  precision;
+        return Date(timeIntervalSinceReferenceDate: seconds)
     }
 }
 
@@ -247,5 +269,11 @@ extension UIButton {
     }
     
     
+}
+
+extension RuleRegExp {
+    class func phoneRule() -> RuleRegExp {
+        return RuleRegExp(regExpr: "^\\+7[94]\\d{9}$", allowsEmpty: false, msg: "Телефон должен иметь формат мобильного или междугороднего (начинатся с +7, потом 9 или 4 и только цифры")
+    }
 }
 

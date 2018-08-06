@@ -409,9 +409,10 @@ class DBHelper {
         let main_option = Expression<String>("main_option")
         let cost = Expression<Double>("cost")
         let count = Expression<Int>("count")
+        let photo = Expression<String>("photo")
         let productTable = Table("products")
         do {
-            let rowid = try database.run(productTable.insert(product_id <- be_product_id, name <- be_name, main_option <- be_main_option, cost <- Double(be_cost), count <- be_count))
+            let rowid = try database.run(productTable.insert(product_id <- be_product_id, name <- be_name, main_option <- be_main_option, cost <- Double(be_cost), count <- be_count, photo<-""))
             print("inserted id: \(rowid)")
         }
         catch {

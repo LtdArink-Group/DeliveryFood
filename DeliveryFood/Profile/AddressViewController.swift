@@ -320,7 +320,7 @@ class AddressViewController: FormViewController, UINavigationControllerDelegate 
     {
         PageLoading().hideLoading()
         self.navigationController?.popViewController(animated: true)
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload_address"), object: nil)
+        //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload_address"), object: nil)
     }
     
     override func didReceiveMemoryWarning() {

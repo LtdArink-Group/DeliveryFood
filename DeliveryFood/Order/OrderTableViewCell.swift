@@ -59,7 +59,7 @@ class OrderTableViewCell: UITableViewCell {
         check_free_delivery()
         self.lbl_cost.text = get_detail_info()
         set_costs_fields()
-        Changed_order = true
+        //Changed_order = true //what is it,why after it sends remove order event
     }
     
     @IBAction func on_clicked_btn_minus(_ sender: UIButton) {
@@ -80,7 +80,7 @@ class OrderTableViewCell: UITableViewCell {
             check_free_delivery()
             self.lbl_cost.text = get_detail_info()
             set_costs_fields()
-            Changed_order = true
+            //Changed_order = true  //what is it,why after it sends remove order event
         }
     }
     

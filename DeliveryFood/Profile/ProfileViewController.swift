@@ -21,6 +21,9 @@ class ProfileViewController: FormViewController {
     var index_address = 0
     var update_row = false
     
+    
+    var pullRefreshing: PullRefreshing!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,10 +32,11 @@ class ProfileViewController: FormViewController {
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+
+       pullRefreshing = PullRefreshing(tableView: tableView, action: {self.refresh()})
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    func refresh() {
         if !form.isEmpty
         {
             form.removeAll()
@@ -41,6 +45,10 @@ class ProfileViewController: FormViewController {
         else {
             get_user_info()
         }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refresh()
     }
 
     func get_user_info()
@@ -55,7 +63,7 @@ class ProfileViewController: FormViewController {
                     {
                         self.name = json["name"] as! String
                         self.email = json["email"] as! String
-                        self.phone = json["phone"] as! String
+                        self.phone = (json["phone"] as! String).removingRegexMatches(pattern: "^7", replaceWith: "+7")
                         self.addresses = json["addresses"] as! [[String: Any]]
                         self.new_profile = false
                         self.create_form()
@@ -65,6 +73,11 @@ class ProfileViewController: FormViewController {
                         self.new_profile = true
                         self.create_form()
                     }
+                    self.pullRefreshing.isEnabled = false
+                    self.pullRefreshing.hideErrorMessage()
+                } else {
+                    self.pullRefreshing.isEnabled = true
+                    self.pullRefreshing.showErrorMessage()
                 }
         }
     }
@@ -106,6 +119,7 @@ class ProfileViewController: FormViewController {
             <<< TextRow("NameRow"){ row in
                 row.title = "Имя"
                 row.placeholder = "Введите ваше имя"
+                row.add(rule: RuleRequired())
                 row.add(rule: RuleMinLength(minLength: 3))
                 row.add(rule: RuleMaxLength(maxLength: 50))
                 row.value = name
@@ -138,10 +152,10 @@ class ProfileViewController: FormViewController {
             
             +++ Section("Контакты")
             <<< PhoneRow("PhoneRow"){
+
                 $0.title = "Телефон"
-                $0.placeholder = "7XXXXXXXXXX"
-                $0.add(rule: RuleMinLength(minLength: 6))
-                $0.add(rule: RuleMaxLength(maxLength: 11))
+                $0.placeholder = "+7XXXXXXXXX"
+                $0.add(rule: RuleRegExp.phoneRule())
                 $0.add(rule: RuleRequired())
                 $0.value = phone
                 }.cellUpdate { cell, row in
@@ -167,13 +181,17 @@ class ProfileViewController: FormViewController {
                             row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                         }
                     }
+                }.onCellHighlightChanged { cell, row in
+                    if row.isHighlighted && (row.value == nil || (row.value?.isEmpty)!) {
+                        row.value = "+7"
+                    }
                 }
+            
                  
                 
             <<< EmailRow("EmailRow"){
                 $0.title = "Email"
                 $0.placeholder = "email@me.com"
-                $0.add(rule: RuleRequired())
                 $0.add(rule: RuleEmail())
                 $0.validationOptions = .validatesOnChangeAfterBlurred
                 $0.value = email
@@ -254,8 +272,10 @@ class ProfileViewController: FormViewController {
                         }.cellUpdate { cell, row in
                             if !self.update_row
                             {
+                                self.update_row = true
                                 Helper().delay(0.5)
                                 {
+                                    self.update_row = false
                                     self.index_address = index
                                     self.go_to_address(each: [:], new: true)
                                 }

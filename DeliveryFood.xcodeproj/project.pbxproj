@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		07EB75ADD6DB75DFDF45CE19 /* Pods_DeliveryFoodUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED5C94E990198D30F35A080 /* Pods_DeliveryFoodUITests.framework */; };
 		5F50014757E3DCAEE56CB7F7 /* Pods_DeliveryFoodTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2D9E32F589000F3622988DF /* Pods_DeliveryFoodTests.framework */; };
+		8402D47021107EB10010E558 /* OrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8402D46F21107EB10010E558 /* OrderViewModel.swift */; };
+		8402D47221107EC40010E558 /* OrderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8402D47121107EC40010E558 /* OrderData.swift */; };
 		84080BA01F9F23530056A0E2 /* DeliveryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84080B9F1F9F23520056A0E2 /* DeliveryInfoView.swift */; };
 		841AE4441F7B4B0500DB12D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841AE4431F7B4B0500DB12D8 /* AppDelegate.swift */; };
 		841AE4461F7B4B0500DB12D8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841AE4451F7B4B0500DB12D8 /* MainViewController.swift */; };
-		841AE4491F7B4B0500DB12D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 841AE4471F7B4B0500DB12D8 /* Main.storyboard */; };
 		841AE44B1F7B4B0500DB12D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841AE44A1F7B4B0500DB12D8 /* Assets.xcassets */; };
 		841AE44E1F7B4B0500DB12D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 841AE44C1F7B4B0500DB12D8 /* LaunchScreen.storyboard */; };
 		841AE4591F7B4B0500DB12D8 /* DeliveryFoodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841AE4581F7B4B0500DB12D8 /* DeliveryFoodTests.swift */; };
@@ -55,6 +56,9 @@
 		84E056061F95C168006637CE /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E056051F95C168006637CE /* DBHelper.swift */; };
 		84E056071F95C1B9006637CE /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E056081F95C1B9006637CE /* SQLite.framework */; };
 		84E75CF01FC4EF0D00D52DC8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E75CEF1FC4EF0D00D52DC8 /* AboutViewController.swift */; };
+		84E939A72113F2960037BE6B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84E939A62113F2960037BE6B /* Main.storyboard */; };
+		84E939AB21153B870037BE6B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E939AA21153B870037BE6B /* Utils.swift */; };
+		84E939AE211684420037BE6B /* PullRefreshing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E939AD211684420037BE6B /* PullRefreshing.swift */; };
 		84EBAE9C1FE3500100DD5401 /* NotWorkingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EBAE9B1FE3500000DD5401 /* NotWorkingViewController.swift */; };
 		90AF254A9ED975C32AEC51F9 /* Pods_DeliveryFood.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE47825CC5197417AC5D9D2E /* Pods_DeliveryFood.framework */; };
 /* End PBXBuildFile section */
@@ -79,11 +83,13 @@
 /* Begin PBXFileReference section */
 		3618EECBE121E8D5D97203D6 /* Pods-DeliveryFood.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeliveryFood.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DeliveryFood/Pods-DeliveryFood.debug.xcconfig"; sourceTree = "<group>"; };
 		5ED5C94E990198D30F35A080 /* Pods_DeliveryFoodUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeliveryFoodUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8402D46F21107EB10010E558 /* OrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewModel.swift; sourceTree = "<group>"; };
+		8402D47121107EC40010E558 /* OrderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderData.swift; sourceTree = "<group>"; };
+		8402D4AB211080D80010E558 /* DeliveryFood copy6-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DeliveryFood copy6-Info.plist"; path = "/Volumes/data/repos/delfood/DeliveryFood copy6-Info.plist"; sourceTree = "<absolute>"; };
 		84080B9F1F9F23520056A0E2 /* DeliveryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryInfoView.swift; sourceTree = "<group>"; };
 		841AE4401F7B4B0500DB12D8 /* DeliveryFood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeliveryFood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		841AE4431F7B4B0500DB12D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		841AE4451F7B4B0500DB12D8 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		841AE4481F7B4B0500DB12D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		841AE44A1F7B4B0500DB12D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		841AE44D1F7B4B0500DB12D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		841AE44F1F7B4B0500DB12D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -118,6 +124,7 @@
 		8461DA612104CADB0013C4A7 /* OrderStatusPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderStatusPanel.swift; sourceTree = "<group>"; };
 		8461DA622104CADB0013C4A7 /* OrderStatusPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderStatusPanel.xib; sourceTree = "<group>"; };
 		8461DA632104CADB0013C4A7 /* OrderStatusButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderStatusButton.swift; sourceTree = "<group>"; };
+		846AD8FF210C92300014DF6F /* DeliveryFood copy5-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DeliveryFood copy5-Info.plist"; path = "/Volumes/data/repos/delfood/DeliveryFood copy5-Info.plist"; sourceTree = "<absolute>"; };
 		846D603B1F8611FC00C77DD5 /* AdditionalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalTableViewCell.swift; sourceTree = "<group>"; };
 		848523AE1F9028AA00F952D1 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		84884FF321060B33004456D2 /* HelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperTests.swift; sourceTree = "<group>"; };
@@ -135,6 +142,10 @@
 		84E056051F95C168006637CE /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		84E056081F95C1B9006637CE /* SQLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E75CEF1FC4EF0D00D52DC8 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		84E939A62113F2960037BE6B /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		84E939AA21153B870037BE6B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		84E939AD211684420037BE6B /* PullRefreshing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRefreshing.swift; sourceTree = "<group>"; };
+		84E939E921172F8B0037BE6B /* DeliveryFood copy7-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DeliveryFood copy7-Info.plist"; path = "/Volumes/data/repos/delfood/DeliveryFood copy7-Info.plist"; sourceTree = "<absolute>"; };
 		84EBAE9B1FE3500000DD5401 /* NotWorkingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotWorkingViewController.swift; sourceTree = "<group>"; };
 		A48E77A0E9A9ADA4DD647BCE /* Pods-DeliveryFoodTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeliveryFoodTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DeliveryFoodTests/Pods-DeliveryFoodTests.release.xcconfig"; sourceTree = "<group>"; };
 		A7F4DC8399709C3A4A9A3F5B /* Pods-DeliveryFoodUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeliveryFoodUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DeliveryFoodUITests/Pods-DeliveryFoodUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -186,6 +197,9 @@
 				8441B7D42100B90800CCFCFB /* DeliveryFood copy2-Info.plist */,
 				843FC6992107ED7200F90CC6 /* DeliveryFood copy3-Info.plist */,
 				848AE16121089A0D00A68E5A /* DeliveryFood copy4-Info.plist */,
+				846AD8FF210C92300014DF6F /* DeliveryFood copy5-Info.plist */,
+				8402D4AB211080D80010E558 /* DeliveryFood copy6-Info.plist */,
+				84E939E921172F8B0037BE6B /* DeliveryFood copy7-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,7 +216,8 @@
 		841AE4421F7B4B0500DB12D8 /* DeliveryFood */ = {
 			isa = PBXGroup;
 			children = (
-				8461DA5B2104CAA10013C4A7 /* components */,
+				84E939A821153A720037BE6B /* new */,
+				8461DA5B2104CAA10013C4A7 /* Components */,
 				8440C2A31FBD1F29008B0BC9 /* CustomCell */,
 				84E056041F95C14C006637CE /* DB */,
 				84594F411F8EE89600769605 /* Order */,
@@ -214,7 +229,7 @@
 				848C0A331F8477310060D6E5 /* Sales */,
 				841AE4711F7B4BC100DB12D8 /* DeliveryFood.entitlements */,
 				841AE4431F7B4B0500DB12D8 /* AppDelegate.swift */,
-				841AE4471F7B4B0500DB12D8 /* Main.storyboard */,
+				84E939A62113F2960037BE6B /* Main.storyboard */,
 				841AE44A1F7B4B0500DB12D8 /* Assets.xcassets */,
 				841AE44C1F7B4B0500DB12D8 /* LaunchScreen.storyboard */,
 				841AE44F1F7B4B0500DB12D8 /* Info.plist */,
@@ -312,13 +327,13 @@
 			path = About;
 			sourceTree = "<group>";
 		};
-		8461DA5B2104CAA10013C4A7 /* components */ = {
+		8461DA5B2104CAA10013C4A7 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				8461DA5C2104CACF0013C4A7 /* BadgeSwift.swift */,
 				8461DA5E2104CADB0013C4A7 /* orderStatus */,
 			);
-			path = components;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		8461DA5E2104CADB0013C4A7 /* orderStatus */ = {
@@ -356,6 +371,33 @@
 				84E056051F95C168006637CE /* DBHelper.swift */,
 			);
 			path = DB;
+			sourceTree = "<group>";
+		};
+		84E939A821153A720037BE6B /* new */ = {
+			isa = PBXGroup;
+			children = (
+				84E939AC2115D2870037BE6B /* Order */,
+				84E939A921153B310037BE6B /* Common */,
+			);
+			path = new;
+			sourceTree = "<group>";
+		};
+		84E939A921153B310037BE6B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				84E939AA21153B870037BE6B /* Utils.swift */,
+				84E939AD211684420037BE6B /* PullRefreshing.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		84E939AC2115D2870037BE6B /* Order */ = {
+			isa = PBXGroup;
+			children = (
+				8402D46F21107EB10010E558 /* OrderViewModel.swift */,
+				8402D47121107EC40010E558 /* OrderData.swift */,
+			);
+			path = Order;
 			sourceTree = "<group>";
 		};
 		9DDD09B6380DB556C8FA86E2 /* Pods */ = {
@@ -508,7 +550,7 @@
 				841AE44B1F7B4B0500DB12D8 /* Assets.xcassets in Resources */,
 				8461DA672104CADB0013C4A7 /* OrderStatusPanel.xib in Resources */,
 				8461DA652104CADB0013C4A7 /* OrderStatusButton.xib in Resources */,
-				841AE4491F7B4B0500DB12D8 /* Main.storyboard in Resources */,
+				84E939A72113F2960037BE6B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,12 +745,14 @@
 				848523AF1F9028AA00F952D1 /* Header.swift in Sources */,
 				846D603C1F8611FC00C77DD5 /* AdditionalTableViewCell.swift in Sources */,
 				84EBAE9C1FE3500100DD5401 /* NotWorkingViewController.swift in Sources */,
+				8402D47021107EB10010E558 /* OrderViewModel.swift in Sources */,
 				841AE4781F7B4CC500DB12D8 /* Constants.swift in Sources */,
 				845A09841F8C5E450068BB7D /* ProductViewController.swift in Sources */,
 				848C0A321F8473F70060D6E5 /* AdditionalViewController.swift in Sources */,
 				84C7F1E51F9979DE0017165D /* ProductInfoViewController.swift in Sources */,
 				84C4F5FF1F9431BD00B35F42 /* OrderTableViewCell.swift in Sources */,
 				845F77B61F7DFC4900043471 /* ProfileViewController.swift in Sources */,
+				8402D47221107EC40010E558 /* OrderData.swift in Sources */,
 				841FBCB61F8352E300DB3E0F /* SalesTableViewCell.swift in Sources */,
 				84A88CB81FA2AEC0009F5FED /* ShowError.swift in Sources */,
 				8461DA5D2104CACF0013C4A7 /* BadgeSwift.swift in Sources */,
@@ -727,9 +771,11 @@
 				841AE4461F7B4B0500DB12D8 /* MainViewController.swift in Sources */,
 				84594F401F8EE31A00769605 /* ADVSegmentedControl.swift in Sources */,
 				841FBCB21F83026800DB3E0F /* Helper.swift in Sources */,
+				84E939AB21153B870037BE6B /* Utils.swift in Sources */,
 				845F77B41F7DDEC900043471 /* AddressViewController.swift in Sources */,
 				841AE4741F7B4C5500DB12D8 /* Extensions.swift in Sources */,
 				84C4F6011F947CC300B35F42 /* NewOrderViewController.swift in Sources */,
+				84E939AE211684420037BE6B /* PullRefreshing.swift in Sources */,
 				841AE4441F7B4B0500DB12D8 /* AppDelegate.swift in Sources */,
 				8461DA642104CADB0013C4A7 /* UIView+NibLoad.swift in Sources */,
 				84594F431F8EE8C500769605 /* OrderViewController.swift in Sources */,
@@ -773,14 +819,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		841AE4471F7B4B0500DB12D8 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				841AE4481F7B4B0500DB12D8 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		841AE44C1F7B4B0500DB12D8 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

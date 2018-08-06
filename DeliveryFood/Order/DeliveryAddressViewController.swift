@@ -58,10 +58,10 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                     {
                         self.name = json["name"] as! String
                         self.email = json["email"] as! String
-                        self.phone = json["phone"] as! String
+                        self.phone = (json["phone"] as! String).removingRegexMatches(pattern: "^7", replaceWith: "+7")
                         self.old_name = json["name"] as! String
                         self.old_email = json["email"] as! String
-                        self.old_phone = json["phone"] as! String
+                        self.old_phone = (json["phone"] as! String).removingRegexMatches(pattern: "^7", replaceWith: "+7")
                         self.addresses = Take_away == true ? COMPANY_ADDRESSES : json["addresses"] as! [[String: Any]]
                         self.create_form()
                     }
@@ -80,65 +80,61 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         return Helper.shared.getScheduleDict(jsonSchedule: WORK_DAYS)[weekday] ?? (sh: 0, sm:0 , eh: 0, em: 0)
     }
     
+    var earlyTime = true;
+    var labelFont: UIFont!;
     func create_form()
     {
         let currentDate = Date()
         let workTime = getWorkTimeAtTheMoment(moment: currentDate)
         form
             
-            +++ Section("Время заказа")
+            +++ Section(header:"Период " + (Take_away == true ? "Самовывоза" : "Доставки"), footer: "Способ доставки можно изменить на предыдущем шаге.")
             <<< TimeInlineRow("DeliveryTimeRow"){
-                $0.title = (Take_away == true ? "Самовывоз в" : "Доставка к") + TIME_ZONE_TITLE
-
+                $0.title = "Время (\(TIME_ZONE_TITLE2))"
+                //$0.tag = "deliveryTime"
+                $0.hidden = self.earlyTime ? true : false
                 $0.cell.textLabel?.textColor = UIColor.black
-                $0.value = currentDate.set_time_to_date(hour: workTime.sh, minute: workTime.sm).addingTimeInterval(120 * 60)
+                
+                $0.minuteInterval = 10
                 $0.minimumDate = currentDate.set_time_to_date(hour: workTime.sh, minute: workTime.sm)
                 $0.maximumDate = currentDate.set_time_to_date(hour: workTime.eh, minute: workTime.em)
+                let suggestTime = currentDate.set_time_to_date().addingTimeInterval(60 * 60).round(precision: 600, rule: .up)
+                
+                $0.value = min(max(suggestTime, $0.minimumDate!), $0.maximumDate!)
+                
                 }.cellSetup { cell, row in
                     row.dateFormatter?.timeStyle = .short
-            }
+                }.onExpandInlineRow({ (cell, inlineRow, pickerRow) in
+                    let ns = self.form.rowBy(tag: "nearestTimeSwitcher")
+                    ns?.hidden = false
+                    ns?.evaluateHidden()
+                }).onCollapseInlineRow({ (cell, inlineRow, pickerRow) in
+                    let ns = self.form.rowBy(tag: "nearestTimeSwitcher")
+                    ns?.hidden = true
+                    ns?.evaluateHidden()
+                })
+            <<< SwitchRow("nearestTimeSwitcher") {
+                $0.title = "На ближайшее время"
+                $0.value = true
+                $0.onChange({[unowned self] row in
+                    self.earlyTime = row.value!
+                    let timeRow = self.form.rowBy(tag: "DeliveryTimeRow")
+                    timeRow?.hidden = Condition(booleanLiteral: self.earlyTime)
+                    timeRow?.evaluateHidden()
+                    row.hidden = Condition(booleanLiteral: !self.earlyTime)
+                    self.tableView?.beginUpdates()
+                    row.evaluateHidden()
+                    self.tableView?.endUpdates()
+
+                })
+                }
+
             
             +++ Section("Клиент")
-            <<< TextRow("NameRow"){ row in
-                row.title = "Имя"
-                row.placeholder = "Введите ваше имя"
-                row.add(rule: RuleMinLength(minLength: 3))
-                row.add(rule: RuleMaxLength(maxLength: 50))
-                row.add(rule: RuleRequired())
-                row.value = name
-                }
-                .cellUpdate { cell, row in
-                    if !row.isValid {
-                        cell.titleLabel?.textColor = .red
-                    }
-                }.onChange { _ in
-                    self.disabled_order_row()
-                }
-                .onRowValidationChanged { cell, row in
-                    let rowIndex = row.indexPath!.row
-                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                        row.section?.remove(at: rowIndex + 1)
-                    }
-                    if !row.isValid {
-                        for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
-                            let labelRow = LabelRow() {
-                                $0.title = validationMsg
-                                $0.cell.height = { 30 }
-                                }.cellUpdate { cell, row in
-                                    cell.contentView.backgroundColor = .red
-                                    cell.textLabel?.textColor = .white
-                                    cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-                                    cell.textLabel?.textAlignment = .right
-                            }
-                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
-                        }
-                    }
-            }
-            <<< PhoneRow("PhoneRow"){
+            <<< PhoneRow("PhoneRow"){ //перенести в вьюмодел
                 $0.title = "Телефон"
-                $0.placeholder = "7XXXXXXXXXX"
-                $0.add(rule: RuleMinLength(minLength: 6))
-                $0.add(rule: RuleMaxLength(maxLength: 11))
+                $0.placeholder = "+7XXXXXXXXXX"
+                $0.add(rule: RuleRegExp.phoneRule())
                 $0.add(rule: RuleRequired())
                 $0.value = phone
                 }.cellUpdate { cell, row in
@@ -166,13 +162,52 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                             row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                         }
                     }
+                }.onCellHighlightChanged { cell, row in
+                    if row.isHighlighted && (row.value == nil || (row.value?.isEmpty)!) {
+                        row.value = "+7"
+                    }
             }
-            
+            <<< TextRow("NameRow"){ row in
+                row.title = "Имя"
+                row.placeholder = "необязательное"
+                row.add(rule: RuleMinLength(minLength: 3))
+                row.add(rule: RuleMaxLength(maxLength: 50))
+                //row.add(rule: RuleRequired())
+                row.value = name
+                }
+                .cellUpdate { cell, row in
+                    if !row.isValid {
+                        cell.titleLabel?.textColor = .red
+                    }
+                }.onChange { _ in
+                    //self.disabled_order_row()
+                }
+                .onRowValidationChanged { cell, row in
+                    let rowIndex = row.indexPath!.row
+                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                        row.section?.remove(at: rowIndex + 1)
+                    }
+                    if !row.isValid {
+                        for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                            let labelRow = LabelRow() {
+                                $0.title = validationMsg
+                                $0.cell.height = { 30 }
+                                }.cellUpdate { cell, row in
+                                    cell.contentView.backgroundColor = .red
+                                    cell.textLabel?.textColor = .white
+                                    cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+                                    cell.textLabel?.textAlignment = .right
+                            }
+                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                        }
+                    }
+            }
             
             <<< EmailRow("EmailRow"){
                 $0.title = "Email"
-                $0.placeholder = "email@me.com"
-                $0.add(rule: RuleRequired())
+                $0.placeholder = "необязательное"
+                $0.hidden = true
+                //$0.add(rule: RuleRequired())
                 $0.add(rule: RuleEmail())
                 $0.validationOptions = .validatesOnChangeAfterBlurred
                 $0.value = email
@@ -182,7 +217,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                         cell.titleLabel?.textColor = .red
                     }
                 }.onChange { _ in
-                    self.disabled_order_row()
+                    //self.disabled_order_row()
                 }
                 .onRowValidationChanged { cell, row in
                     let rowIndex = row.indexPath!.row
@@ -295,15 +330,19 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     
     func get_delivery_time() -> String
     {
-        let time_row: TimeInlineRow = self.form.rowBy(tag: "DeliveryTimeRow")!
-        let formatter = DateFormatter()
-//        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.timeZone = TimeZone.current
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        var dateFromString = formatter.string(from: time_row.value!)
-//        let date = formatter.date(from: dateFromString)
-        dateFromString = dateFromString + TIME_ZONE
-        return dateFromString
+        if (earlyTime) {
+            return ""
+        } else {
+            let time_row: TimeInlineRow = self.form.rowBy(tag: "DeliveryTimeRow")!
+            let formatter = DateFormatter()
+            //        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            formatter.timeZone = TimeZone.current
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            var dateFromString = formatter.string(from: time_row.value!)
+            //        let date = formatter.date(from: dateFromString)
+            dateFromString = dateFromString + TIME_ZONE
+            return dateFromString
+        }
     }
     
     func get_name() -> String
@@ -450,7 +489,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         //tabBarController?.tabBar.items?[1].badgeValue = "0" //tv
         let controller : WellDoneViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellDoneViewController") as! WellDoneViewController
         controller.reorder = reorder
-        self.navigationController?.pushViewController(controller, animated: false)
+        self.present(controller, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

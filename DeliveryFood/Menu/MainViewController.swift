@@ -14,24 +14,46 @@ import SQLite
 
 class MainViewController: FormViewController {
     
+    var pullRefreshing: PullRefreshing!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.setNavigationBarHidden(false, animated: false) //tv todo
         // Do any additional setup after loading the view, typically from a nib.
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        PageLoading().showLoading()
+
         DBHelper().create_tables()
-        get_company_info()
-        
+
         ID_phone = UIDevice.current.identifierForVendor!.uuidString
+        
+        pullRefreshing = PullRefreshing(tableView: tableView, action: {self.refresh()})
+        
+    }
+    
+    func refresh() {
+
+        form.removeAll()
+        categories = nil
+        get_company_info()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        if categories == nil {
+            PageLoading().showLoading()
+            get_company_info()
+        }
+        
         set_tabbar_value()
     }
+
     
     func get_company_info()
     {
+        setEnabledOtherTabItems(enabled: false)
+        
         let url = SERVER_NAME + "/api/companies/" + String(COMPANY_ID)
         Alamofire.request(url, encoding: JSONEncoding.default).responseJSON { (response) -> Void in
             if let json = response.result.value  as? [String: Any] {
@@ -55,6 +77,10 @@ class MainViewController: FormViewController {
                 COMPANY_ADDRESSES = json["addresses"] as! [[String: Any]]
                 WORK_DAYS = JSON(json["schedules"] as Any).arrayValue
                 self.get_categories_info()
+            } else {
+                PageLoading().hideLoading()
+                self.pullRefreshing.showErrorMessage()
+
             }
         }
     }
@@ -71,20 +97,25 @@ class MainViewController: FormViewController {
         return Int(arr_time[1])!
     }
     
+    var categories: [[String : Any]]?
     func get_categories_info()
     {
         let url = SERVER_NAME + "/api/categories?company_id=" + String(COMPANY_ID)
         print(url)
         Alamofire.request(url, encoding: JSONEncoding.default).responseJSON { (response) -> Void in
             if let json = response.result.value  as? [String: Any] {
-                let categories = json["categories"] as! [[String: Any]]
-                self.create_form(arr_categories: categories)
+                self.categories = json["categories"] as? [[String: Any]]
+                self.create_form(arr_categories: self.categories)
+                
+                self.pullRefreshing.hideErrorMessage()
+                self.pullRefreshing.isEnabled = false;
+                self.setEnabledOtherTabItems(enabled: true)
             }
         }
     }
     
     var orderStatusPanel: OrderStatusPanel!;
-    func create_form(arr_categories: [[String: Any]])
+    func create_form(arr_categories: [[String: Any]]?)
     {
         form
 //            +++ Section() { //tv todo del
@@ -93,6 +124,7 @@ class MainViewController: FormViewController {
             +++ Section() { section in
                 var header = HeaderFooterView<OrderStatusPanel>(.class)
                 header.height = {80}
+                
                 header.onSetupView = { view, _ in
                     self.orderStatusPanel = view;
                 }
@@ -100,19 +132,19 @@ class MainViewController: FormViewController {
             }
             +++ Section("Выберите категорию") {on in
                 on.header?.height = {20}
-                for each in arr_categories
-                {
-                    let name = (each["name"] as! String)
-                    on <<< LabelRow() {
-                        $0.title = name
-                        $0.cell.imageView?.image = UIImage(named: each["icon_type"]! as! String)
-                        $0.cell.accessoryType = .disclosureIndicator
-                        $0.cell.tag = each["id"] as! Int
-                        }.onCellSelection {cell, row in
-                            self.go_to_category(title: name, id: cell.tag)
-                    }
+            for each in arr_categories!
+            {
+                let name = (each["name"] as! String)
+                on <<< LabelRow() {
+                    $0.title = name
+                    $0.cell.imageView?.image = UIImage(named: each["icon_type"]! as! String)
+                    $0.cell.accessoryType = .disclosureIndicator
+                    $0.cell.tag = each["id"] as! Int
+                    }.onCellSelection {cell, row in
+                        self.go_to_category(title: name, id: cell.tag)
+                }
             }
-        }
+            }
         set_tabbar_value()
         PageLoading().hideLoading()
     }
@@ -200,5 +232,13 @@ class MainViewController: FormViewController {
         NotificationCenter.default.removeObserver(self)
     }
 
+    //MARK: inner helper
+    func setEnabledOtherTabItems(enabled: Bool) {
+        self.tabBarController?.tabBar.items?.forEach({ (item) in
+            if item != self.tabBarController?.tabBar.selectedItem {
+                item.isEnabled = enabled
+            }
+        })
+    }
 }
 

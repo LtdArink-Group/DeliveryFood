@@ -21,11 +21,13 @@ class WellDoneViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        //navigationController?.setNavigationBarHidden(true, animated: false) //tv todo
         scrl_main.delegate = self
         
         init_form()
     }
+
+    
     
     func init_form()
     {
@@ -45,7 +47,8 @@ class WellDoneViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func on_clicked_btn_ok(_ sender: UIButton) {
-        navigationController?.setNavigationBarHidden(false, animated: false)
+        //navigationController?.setNavigationBarHidden(false, animated: false)
+        self.dismiss(animated: true, completion: nil)
         navigationController?.popViewController(animated: false)
         if reorder
         {

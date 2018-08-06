@@ -293,9 +293,9 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
     @objc func goto_well_done()
     {
         PageLoading().hideLoading()
-        tabBarController?.tabBar.items?[1].badgeValue = "0" //tv
+        //tabBarController?.tabBar.items?[1].badgeValue = "0" //tv
         let controller : WellDoneViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellDoneViewController") as! WellDoneViewController
-        self.navigationController?.pushViewController(controller, animated: false)
+        self.present(controller, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
