@@ -16,6 +16,9 @@ PODS:
     - SQLite.swift/standard (= 0.11.4)
   - SQLite.swift/standard (0.11.4)
   - SwiftyJSON (4.1.0)
+  - YandexMapKit (3.0.0):
+    - YandexRuntime (~> 3.0)
+  - YandexRuntime (3.0.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -27,6 +30,7 @@ DEPENDENCIES:
   - SDWebImage
   - SQLite.swift (= 0.11.4)
   - SwiftyJSON
+  - YandexMapKit
 
 EXTERNAL SOURCES:
   Eureka:
@@ -48,7 +52,9 @@ SPEC CHECKSUMS:
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
   SQLite.swift: 3e3bee21da701b5b9f87c4a672cb54f233505692
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+  YandexMapKit: c32b57caf297c610917d6f4b66e416f07f1ca894
+  YandexRuntime: 3922beb365a8f0c8ff9bd7ee914eae3efbb8103b
 
-PODFILE CHECKSUM: 4ca76e164e122c8bcd0eb02766f379045cf9e151
+PODFILE CHECKSUM: 20442a5e5416a7c04c7252ee7d59c9e092eae3fa
 
 COCOAPODS: 1.2.0

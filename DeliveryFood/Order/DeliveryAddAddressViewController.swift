@@ -77,6 +77,7 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
             <<< TextRow("AddressRow"){ row in
                 row.title = "Улица"
                 row.placeholder = "Ленинградская"
+                row.hidden = true
                 row.add(rule: RuleRequired())
                 }.cellUpdate { cell, row in
                     if !row.isValid {
@@ -105,6 +106,7 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
             <<< TextRow("HouseRow"){ row in
                 row.title = "Дом"
                 row.placeholder = "26"
+                row.hidden = true
                 row.cell.textField.keyboardType = .numberPad
                 row.add(rule: RuleRequired())
                 }.cellUpdate { cell, row in
@@ -131,6 +133,28 @@ class DeliveryAddAddressViewController: FormViewController, UINavigationControll
                         }
                     }
             }
+            <<< TextRow("streethouse") {
+                $0.title = "Дом"
+                $0.placeholder = "Выберете улицу и дом"
+                $0.add(rule: RuleRequired())
+                
+                }.cellSetup({ (cell, row) in
+                    if (self.form.rowBy(tag: "AddressRow") as! TextRow).value != nil
+                        && (self.form.rowBy(tag: "HouseRow") as! TextRow).value != nil
+                        && !(self.form.rowBy(tag: "AddressRow") as! TextRow).value!.isEmpty
+                        && !(self.form.rowBy(tag: "HouseRow") as! TextRow).value!.isEmpty {
+                        row.value = "\((self.form.rowBy(tag: "AddressRow") as! TextRow).value!), \((self.form.rowBy(tag: "HouseRow") as! TextRow).value!)"
+                    }
+                })
+                .onCellSelection({ (cell, row) in
+                    SuggestAddressController.build(owner: self, initialValue: row.value, onDidChoose: { (street, house) in
+                        row.value = !street.isEmpty && !house.isEmpty ? "\(street), \(house)" : ""
+                        (self.form.rowBy(tag: "AddressRow") as! TextRow).value = street
+                        (self.form.rowBy(tag: "HouseRow") as! TextRow).value = house
+                    }).present()
+                }).cellUpdate({ (cell, row) in
+                    cell.textField.isUserInteractionEnabled = false
+                })
             <<< TextRow("FlatRow"){ row in
                 row.title = "Квартира/офис"
                 row.placeholder = "605"

@@ -125,6 +125,9 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
                     self.tableView?.beginUpdates()
                     row.evaluateHidden()
                     self.tableView?.endUpdates()
+                    if !self.earlyTime {
+                        (timeRow as? TimeInlineRow)?.expandInlineRow()
+                    }
 
                 })
                 }
@@ -379,7 +382,7 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         let email_row: EmailRow = self.form.rowBy(tag: "EmailRow")!
         let phone_row: PhoneRow = self.form.rowBy(tag: "PhoneRow")!
         let name_row: TextRow = self.form.rowBy(tag: "NameRow")!
-        return name.count > 2 && phone.count > 6 && email.count > 5 && name_row.isValid && phone_row.isValid && email_row.isValid
+        return name_row.isValid && phone_row.isValid && email_row.isValid
     }
     
     func on_clicked_send_order()

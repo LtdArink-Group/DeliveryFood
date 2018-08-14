@@ -15,7 +15,11 @@ class Utils {
     func isDebugMode() -> Bool {
         var isDebug: Bool = false
         assert({ isDebug = true; return true }())
-        return isDebug
+        
+        let bundleID = Bundle.main.bundleIdentifier
+        let isDebug2 = bundleID != nil && bundleID!.range(of: "DEBUG") != nil
+        
+        return isDebug && isDebug2
     }
     
 

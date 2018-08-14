@@ -17,6 +17,7 @@ target 'DeliveryFood' do
   pod 'SQLite.swift', '0.11.4'
   pod 'CountdownLabel'
   pod 'GoogleMaps'
+  pod 'YandexMapKit'
 
   target 'DeliveryFoodTests' do
     inherit! :search_paths

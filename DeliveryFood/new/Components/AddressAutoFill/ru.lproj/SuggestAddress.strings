@@ -1,0 +1,12 @@
+
+/* Class = "UITextField"; placeholder = "Введите улицу, дом"; ObjectID = "RFq-oo-h6z"; */
+"RFq-oo-h6z.placeholder" = "Введите улицу, дом";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Ygb-LM-T7q"; */
+"Ygb-LM-T7q.text" = "Label";
+
+/* Class = "UILabel"; text = "Item"; ObjectID = "YqO-XG-NNL"; */
+"YqO-XG-NNL.text" = "Item";
+
+/* Class = "UIViewController"; title = "Улица, дом"; ObjectID = "nFA-HU-Dey"; */
+"nFA-HU-Dey.title" = "Улица, дом";
