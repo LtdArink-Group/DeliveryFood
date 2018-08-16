@@ -88,12 +88,9 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
-
-        
                 noteField.layer.borderWidth = 1; noteField.layer.borderColor = Helper.shared.UIColorFromRGB(rgbValue: UInt(FIRST_COLOR)).cgColor
-        super.viewWillAppear(animated)
-
         preload_form()
+        super.viewWillAppear(animated)
     }
     
    
@@ -280,6 +277,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     
     func go_to_old_order()
     {
+        self.navigationController?.popViewController(animated: false)
         self.performSegue(withIdentifier: "goto_old_order", sender: self)
     }
 

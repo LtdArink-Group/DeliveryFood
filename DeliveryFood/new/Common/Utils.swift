@@ -17,7 +17,7 @@ class Utils {
         assert({ isDebug = true; return true }())
         
         let bundleID = Bundle.main.bundleIdentifier
-        let isDebug2 = bundleID != nil && bundleID!.range(of: "DEBUG") != nil
+        let isDebug2 = bundleID != nil && (bundleID!.range(of: "DEBUG") != nil || bundleID!.range(of: "demo") != nil)
         
         return isDebug && isDebug2
     }

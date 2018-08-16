@@ -44,6 +44,7 @@ class SuggestAddressController: UIViewController, UITableViewDataSource, UITable
     var callbackOnDidChoose: ((_ street: String, _ house: String) -> Void)?
     var _navParent: UINavigationController!
     var initialValue: String?
+    var doneButton: UIBarButtonItem!
     
     var settings: SuggestAddressSettings! = SuggestAddressSettings()
     
@@ -62,7 +63,7 @@ class SuggestAddressController: UIViewController, UITableViewDataSource, UITable
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
         cancelButton.tintColor = view.tintColor
 
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
+        doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
         doneButton.tintColor = view.tintColor
 
         let topViewController = self.navigationController!.topViewController
@@ -70,6 +71,7 @@ class SuggestAddressController: UIViewController, UITableViewDataSource, UITable
         topViewController!.navigationItem.rightBarButtonItem = doneButton;
 
         searchBar.text = initialValue
+
         settings.centLat = settings.centLat ?? 48.483654
         settings.centLon = settings.centLon ?? 135.094723
         settings.radius = settings.radius ?? 15
@@ -90,6 +92,7 @@ class SuggestAddressController: UIViewController, UITableViewDataSource, UITable
         //SEARCH_OPTIONS.userPosition = YMKPoint(latitude: 48.4723342, longitude: 135.0432778)
         //SEARCH_OPTIONS.searchTypes = .geo
         
+        checkDonButtonOnEnable()
     }
 
     @objc func handleCancel() {
@@ -135,6 +138,7 @@ class SuggestAddressController: UIViewController, UITableViewDataSource, UITable
             }
         }
       
+        checkDonButtonOnEnable()
         
         searchManager!.suggest(
             withText: sender.text!,
@@ -237,16 +241,24 @@ class SuggestAddressController: UIViewController, UITableViewDataSource, UITable
         if addressTitle == nil {
             return result
         }
-        let a = addressTitle! + " "
-        if let i = a.range(of: ",", options: .backwards)?.lowerBound  {
-            result.0 = String(a[..<i])
-            let i2 = a.index(a.startIndex, offsetBy: i.encodedOffset+1)
+        let a = addressTitle!
+        var i = a.range(of: ",", options: .backwards)?.lowerBound
+        if i == nil {
+            i = a.range(of: " ", options: .backwards)?.lowerBound
+        }
+        if (i != nil && i! < a.endIndex) {
+            result.0 = String(a[..<i!])
+            let i2 = a.index(a.startIndex, offsetBy: i!.encodedOffset+1)
             result.1 = String(a[i2...]).trimmingCharacters(in: .whitespacesAndNewlines)
             debugPrint("steet: ", result.0)
             debugPrint("house: ", result.1)
-            
         }
+        
         return result
+    }
+    
+    func checkDonButtonOnEnable() {
+        doneButton.isEnabled = searchBar.text != nil && (searchBar.text?.isValid(regExp: "^.{3,}[,\\ ]\\d+.*$"))!
     }
 }
     

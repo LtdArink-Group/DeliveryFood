@@ -61,7 +61,7 @@ extension UILabel{
 }
 
 
-extension String {
+public extension String {
     var digits: String {
         return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
     }
@@ -104,6 +104,12 @@ extension String {
         } catch {
             return self
         }
+    }
+    
+    func isValid(regExp: String) -> Bool {
+        
+        let regex = try! NSRegularExpression(pattern: regExp, options: .caseInsensitive)
+        return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
     }
     
 }

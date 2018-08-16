@@ -33,4 +33,14 @@ class ExtensionsTests: XCTestCase {
     }
     
     
+    func testIsValidAddressByRegexp() {
+        let addressPattern = "^.{3,}[,\\ ]\\d+.*$"
+        
+        XCTAssertTrue("sdsd ds, 34".isValid(regExp: addressPattern));
+        XCTAssertTrue("выаа аыва 4ф/3".isValid(regExp: addressPattern));
+        XCTAssertFalse("sdsd ds df4".isValid(regExp: addressPattern));
+        XCTAssertFalse("вы 44".isValid(regExp: addressPattern));
+    }
+    
+    
 }
