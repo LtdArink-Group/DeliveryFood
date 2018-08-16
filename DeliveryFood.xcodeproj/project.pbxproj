@@ -191,7 +191,6 @@
 		84B210342121F32D00ADE2CE /* DeliveryFood copy8-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DeliveryFood copy8-Info.plist"; path = "/Volumes/data/repos/delfood/DeliveryFood copy8-Info.plist"; sourceTree = "<absolute>"; };
 		84B8660C2122B0AF00B5B91A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SuggestAddress.storyboard; sourceTree = "<group>"; };
 		84B866102122B15100B5B91A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SuggestAddress.strings; sourceTree = "<group>"; };
-		84B866112122B15100B5B91A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		84B8664E2122B49300B5B91A /* DeliveryFood copy9-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DeliveryFood copy9-Info.plist"; path = "/Volumes/data/repos/delfood/DeliveryFood copy9-Info.plist"; sourceTree = "<absolute>"; };
 		84B8668A2123E47400B5B91A /* DeliveryFood debug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DeliveryFood debug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84B8668B2123E47500B5B91A /* DeliveryFood copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DeliveryFood copy-Info.plist"; path = "/Volumes/data/repos/delfood/DeliveryFood copy-Info.plist"; sourceTree = "<absolute>"; };
@@ -1060,7 +1059,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				841AE44D1F7B4B0500DB12D8 /* Base */,
-				84B866112122B15100B5B91A /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
