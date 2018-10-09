@@ -19,7 +19,7 @@ class Utils {
         let bundleID = Bundle.main.bundleIdentifier
         let isDebug2 = bundleID != nil && (bundleID!.range(of: "DEBUG") != nil || bundleID!.range(of: "demo") != nil)
         
-        return isDebug && isDebug2
+        return isDebug || isDebug2
     }
     
 

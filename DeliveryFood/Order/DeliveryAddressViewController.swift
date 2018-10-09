@@ -173,7 +173,6 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             <<< TextRow("NameRow"){ row in
                 row.title = "Имя"
                 row.placeholder = "необязательное"
-                row.add(rule: RuleMinLength(minLength: 3))
                 row.add(rule: RuleMaxLength(maxLength: 50))
                 //row.add(rule: RuleRequired())
                 row.value = name
@@ -387,24 +386,26 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
     
     func on_clicked_send_order()
     {
-        if check_contacts_address() == false
-        {
-            PageLoading().showLoading()
-            ShowError().show_error(text: ERR_CHECK_ADDRESS)
-        }
-        else {
-            PageLoading().showLoading()
-            if new_profile
+        if form.validate().isEmpty {
+            if check_contacts_address() == false
             {
-                post_profile()
+                PageLoading().showLoading()
+                ShowError().show_error(text: ERR_CHECK_ADDRESS)
             }
             else {
-                if compare_profile()
+                PageLoading().showLoading()
+                if new_profile
                 {
-                    CreateOrderViewController().post_order(address_id: address_id, delivery_time: get_delivery_time())
+                    post_profile()
                 }
                 else {
-                    patch_profile()
+                    if compare_profile()
+                    {
+                        CreateOrderViewController().post_order(address_id: address_id, delivery_time: get_delivery_time())
+                    }
+                    else {
+                        patch_profile()
+                    }
                 }
             }
         }

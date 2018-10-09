@@ -345,14 +345,14 @@
                                                     <rect key="frame" x="19.5" y="11" width="334.5" height="43"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="₽ 300" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aFM-ki-g2H">
-                                                            <rect key="frame" x="234" y="10" width="88" height="22"/>
+                                                            <rect key="frame" x="234.5" y="10" width="87" height="22"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qAr-5M-8VO" userLabel="btn_title">
-                                                            <rect key="frame" x="7" y="6" width="238" height="30"/>
+                                                            <rect key="frame" x="6.5" y="6" width="239" height="30"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                                             <state key="normal">
@@ -363,7 +363,7 @@
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Бульдог XL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSe-yf-VCM">
-                                                            <rect key="frame" x="7" y="9" width="238" height="26"/>
+                                                            <rect key="frame" x="6.5" y="9" width="239" height="26"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
