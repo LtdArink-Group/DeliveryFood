@@ -28,6 +28,7 @@ class OrderViewController: FormViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.updateGetResults), name: NSNotification.Name(rawValue: "get_result_orders"), object: nil)
         //NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "cancel_order"), object: nil) //tv commented
         NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "reload_form"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderViewController.reload_form), name: NSNotification.Name(rawValue: "order_done"), object: nil) //tv check later (for transition on new version of sending
         preload_form()
     }
     
@@ -109,8 +110,8 @@ class OrderViewController: FormViewController {
         form
             +++ Section("Активные заказы") { on in
                 on.header?.height = {33}
-                on.hidden = get_active_orders(arr_orders: arr_orders).count > 0 ? false : true
-                for (_, order) in get_active_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
+                on.hidden = self.get_active_orders(arr_orders: arr_orders).count > 0 ? false : true
+                for (_, order) in self.get_active_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
                 {
                     var address = order["address_info"]
                     let total_cost = order["total_cost"].intValue + order["delivery_cost"].intValue
@@ -122,7 +123,7 @@ class OrderViewController: FormViewController {
                         $0.cell.lbl_title.text = delivery_type + "\n" + str_address + "\n"
                             + Helper().string_date_from_string(order["delivery_time"].stringValue) + " в " + Helper().string_time_from_string(order["delivery_time"].stringValue) + " - " + CURRENCY + String(total_cost)
                         $0.cell.lbl_state.text = order["status"].stringValue
-                        $0.cell.lbl_timer.addTime(time: get_rest_time(datetime: order["delivery_time"].stringValue))
+                        $0.cell.lbl_timer.addTime(time: self.get_rest_time(datetime: order["delivery_time"].stringValue))
                         $0.cell.lbl_timer.start()
                         $0.cell.lbl_timer.isHidden = (order["delivery_time"].stringValue == nil || order["delivery_time"].stringValue == "")
                         }.onCellSelection {row,cell in
@@ -132,8 +133,8 @@ class OrderViewController: FormViewController {
             }
             
             +++ Section("Предыдущие заказы") { on in
-                on.hidden = get_old_orders(arr_orders: arr_orders).count > 0 ? false : true
-                for (_, order) in get_old_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
+                on.hidden = self.get_old_orders(arr_orders: arr_orders).count > 0 ? false : true
+                for (_, order) in self.get_old_orders(arr_orders: arr_orders).enumerated() //arr_orders.enumerated()
                 {
                     var address = order["address_info"]
                     let total_cost = order["total_cost"].intValue + order["delivery_cost"].intValue

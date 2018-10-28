@@ -13,7 +13,7 @@ import SwiftyJSON
 class CreateOrderViewController {
     
     
-    func create_array_json_order() -> [[String: Any]]
+    static func create_array_json_order() -> [[String: Any]]
     {
         var arr_order = [[String: Any]]()
         for each in DBHelper().total_order()
@@ -32,7 +32,7 @@ class CreateOrderViewController {
         return arr_order
     }
     
-    func create_array_json_ingredients(product_id: Int, main_option: String) -> [[String: Any]]
+    static func create_array_json_ingredients(product_id: Int, main_option: String) -> [[String: Any]]
     {
         var arr_ingred = [[String: Any]]()
         for each in DBHelper().total_order()
@@ -56,7 +56,7 @@ class CreateOrderViewController {
             "account_id" : ID_phone,
             "address_id": address_id,
             "delivery_time": "\(delivery_time)",
-            "order_products": create_array_json_order(),
+            "order_products": type(of: self).create_array_json_order(),
             "pickup": Take_away,
             "note": Note,
             "device": "iphone"

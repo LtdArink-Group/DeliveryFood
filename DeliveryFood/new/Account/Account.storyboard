@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pnC-KO-QOi">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="YQH-Uk-ZEV">
+            <objects>
+                <navigationController id="pnC-KO-QOi" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="F3n-Hf-xvU">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="6oW-08-Fkq" kind="relationship" relationship="rootViewController" id="3Rw-5Z-nfo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vc9-i5-m2V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2630" y="-647"/>
+        </scene>
+        <!--Address List Controller-->
+        <scene sceneID="DtH-tD-YeO">
+            <objects>
+                <viewController storyboardIdentifier="addressList" id="6oW-08-Fkq" customClass="AddressListController" customModule="DeliveryFood" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ccd-cP-k5J">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="9xs-0O-jD5">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9xs-0O-jD5" firstAttribute="bottom" secondItem="CP7-wR-1nd" secondAttribute="bottom" id="MdS-8j-rLT"/>
+                            <constraint firstItem="9xs-0O-jD5" firstAttribute="leading" secondItem="CP7-wR-1nd" secondAttribute="leading" id="OIy-ZM-VAd"/>
+                            <constraint firstItem="9xs-0O-jD5" firstAttribute="top" secondItem="ccd-cP-k5J" secondAttribute="top" id="dQk-NR-m6z"/>
+                            <constraint firstItem="9xs-0O-jD5" firstAttribute="trailing" secondItem="CP7-wR-1nd" secondAttribute="trailing" id="jMr-Om-hYd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="CP7-wR-1nd"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="miS-QJ-mG2">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tk1-IS-Lhu">
+                            <connections>
+                                <action selector="onAddTapped:" destination="6oW-08-Fkq" id="UEb-P5-dJj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="9xs-0O-jD5" id="eEu-g7-uAS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0qn-hr-eis" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1308" y="-357.57121439280365"/>
+        </scene>
+        <!--Адреса-->
+        <scene sceneID="MJl-uW-gE3">
+            <objects>
+                <tableViewController title="Адреса" id="wmz-P4-D9R" customClass="AddressListViewController0" customModule="DeliveryFood" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="gAP-8G-q0e">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="addressCell" textLabel="JHE-XZ-tLn" detailTextLabel="eQa-Bk-dTv" style="IBUITableViewCellStyleSubtitle" id="16r-gV-9En">
+                                <rect key="frame" x="0.0" y="55.5" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="16r-gV-9En" id="8iQ-TU-pjd">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JHE-XZ-tLn">
+                                            <rect key="frame" x="16" y="5" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eQa-Bk-dTv">
+                                            <rect key="frame" x="16" y="25.5" width="44" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="wmz-P4-D9R" id="AGh-D8-7BO"/>
+                            <outlet property="delegate" destination="wmz-P4-D9R" id="9YY-SE-rAA"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C9x-lF-0OS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1788" y="-647"/>
+        </scene>
+        <!--Адрес-->
+        <scene sceneID="z1V-Es-U07">
+            <objects>
+                <viewController storyboardIdentifier="addressForm" title="Адрес" id="wum-rJ-zq1" customClass="AddressEditController" customModule="DeliveryFood" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dmu-5a-XQ7">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Укажите улицу и дом (обязательно)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="i8L-mn-4N1">
+                                <rect key="frame" x="16" y="20" width="288" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="m2V-f9-q10">
+                                <rect key="frame" x="16" y="66" width="288" height="54"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tap-OQ-zk4" customClass="TextFieldWithLabelBelow" customModule="DeliveryFood" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="57" height="54"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="квартира"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7dJ-9P-g0h" customClass="TextFieldWithLabelBelow" customModule="DeliveryFood" customModuleProvider="target">
+                                        <rect key="frame" x="77" y="0.0" width="57" height="54"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="этаж"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mzy-Oe-ESI" customClass="TextFieldWithLabelBelow" customModule="DeliveryFood" customModuleProvider="target">
+                                        <rect key="frame" x="154" y="0.0" width="57" height="54"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="подъезд"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kZA-yJ-hOg" customClass="TextFieldWithLabelBelow" customModule="DeliveryFood" customModuleProvider="target">
+                                        <rect key="frame" x="231" y="0.0" width="57" height="54"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="код двери"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="U2z-VI-TZz"/>
+                                </constraints>
+                            </stackView>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Описание (дом,работа...)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zG5-nc-gbo">
+                                <rect key="frame" x="16" y="176" width="288" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WCW-GY-zwX">
+                                <rect key="frame" x="107.5" y="454" width="105" height="30"/>
+                                <state key="normal" title="Удалить адрес">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="onDelete:" destination="wum-rJ-zq1" eventType="touchUpInside" id="pyr-nn-UdE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oJE-cc-49N">
+                                <rect key="frame" x="16" y="20" width="288" height="30"/>
+                                <connections>
+                                    <action selector="onChooseStreetHouse:" destination="wum-rJ-zq1" eventType="touchUpInside" id="Oaf-DX-Ex0"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="oJE-cc-49N" firstAttribute="leading" secondItem="i8L-mn-4N1" secondAttribute="leading" id="5MM-XJ-hgw"/>
+                            <constraint firstItem="oJE-cc-49N" firstAttribute="trailing" secondItem="i8L-mn-4N1" secondAttribute="trailing" id="7FX-iS-cXd"/>
+                            <constraint firstItem="WCW-GY-zwX" firstAttribute="centerX" secondItem="dmu-5a-XQ7" secondAttribute="centerX" id="8za-kZ-7sL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="m2V-f9-q10" secondAttribute="trailing" id="B1h-Eq-0zD"/>
+                            <constraint firstItem="DWd-Um-n31" firstAttribute="bottom" secondItem="WCW-GY-zwX" secondAttribute="bottom" constant="20" id="GZl-U3-gPz"/>
+                            <constraint firstItem="oJE-cc-49N" firstAttribute="top" secondItem="i8L-mn-4N1" secondAttribute="top" id="Xku-Tc-gqx"/>
+                            <constraint firstItem="i8L-mn-4N1" firstAttribute="top" secondItem="DWd-Um-n31" secondAttribute="top" constant="20" id="beE-hh-i37"/>
+                            <constraint firstItem="DWd-Um-n31" firstAttribute="trailing" secondItem="i8L-mn-4N1" secondAttribute="trailing" constant="16" id="jkB-8g-DUv"/>
+                            <constraint firstItem="i8L-mn-4N1" firstAttribute="leading" secondItem="DWd-Um-n31" secondAttribute="leading" constant="16" id="l0O-yl-k3v"/>
+                            <constraint firstItem="oJE-cc-49N" firstAttribute="bottom" secondItem="i8L-mn-4N1" secondAttribute="bottom" id="on7-jt-FfD"/>
+                            <constraint firstItem="m2V-f9-q10" firstAttribute="leading" secondItem="dmu-5a-XQ7" secondAttribute="leadingMargin" id="uvU-a3-dWi"/>
+                            <constraint firstItem="m2V-f9-q10" firstAttribute="top" secondItem="i8L-mn-4N1" secondAttribute="bottom" constant="16" id="wsx-mu-lZr"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="DWd-Um-n31"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" title="Адрес" id="Xne-I0-DpE">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="V3s-BS-vkQ">
+                            <connections>
+                                <action selector="onCancel:" destination="wum-rJ-zq1" id="LeJ-3Q-POa"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="EAD-yq-xxR">
+                            <connections>
+                                <action selector="onSave:" destination="wum-rJ-zq1" id="qcO-ca-lO6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="buttonDelete" destination="WCW-GY-zwX" id="SO1-ht-Sbm"/>
+                        <outlet property="editCode" destination="kZA-yJ-hOg" id="uRJ-4b-J0d"/>
+                        <outlet property="editEntrance" destination="Mzy-Oe-ESI" id="Sml-fG-Wah"/>
+                        <outlet property="editFlat" destination="tap-OQ-zk4" id="ZbY-eb-Bfd"/>
+                        <outlet property="editFloor" destination="7dJ-9P-g0h" id="rXS-M3-Q76"/>
+                        <outlet property="editName" destination="zG5-nc-gbo" id="ngO-AG-RSM"/>
+                        <outlet property="editStreetHouse" destination="i8L-mn-4N1" id="rHZ-fx-5Cu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4iA-ty-x2Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="211.875" y="-188.02816901408451"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" red="0.55294117649999996" green="0.72156862749999995" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+</document>

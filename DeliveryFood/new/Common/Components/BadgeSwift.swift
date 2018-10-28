@@ -1,6 +1,12 @@
 import UIKit
 
-
+/**
+ 
+ Badge view control for iOS and tvOS.
+ 
+ Project home: https://github.com/evgenyneu/swift-badge
+ 
+ */
 @IBDesignable open class BadgeSwift: UILabel {
   
   /// Background color of the badge

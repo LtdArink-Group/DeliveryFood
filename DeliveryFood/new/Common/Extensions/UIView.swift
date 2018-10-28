@@ -9,6 +9,10 @@
 import UIKit
 
 internal extension UIView {
+
+    var defaultTextColor: UIColor {return UIColor(white: 0.2, alpha: 1)}
+
+    //MARK: nibLoad
 //  class func viewFromNib(withOwner owner: Any? = nil) -> Self {
 //    print(String(describing: type(of: self)))
 //    let name = String(describing: type(of: self)).components(separatedBy: ".")[0]

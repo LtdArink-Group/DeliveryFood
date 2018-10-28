@@ -74,18 +74,12 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
         }
     }
     
-    func getWorkTimeAtTheMoment(moment currentDate: Date) -> (sh: Int, sm: Int, eh: Int, em: Int) {
-        let weekday = currentDate.getShortWeekDay(forTimeZone: Int(TIME_ZONE.trimmingCharacters(in: .whitespaces))!).lowercased()
-        
-        return Helper.shared.getScheduleDict(jsonSchedule: WORK_DAYS)[weekday] ?? (sh: 0, sm:0 , eh: 0, em: 0)
-    }
-    
     var earlyTime = true;
     var labelFont: UIFont!;
     func create_form()
     {
         let currentDate = Date()
-        let workTime = getWorkTimeAtTheMoment(moment: currentDate)
+        let workTime = Helper.shared.getWorkTimeAtTheMoment(moment: currentDate)
         form
             
             +++ Section(header:"Период " + (Take_away == true ? "Самовывоза" : "Доставки"), footer: "Способ доставки можно изменить на предыдущем шаге.")
@@ -244,9 +238,9 @@ class DeliveryAddressViewController: FormViewController, UINavigationControllerD
             
             +++ Section("Выберите адрес") { on in
 //                on.hidden = Take_away == true ? true : false
-                for (index, address) in Helper().sort_address(array: addresses).enumerated()
+                for (index, address) in Helper().sort_address(array: self.addresses).enumerated()
                 {
-                    address_id = index == 0 ? (address["id"] as? Int)! : address_id
+                    self.address_id = index == 0 ? (address["id"] as? Int)! : self.address_id
                    on <<< CheckRow("AddressRow\(index)") {
                         $0.cell.imageView?.image = UIImage(named: Helper().get_icon(title: (address["title"] as? String)!))
                     $0.title = "\(address["title"] ?? " ") (\(address["street"] ?? " "), \(address["house"] ?? " "))"

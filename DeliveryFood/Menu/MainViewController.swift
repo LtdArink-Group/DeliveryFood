@@ -24,7 +24,7 @@ class MainViewController: FormViewController {
 
         DBHelper().create_tables()
 
-        ID_phone = UIDevice.current.identifierForVendor!.uuidString
+        ID_phone = Utils.shared.phoneId // UIDevice.current.identifierForVendor!.uuidString
         
         pullRefreshing = PullRefreshing(tableView: tableView, action: {self.refresh()})
         

@@ -37,6 +37,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var noteHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var noteSwitch: UISwitch!
     
+    
     var arr_order_post_server: JSON = []
     var get_results = [JSON]() {
         didSet {
@@ -64,8 +65,6 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         //self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
         self.navigationItem.rightBarButtonItem?.tintColor = Helper().UIColorFromRGB(rgbValue: UInt(FIRST_COLOR))
-        
-
 
     }
     
@@ -139,6 +138,17 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     //tv what is!!! where simple constraints
     func correct_height_elements()
     {
+        if !from_orders {
+            checkAndHideCostFields()
+        } else {
+            //btn_create_order.isHidden = IS_NEW_DELIVERY_FORM //hided becouse it is clitch - bettter not see it at all
+        }
+        sw_take_away.isEnabled = !IS_NEW_DELIVERY_FORM
+        noteField.isHidden = IS_NEW_DELIVERY_FORM
+        noteLabel.isHidden = IS_NEW_DELIVERY_FORM
+        noteSwitch.isHidden = IS_NEW_DELIVERY_FORM
+        noteField.isEditable = !IS_NEW_DELIVERY_FORM
+
         get_today_schedule()
         tableView.translatesAutoresizingMaskIntoConstraints = true
         lbl_take_away.translatesAutoresizingMaskIntoConstraints = true
@@ -181,7 +191,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         height = height + 40
         noteLabel.frame = CGRect(x: noteLabel.frame.origin.x, y: height, width: noteLabel.frame.width, height: noteLabel.frame.height)
         noteSwitch.frame = CGRect(x: width - 72, y: height, width: noteSwitch.frame.width, height: noteSwitch.frame.height)
-        
+
         if from_orders
         {
             set_costs_order_fields()
@@ -200,7 +210,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
             btn_create_order.playImplicitBounceAnimation()
         }
         
-        height = height + 40
+        height = height + (sum_delivery.isHidden ? -60 : 40)
         
         setNoteVisible();
         noteField.frame = CGRect(x: noteField.frame.origin.x, y: height, width: width - noteField.frame.origin.x*2, height: NOTE_HEIGHT)
@@ -224,7 +234,31 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
         sum_sale.text = sw_take_away.isOn ? CURRENCY + String(total_order_cost/DELIVERY_DISCONT) : CURRENCY + "0"
         sum_delivery.text = sw_take_away.isOn ? CURRENCY + "0" : CURRENCY + String(delivery_cost)
         sum_total.text = sw_take_away.isOn ? CURRENCY + String(total_order_cost - total_order_cost/DELIVERY_DISCONT) : CURRENCY + String(total_order_cost + delivery_cost)
+        
+        mTotalOrderCost = total_order_cost
+        mTotalDeliveryCost = delivery_cost
     }
+    
+    var mTotalOrderCost: Int!
+    var mTotalDeliveryCost: Int!
+    
+    //for new trans
+    func checkAndHideCostFields() {
+        sw_take_away.isOn = !IS_NEW_DELIVERY_FORM
+        sw_take_away.isHidden = IS_NEW_DELIVERY_FORM
+        sum_sale.isHidden = IS_NEW_DELIVERY_FORM
+        sum_total.isHidden = IS_NEW_DELIVERY_FORM
+        sum_delivery.isHidden = IS_NEW_DELIVERY_FORM
+        lbl_sale.isHidden = IS_NEW_DELIVERY_FORM
+        lbl_total.isHidden = IS_NEW_DELIVERY_FORM
+        lbl_delivery.isHidden = IS_NEW_DELIVERY_FORM
+        lbl_take_away.isHidden = IS_NEW_DELIVERY_FORM
+        
+        lbl_sum_order.font = lbl_sum_order.font.with(traits: .traitBold)
+        sum_order.font = sum_order.font.with(traits: .traitBold)
+
+    }
+    
     
     func set_costs_order_fields()
     {
@@ -387,7 +421,7 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
     {
         Note = noteSwitch.isOn ? noteField.text : ""
         if is_working_now() == true {
-            open_create_order()
+                open_create_order()
         }
         else {
             let modalViewController = NotWorkingViewController()
@@ -416,8 +450,12 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         else {
-            let controller : DeliveryAddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeliveryAddressViewController") as! DeliveryAddressViewController
-            self.navigationController?.pushViewController(controller, animated: true)
+            if IS_NEW_DELIVERY_FORM {
+                runNewDeliveryForm()
+            } else {
+                let controller : DeliveryAddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeliveryAddressViewController") as! DeliveryAddressViewController
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
         }
     }
     
@@ -495,11 +533,35 @@ class NewOrderViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         }
-        let controller : DeliveryAddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeliveryAddressViewController") as! DeliveryAddressViewController
-        controller.reorder = true
-        self.navigationController?.pushViewController(controller, animated: true)
+        if IS_NEW_DELIVERY_FORM {
+            runNewDeliveryForm()
+        } else {
+            let controller : DeliveryAddressViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeliveryAddressViewController") as! DeliveryAddressViewController
+            controller.reorder = true
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
     }
 
+    func runNewDeliveryForm() {
+        let workTime = Helper.shared.getWorkTimeAtTheMoment(moment: Date())
+        let order_cost = (Total_order_cost > 0 ? Total_order_cost : mTotalOrderCost) ?? 0
+        let order_ = Order()
+        order_.productDictionary = CreateOrderViewController.create_array_json_order()
+        order_.summaNetto = Double(order_cost)
+        let orderDidSentClosure: ()->Void = {
+            Total_order_cost = 0
+            Total_delivery_cost = COST_DELIVERY
+            DBHelper().delete_order()
+        }
+
+        DeliveryController.Builder()
+            .setOrder(order_)
+            .setTimePeriod(workTime)
+            .setDeliveryCost(Double(CostCalculator.getDeliverCost(forOrderCost: order_cost)))
+            .setPickupDiscountPercentage(DELIVERY_DISCONT)
+            .setDeliveryDidSent(orderDidSentClosure)
+            .show(parentController: self)
+    }
     
     func cancel_order()
     {

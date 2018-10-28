@@ -48,6 +48,8 @@ class WellDoneViewController: UIViewController, UIScrollViewDelegate {
     
     @IBAction func on_clicked_btn_ok(_ sender: UIButton) {
         //navigationController?.setNavigationBarHidden(false, animated: false)
+        //self.navigationController?.dismiss(animated: true, completion: nil)
+        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
         self.dismiss(animated: true, completion: nil)
         navigationController?.popViewController(animated: false)
         if reorder

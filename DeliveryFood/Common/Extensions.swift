@@ -96,22 +96,6 @@ public extension String {
         return suffix(max(0,count-range.lowerBound))
     }
     
-    func removingRegexMatches(pattern: String, replaceWith: String = "") -> String {
-        do {
-            let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
-            let range = NSMakeRange(0, self.count)
-            return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replaceWith)
-        } catch {
-            return self
-        }
-    }
-    
-    func isValid(regExp: String) -> Bool {
-        
-        let regex = try! NSRegularExpression(pattern: regExp, options: .caseInsensitive)
-        return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
-    }
-    
 }
 
 public extension Date {
@@ -169,29 +153,7 @@ public extension Date {
         if seconds(from: date) > 0 { return "\(seconds(from: date))s" }
         return ""
     }
-    
-    ///получить день недели в определенной тайм зоне
-    ///нужна когда клиент в другой таймзоне, но нужно знать какой день неделе, где кафе
-    func getShortWeekDay(forTimeZone tz: Int) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: tz * 3600)!
-        dateFormatter.locale = Locale(identifier: "en_US")
         
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ssZZZZ"
-        debugPrint("day ", dateFormatter.string(from: (self as Date)))
-        
-        dateFormatter.dateFormat = "ccc"
-        let weekDayName = dateFormatter.string(from: (self as Date))
-        debugPrint ("week day ", weekDayName)
-        
-        return weekDayName
-    }
-    
-    //round date
-    func round(precision: TimeInterval, rule: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Date {
-        let seconds = (self.timeIntervalSinceReferenceDate / precision).rounded(rule) *  precision;
-        return Date(timeIntervalSinceReferenceDate: seconds)
-    }
 }
 
 extension UIButton {
@@ -277,9 +239,4 @@ extension UIButton {
     
 }
 
-extension RuleRegExp {
-    class func phoneRule() -> RuleRegExp {
-        return RuleRegExp(regExpr: "^\\+7[94]\\d{9}$", allowsEmpty: false, msg: "Телефон должен иметь формат мобильного или междугороднего (начинатся с +7, потом 9 или 4 и только цифры")
-    }
-}
 

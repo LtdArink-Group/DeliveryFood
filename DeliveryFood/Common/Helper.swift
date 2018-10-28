@@ -279,7 +279,9 @@ class Helper {
         return russian_day
     }
     
-    ///получить список расписанияб из json объекта, в будущем использовать только его
+    //MARK: new
+    
+    ///получить список расписания, из json объекта, в будущем использовать только его
     public func getScheduleDict(jsonSchedule: [JSON]) -> [String:(sh: Int, sm: Int, eh: Int, em: Int)] {
         func getTimeTupleFromString(_ time: String) -> (Int, Int) {
             var result = (hour: 0, min:0)
@@ -310,4 +312,9 @@ class Helper {
         return list
     }
     
+    func getWorkTimeAtTheMoment(moment currentDate: Date) -> (sh: Int, sm: Int, eh: Int, em: Int) {
+        let weekday = currentDate.getShortWeekDay(forTimeZone: Int(TIME_ZONE.trimmingCharacters(in: .whitespaces))!).lowercased()
+        
+        return Helper.shared.getScheduleDict(jsonSchedule: WORK_DAYS)[weekday] ?? (sh: 0, sm:0 , eh: 0, em: 0)
+    }
 }

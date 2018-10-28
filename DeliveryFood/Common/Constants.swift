@@ -41,7 +41,7 @@ var SECOND_COLOR = 0xdc002f
 
 //MARK: Server properties
 
-var SERVER_NAME = !Utils.shared.isDebugMode() ? "http://manage.newbill.info" : "http://23.101.67.216:8080"
+var SERVER_NAME = APIBase.baseUrl
 
 //MARK: Settings
 var MAP_KEY = "AIzaSyDIbcT6MCPC0VslV-XnT1TwTFbm5dAF27w"
@@ -68,3 +68,6 @@ var ERR_CHECK_CONTACTS = "Не верно заполнены контактны�
 
 //MARK: Phone versions
 var DB_VERSION = 2
+
+//MARK: transition to new version
+let IS_NEW_DELIVERY_FORM = true

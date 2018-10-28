@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TextFieldWithLabelBelow" customModule="tabApp" customModuleProvider="target">
+            <connections>
+                <outlet property="editField" destination="vOL-pD-i3Y" id="1dQ-77-dmR"/>
+                <outlet property="labelBackgroundView" destination="vqg-PD-87L" id="jBe-Zq-D5C"/>
+                <outlet property="labelField" destination="Amk-aP-gQ0" id="7AJ-Ao-V9C"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="60" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vqg-PD-87L">
+                    <rect key="frame" x="0.0" y="28" width="60" height="16"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="квартира" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Amk-aP-gQ0">
+                            <rect key="frame" x="6" y="2" width="46.5" height="12"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Amk-aP-gQ0" firstAttribute="centerX" secondItem="vqg-PD-87L" secondAttribute="centerX" id="0mb-WV-5V8"/>
+                        <constraint firstAttribute="height" constant="16" id="Bed-Pl-Y7E"/>
+                        <constraint firstItem="Amk-aP-gQ0" firstAttribute="centerY" secondItem="vqg-PD-87L" secondAttribute="centerY" id="qqL-0H-6ua"/>
+                    </constraints>
+                </view>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="23" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vOL-pD-i3Y">
+                    <rect key="frame" x="0.0" y="5.5" width="60" height="17"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" keyboardType="numberPad" enablesReturnKeyAutomatically="YES"/>
+                </textField>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TNj-1K-C0C">
+                    <rect key="frame" x="0.0" y="27" width="60" height="1"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="0.50291171395705525" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="0.5" id="AqI-Nw-U3P"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="TNj-1K-C0C" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="3hJ-Sa-Ybl"/>
+                <constraint firstItem="vqg-PD-87L" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="E9g-Gw-SEP"/>
+                <constraint firstItem="vOL-pD-i3Y" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Nvg-Yj-yjf"/>
+                <constraint firstItem="vOL-pD-i3Y" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-8" id="SoB-AT-LGe"/>
+                <constraint firstAttribute="trailing" secondItem="vqg-PD-87L" secondAttribute="trailing" id="Ug2-cO-oP1"/>
+                <constraint firstItem="vqg-PD-87L" firstAttribute="top" secondItem="TNj-1K-C0C" secondAttribute="bottom" id="hj3-zX-jD1"/>
+                <constraint firstAttribute="trailing" secondItem="vOL-pD-i3Y" secondAttribute="trailing" id="kwd-5k-oiA"/>
+                <constraint firstAttribute="bottom" secondItem="vqg-PD-87L" secondAttribute="bottom" id="w55-Yd-boK"/>
+                <constraint firstAttribute="trailing" secondItem="TNj-1K-C0C" secondAttribute="trailing" id="zfX-Om-f6Z"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-56" y="-121"/>
+        </view>
+    </objects>
+</document>

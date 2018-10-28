@@ -94,6 +94,11 @@ class SuggestAddressController: UIViewController, UITableViewDataSource, UITable
         
         checkDonButtonOnEnable()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchBar.becomeFirstResponder()
+    }
 
     @objc func handleCancel() {
         self.dismiss(animated: true, completion: nil)
@@ -258,7 +263,7 @@ class SuggestAddressController: UIViewController, UITableViewDataSource, UITable
     }
     
     func checkDonButtonOnEnable() {
-        doneButton.isEnabled = searchBar.text != nil && (searchBar.text?.isValid(regExp: "^.{3,}[,\\ ]\\d+.*$"))!
+        doneButton.isEnabled = searchBar.text != nil && !searchBar.text!.isEmpty  && (searchBar.text?.isValid(regExp: "^.{3,}[,\\ ]\\d+.*$"))!
     }
 }
     
